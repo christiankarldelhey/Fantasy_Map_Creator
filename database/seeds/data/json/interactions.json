@@ -51455,9 +51455,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives him what food she can spare. Tells him which road is safer."
-        },
-        "effects": []
+          "en": "She gives him what food she can spare — a half-loaf and the cheese, which he takes with the particular gratitude of someone who has been hungry longer than he has admitted — and tells him which road is safer: the south fork, the one that follows the river, where there are farms at intervals and the farms have doors. 'Your cousin,' she says, and then, because the rehearsal deserves an answer: 'What was he trading?' The hobbit's face does a complicated thing — relief that someone asked, and the weight of the answer: 'Pipe-weed. He had a route south of the mountains — a good route, he said.' Eight months of no letters is a long silence on any route.",
+          "es": "Le da la comida que puede — una media hogaza y el queso, que toma con la gratitud particular de alguien que tiene hambre hace más de lo que admitió — y le dice qué ruta es más segura: la bifurcación sur, la que sigue el río, donde hay granjas a intervalos y las granjas tienen puertas. 'Tu primo', dice ella, y después, porque el ensayo merece respuesta: '¿Qué comerciaba?' La cara del hobbit hace una cosa complicada — alivio de que alguien preguntara, y el peso de la respuesta: 'Tabaco de pipa. Tenía una ruta al sur de las montañas — una buena ruta, dijo.' Ocho meses sin cartas es un silencio largo en cualquier ruta."
+        }
       }
     },
     "payload": {
@@ -51479,9 +51479,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Does not ask what he found. Walks with him for half a mile. Then lets him go."
-        },
-        "effects": []
+          "en": "She does not ask what he found — the not-asking is its own sentence, and the hobbit's face registers it with something that might be gratitude — and walks with him for half a mile in silence, matching his pace, which is the pace of a man carrying something heavier than his pack. At the half-mile he stops. 'He was my cousin,' the hobbit says, to the road, not to her. 'He was not a fighter. He was a trader.' He says it like a correction to something, and then says nothing else, and the silence after is the kind that does not get filled. At the fork she lets him go — he has the west road, home, and whatever he is carrying that is not the pack.",
+          "es": "No le pregunta qué encontró — el no-preguntar es su propia oración, y la cara del hobbit lo registra con algo que podría ser gratitud — y camina con él media milla en silencio, igualando su paso, que es el paso de un hombre cargando algo más pesado que su bulto. A la media milla para. 'Era mi primo', dice el hobbit, a la ruta, no a ella. 'No era un peleador. Era un comerciante.' Lo dice como una corrección a algo, y después no dice nada más, y el silencio que sigue es del tipo que no se llena. En la bifurcación lo deja ir — tiene la ruta del oeste, su casa, y lo que sea que está cargando que no es el bulto."
+        }
       }
     },
     "payload": {
@@ -57694,9 +57694,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers the plum question properly. Is remembered kindly for it."
-        },
-        "effects": []
+          "en": "He answers the plum question properly — 'the rain will hold, but the east wind coming down the lane is the thing to watch; wind before the plums set means small fruit' — and the russet-waistcoated hobbit receives this like a man receiving a professional opinion: 'Aye,' he says slowly, 'the east wind. The miller says the same and he is a fool, which means it is probably true.' He is remembered kindly for it — the plum-answer becomes, in the district's retelling, the moment the tall stranger showed they knew their weather. The dog, the rain, and the miller's character are covered in the same exhale.",
+          "es": "Responde la pregunta de las ciruelas correctamente — 'la lluvia va a aguantar, pero el viento del este que baja por el sendero es lo que hay que mirar; viento antes de que las ciruelas cuajen significa fruta chica' — y el hobbit del chaleco rojizo recibe esto como un hombre recibiendo una opinión profesional: 'Sí', dice despacio, 'el viento del este. El molinero dice lo mismo y es un tonto, lo que significa que probablemente es cierto.' Es recordado con cariño por eso — la respuesta de las ciruelas se vuelve, en el relato del distrito, el momento en que el extraño alto mostró que sabía de clima. El perro, la lluvia, y el carácter del molinero quedan cubiertos en la misma exhalación."
+        }
       }
     },
     "payload": {
@@ -57718,9 +57718,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the road. Does not ask them to describe the strangers twice."
-        },
-        "effects": []
+          "en": "He takes the road — thanks them, does not ask them to describe the strangers twice, because the nine-days-ago detail is already more than they meant to give — and the gate-hand relaxes a fraction. 'East,' the younger says again, as if confirming they said the right thing. 'The strangers went east. That is all we saw.' The older one nods, once, and the gate is let go of — the conversation is over, the farm is safe, the strangers are nine days east and the traveller is, presumably, going after them or around them, neither of which is the hobbits' business.",
+          "es": "Toma la ruta — les agradece, no les pide que describan a los extraños dos veces, porque el detalle de hace-nueve-días ya es más de lo que pensaban dar — y la mano de la tranquera se relaja una fracción. 'Al este', repite el más joven, como confirmando que dijeron lo correcto. 'Los extraños fueron al este. Eso es todo lo que vimos.' El más viejo asiente, una vez, y la tranquera se suelta — la conversación terminó, la granja está segura, los extraños están a nueve días al este y el viajero está, presumiblemente, yendo tras ellos o alrededor de ellos, ninguna de las cuales es asunto de los hobbits."
+        }
       }
     },
     "payload": {
@@ -57742,15 +57742,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Takes the cake. Answers about the road honestly, gently."
-        },
-        "effects": [
-          {
-            "type": "item",
-            "slug": "trail_rations",
-            "qty": 1
-          }
-        ]
+          "en": "He takes the cake — the wrapped seed-cake still warm, pressed on him with a two-handed grip that is more like a delivery than a gift — and answers about the road honestly, gently: 'East is passable,' he says. 'The road is bad past the burnt mill, but passable. There is water at the ford.' He does not ask about the children, or the far farm, or the thing that made a farmhouse send its children away — the cake is the question he cannot ask, and the honest road-report is the answer he can give. The woman nods, gripping the wrapping cloth he hands back, and the door closes with the specific softness of a door being closed against the world.",
+          "es": "Toma el bizcocho — el bizcocho de semillas envuelto todavía tibio, apretado en sus manos con un agarre a dos manos que es más una entrega que un regalo — y responde sobre la ruta honestamente, con suavidad: 'El este es transitable', dice. 'La ruta está mal pasado el molino quemado, pero es transitable. Hay agua en el vado.' No pregunta por los chicos, ni la granja lejana, ni la cosa que hizo que una granja mandara a sus chicos lejos — el bizcocho es la pregunta que no puede hacer, y el informe de ruta honesto es la respuesta que puede dar. La mujer asiente, agarrando el paño que él le devuelve, y la puerta se cierra con la suavidad específica de una puerta cerrándose contra el mundo."
+        }
       }
     },
     "payload": {
@@ -57772,9 +57766,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Sits down. Listens about the ditch. Avoids the ditch."
-        },
-        "effects": []
+          "en": "He sits down — the sitting being the whole courtesy, bringing himself to a size the burrow-bank can accommodate — and listens about the ditch: whose pony it swallowed (the Grubb's, on Tuesday), how it happened (the edge is softer than it looks, the water underneath is deeper than it looks), and the general character of the ditch (treacherous, and getting worse, and the council will not fix it). The pipe-smoke drifts; the garden-bank is comfortable; the burrow's door is round and green and slightly ajar. He is told the mushrooms on the north bank are the Grubb's, technically, but the Grubb has been dead a year and the mushrooms do not know.",
+          "es": "Se sienta — el sentarse siendo toda la cortesía, llevándose a un tamaño que el banco de la madriguera puede acomodar — y escucha sobre la zanja: el poni de quién se tragó (el de los Grubb, el martes), cómo pasó (el borde es más blando de lo que parece, el agua de abajo más profunda de lo que parece), y el carácter general de la zanja (traicionera, y empeorando, y el concejo no la va a arreglar). El humo de pipa flota; el banco del jardín es cómodo; la puerta de la madriguera es redonda y verde y apenas abierta. Le dicen que los hongos en la orilla norte son de los Grubb, técnicamente, pero el Grubb está muerto hace un año y los hongos no saben."
+        }
       }
     },
     "payload": {
@@ -57796,9 +57790,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Answers the easy questions. Deflects one. Lets them walk a mile."
-        },
-        "effects": []
+          "en": "He answers the easy questions — where from, where bound, how long on the road — and deflects the one about what he is carrying, which is the only one that matters; the young hobbit notes the deflection with the respect of a fellow professional: 'Aye, well,' he says, 'the road questions are free — the pack questions cost.' In exchange he delivers the district's gossip complete: who married whom, whose well went dry, the scandal of the second-cousin's fence, and — as promised — he walks a mile of the road for the novelty of it, asking about the mountains the whole way, because someone in that family is going to leave home eventually and the questions are the beginning of the leaving.",
+          "es": "Responde las preguntas fáciles — de dónde, a dónde, cuánto en la ruta — y elude la de qué está cargando, que es la única que importa; el hobbit joven nota la evasión con el respeto de un colega profesional: 'Sí, bueno', dice, 'las preguntas de ruta son gratis — las de bulto cuestan.' A cambio entrega el chisme del distrito completo: quién se casó con quién, el pozo de quién se secó, el escándalo de la cerca del primo segundo, y — como prometió — camina una milla de la ruta por la novedad, preguntando sobre las montañas todo el camino, porque alguien en esa familia va a dejar su casa eventualmente y las preguntas son el comienzo del irse."
+        }
       }
     },
     "payload": {
@@ -57820,9 +57814,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks about the cut reeds. Gets a longer answer than expected."
-        },
-        "effects": []
+          "en": "He asks about the cut reeds — and gets a longer answer than expected, because the river-folk are slow-spoken but not un-observant: 'Cut clean, three days ago,' the first says, still not looking up. 'Not for thatching — the cut is low, at the waterline. Someone wanted the clearing, not the reeds.' The second one stops his scythe: 'A boat came in the night. We heard the water — boats make a particular sound when they do not want to be heard. Whoever cut the reeds wanted a blind on the far bank.' They go back to their cutting; the river keeps its third-of-everything, and the traveller now owns one part of it.",
+          "es": "Pregunta por los juncos cortados — y recibe una respuesta más larga de lo esperado, porque la gente del río habla lento pero no es poco observadora: 'Cortado limpio, hace tres días', dice el primero, todavía sin levantar la vista. 'No para techado — el corte es bajo, a nivel del agua. Alguien quería el claro, no los juncos.' El segundo para su hoz: 'Un bote vino de noche. Oímos el agua — los botes hacen un sonido particular cuando no quieren ser oídos. Quien cortó los juncos quería una persiana en la orilla de enfrente.' Vuelven a su corte; el río guarda su tercio-de-todo, y el viajero ahora es dueño de una parte."
+        }
       }
     },
     "payload": {
@@ -57844,9 +57838,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Keeps his distance. Thanks them once. Lets them go."
-        },
-        "effects": []
+          "en": "He keeps his distance — stays on the road, does not push the bracken — and thanks the voice once, which is the whole transaction it will allow. 'The spring past the ash-tree,' it says again, from deeper in the ferns, 'cold and clean. The hollow before the burnt farm — do not camp there. The birds stopped in that hollow and they have not started again.' The bracken rustles, settling. The conversation is over; the charity, such as it was, has been paid in full: two landmarks, one warning, and the rest is the road's business.",
+          "es": "Mantiene su distancia — se queda en la ruta, no empuja los matorrales — y agradece a la voz una vez, que es toda la transacción que va a permitir. 'El manantial pasado el fresno', dice otra vez, desde más adentro de los helechos, 'frío y limpio. El hoyo antes de la granja quemada — no acampes ahí. Los pájaros pararon en ese hoyo y no volvieron a empezar.' Los matorrales crujen, asentándose. La conversación terminó; la caridad, tal como fue, fue pagada completa: dos hitos, una advertencia, y el resto es asunto de la ruta."
+        }
       }
     },
     "payload": {
@@ -57868,9 +57862,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells him the truth about the road. Shares food. Does not laugh at the pack."
-        },
-        "effects": []
+          "en": "He tells him the truth about the road — gently, because the map in his head is a wish, not a distance: 'The east road is four days to the first real inn,' he says, 'and the first real inn is not the mountains — the mountains are another ten days past that, and the road between is not the Shire.' He shares the food — the hobbit eats like a person who has been rationing hope — and does not laugh at the pack, which is the kindness that costs nothing and buys everything. 'Four days,' the hobbit repeats, small. 'I have been thinking it was two.' He looks at his feet. The blisters say it has felt like four already.",
+          "es": "Le dice la verdad sobre la ruta — suavemente, porque el mapa en su cabeza es un deseo, no una distancia: 'La ruta del este son cuatro días hasta la primera posada de verdad', dice, 'y la primera posada de verdad no son las montañas — las montañas son otros diez días pasado eso, y la ruta del medio no es la Comarca.' Comparte la comida — el hobbit come como una persona que viene racionando esperanza — y no se ríe del bulto, que es la bondad que no cuesta nada y compra todo. 'Cuatro días', repite el hobbit, bajo. 'Yo venía pensando que eran dos.' Se mira los pies. Las ampollas dicen que ya se sentían como cuatro."
+        }
       }
     },
     "payload": {
@@ -65048,9 +65042,9 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "Notes the direction. If the road leads that way, good hospitality may follow."
-        },
-        "effects": []
+          "en": "He notes the direction — two sets, side by side, toward the village, deep enough for packs and steady enough for contentment — and files it under road-evidence: hobbits passed here, walking home, carrying something worth the depth of the print. The Shire is close, or close enough that its people walk home barefoot in the evening like a fact, not an event. The road, for the next mile, feels like a road that has been walked by people who knew where they were going.",
+          "es": "Anota la dirección — dos pares, lado a lado, hacia la aldea, lo bastante profundas para bultos y lo bastante firmes para el contentamiento — y lo archiva bajo evidencia-de-ruta: hobbits pasaron por acá, caminando a casa, cargando algo que valía la profundidad de la huella. La Comarca está cerca, o lo bastante cerca para que su gente camine a casa descalza al atardecer como un hecho, no un evento. La ruta, por la próxima milla, se siente como una ruta que ha sido caminada por gente que sabía a dónde iba."
+        }
       }
     },
     "payload": {
@@ -78733,6 +78727,578 @@
     "payload": {
       "origin": "entities_narration",
       "situation": "cnt:7bedd435-2f2e-4f34-96b4-37b238bff6bb:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "934f82ad-b5ae-4164-943a-231b7285cbf1",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:139d5a73-5399-4ef6-b0d1-caba774e0467",
+    "act": "talk",
+    "label": {
+      "en": "Ask if he knows the road he is on"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks — gently, because the pack says he does not — whether he knows the road he is walking. 'East,' he says, which is not an answer. She tells him: the east fork forks again at the burnt mill, and the wrong fork goes to the marsh-road where there are no farms and the water is bad. She draws the turns in the dust of the road. He watches her draw it with the attention of a man copying a map he cannot keep. 'The mill,' he repeats. 'The south fork. Farms.' He is memorizing; the food in his pack will now last him to the river-farms, if the river-farms are there.",
+          "es": "Le pregunta — suavemente, porque el bulto dice que no — si conoce la ruta que está caminando. 'Al este', dice, que no es una respuesta. Ella le dice: la bifurcación del este vuelve a bifurcar en el molino quemado, y la bifurcación equivocada va al camino del pantano donde no hay granjas y el agua es mala. Ella le dibuja los giros en el polvo de la ruta. Él la mira dibujar con la atención de un hombre copiando un mapa que no puede conservar. 'El molino', repite. 'La bifurcación sur. Granjas.' Está memorizando; la comida en su bulto ahora le va a durar hasta las granjas del río, si las granjas del río están."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:139d5a73-5399-4ef6-b0d1-caba774e0467:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "6e35e893-4c59-4410-bb8a-064204330bf0",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:139d5a73-5399-4ef6-b0d1-caba774e0467",
+    "act": "avoid",
+    "label": {
+      "en": "Give food, wish him the east, and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She gives the food — the half-loaf, the cheese — and wishes him the east road, and does not tell him the rest: that eight months of silence on a trade-route is usually answered by the road itself, and the road does not always answer kindly. Behind her the small figure adjusts the too-big pack and keeps walking, a garden-person a long way from any garden.",
+          "es": "Le da la comida — la media hogaza, el queso — y le desea la ruta del este, y no le dice el resto: que ocho meses de silencio en una ruta de comercio suele ser respondido por la ruta misma, y la ruta no siempre responde con bondad. Atrás la figura chica se ajusta el bulto demasiado grande y sigue caminando, una persona de jardín muy lejos de cualquier jardín."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:139d5a73-5399-4ef6-b0d1-caba774e0467:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "5dc558d6-6781-4989-899c-62694e33a685",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1cf43b0c-6866-49f5-ab8f-28f383db4d50",
+    "act": "talk",
+    "label": {
+      "en": "Ask if the cousin is buried"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She asks — because the weight of it suggests a body not yet under ground — whether the cousin is buried. The hobbit's face does something with the question, and what it does is answer it: 'Under a cairn,' he says. 'I built it. It took me a day.' A pause, the road underneath them. 'He was not where he was supposed to be. Someone moved him, or he moved himself — the trail was wrong. I found him because I knew where he was supposed to be, and he was not there.' He says nothing more. The cairn is on the eastern road; the silence is its own map.",
+          "es": "Pregunta — porque el peso de eso sugiere un cuerpo todavía no bajo tierra — si el primo está enterrado. La cara del hobbit hace algo con la pregunta, y lo que hace es responderla: 'Bajo un mojón', dice. 'Lo construí yo. Me tomó un día.' Una pausa, la ruta debajo de ellos. 'No estaba donde tenía que estar. Alguien lo movió, o él se movió solo — el rastro estaba mal. Lo encontré porque sabía dónde tenía que estar, y no estaba ahí.' No dice nada más. El mojón está en la ruta del este; el silencio es su propio mapa."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:1cf43b0c-6866-49f5-ab8f-28f383db4d50:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "1540298a-7f7f-4a3e-8968-bd6068385776",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1cf43b0c-6866-49f5-ab8f-28f383db4d50",
+    "act": "avoid",
+    "label": {
+      "en": "Walk the half-mile in silence"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "She walks the half-mile — says nothing, asks nothing, matches the pace — and at the fork lets him go without the words the road does not need. Behind her the hobbit's shape gets smaller on the west road, carrying whatever he found in the east home to a hole that will have to hold it.",
+          "es": "Camina la media milla — no dice nada, no pregunta nada, iguala el paso — y en la bifurcación lo deja ir sin las palabras que la ruta no necesita. Atrás la forma del hobbit se hace más chica en la ruta del oeste, llevando lo que sea que encontró en el este a una madriguera que va a tener que contenerlo."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:1cf43b0c-6866-49f5-ab8f-28f383db4d50:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "3ca47214-5216-4ff5-9cb5-a83e3cedaec7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10001-0000-4000-8000-0ba100000001",
+    "act": "talk",
+    "label": {
+      "en": "Ask whose dog it is that bites"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks whose dog it is that bites — since the warning was specific and specificity is a story. 'The Miller's,' the hobbit says, 'the brown one, do not let it get behind you — it will not bite the front, it waits for the back.' He sucks his pipe. 'Bit the postman's leg last Tuesday. The postman says it was provoked; the postman is a liar. The dog is the Miller's in every sense — it bites for him the way he wishes he could.' The district's moral geography, delivered complete.",
+          "es": "Pregunta de quién es el perro que muerde — ya que la advertencia fue específica y la especificidad es una historia. 'Del Molinero', dice el hobbit, 'el marrón, no lo dejes que se te ponga atrás — no muerde de frente, espera la espalda.' Sorbe su pipa. 'Le mordió la pierna al cartero el martes pasado. El cartero dice que fue provocado; el cartero es un mentiroso. El perro es del Molinero en todo sentido — muerde por él de la manera en que él quisiera poder.' La geografía moral del distrito, entregada completa."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10001-0000-4000-8000-0ba100000001:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "0ec3f876-7919-48f8-a1ff-96ab6361f7d7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10001-0000-4000-8000-0ba100000001",
+    "act": "avoid",
+    "label": {
+      "en": "Take the road-report and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the road-report — the farm, the dog, the rain, the plums — and goes, leaving the gate-holder to his pipe and his district, which is now one story richer: the tall stranger who knew about east wind, which in the district's memory will outlast the stranger's actual passing.",
+          "es": "Toma el informe de la ruta — la granja, el perro, la lluvia, las ciruelas — y se va, dejando al guardián de la tranquera con su pipa y su distrito, que ahora es una historia más rico: el extraño alto que sabía del viento del este, que en la memoria del distrito va a durar más que el pasaje real del extraño."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10001-0000-4000-8000-0ba100000001:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "9c945a7a-0b33-452f-ae56-655a16af98a2",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10002-0000-4000-8000-0ba100000002",
+    "act": "talk",
+    "label": {
+      "en": "Ask what they meant by not-traders"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — once, gently, because they gave it and the giving cost them — what 'not behaving like traders' looked like. The younger one's hay-fork shifts. 'They did not camp,' he says. 'Traders camp. These ones walked through the night — we heard them, all night, not stopping.' The older one's hand tightens on the gate. 'And they asked about the road east. Not the village, not the inn — the road east, and what was on it.' Nine days ago. The strangers were asking about the road the traveller is on.",
+          "es": "Pregunta — una vez, suavemente, porque lo dieron y el dar les costó — cómo se veía 'no comportarse como comerciantes.' El tenedor de heno del más joven se mueve. 'No acamparon', dice. 'Los comerciantes acampan. Estos caminaron de noche — los oímos, toda la noche, sin parar.' La mano del más viejo se aprieta en la tranquera. 'Y preguntaron por la ruta del este. No la aldea, no la posada — la ruta del este, y qué había en ella.' Hace nueve días. Los extraños estaban preguntando por la ruta en la que está el viajero."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10002-0000-4000-8000-0ba100000002:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "5241e38f-042f-4b4c-91f1-e3a4e166dc8f",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10002-0000-4000-8000-0ba100000002",
+    "act": "avoid",
+    "label": {
+      "en": "Take the road and leave the farm"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the road east — the confirmation, the nine-days, the strangers who did not camp — and leaves the farm to its gate and its silence, which is what it wanted. Behind him the two hobbits go back to their work; the conversation is filed under things-that-happened-on-the-road, and the road keeps its strangeness for whoever comes next.",
+          "es": "Toma la ruta del este — la confirmación, los nueve días, los extraños que no acamparon — y deja la granja con su tranquera y su silencio, que es lo que quería. Atrás los dos hobbits vuelven a su trabajo; la conversación queda archivada bajo cosas-que-pasaron-en-la-ruta, y la ruta guarda su extrañeza para quien venga después."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10002-0000-4000-8000-0ba100000002:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "c38b5b01-64f8-4bbd-9cd9-bbaa19f779cb",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10003-0000-4000-8000-0ba100000003",
+    "act": "talk",
+    "label": {
+      "en": "Ask if the road is the reason for the children"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — once, at the door, because the far-farm detail was offered and the offering is a crack — whether the road is the reason the children went east. The woman's mouth tightens further, which is an answer before she gives one: 'Something came through three nights ago,' she says. 'It did not stop. It went east.' She does not say what it was; the door is already closing. 'The road is passable,' she repeats — his own words, returned — 'and that is all anyone can ask of a road.' The door is shut; the cake is in his hands; the thing that went east is between him and the ford.",
+          "es": "Pregunta — una vez, en la puerta, porque el detalle de la granja-lejana fue ofrecido y el ofrecer es una grieta — si la ruta es la razón por la que los chicos se fueron al este. La boca de la mujer se aprieta más, que es una respuesta antes de que dé una: 'Algo pasó hace tres noches', dice. 'No paró. Fue al este.' No dice qué era; la puerta ya se está cerrando. 'La ruta es transitable', repite — sus propias palabras, devueltas — 'y eso es todo lo que uno puede pedirle a una ruta.' La puerta está cerrada; el bizcocho está en sus manos; la cosa que fue al este está entre él y el vado."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10003-0000-4000-8000-0ba100000003:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "9a43be32-7860-4a64-ab59-0c595a9e4f16",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10003-0000-4000-8000-0ba100000003",
+    "act": "avoid",
+    "label": {
+      "en": "Take the cake and the honest answer"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the cake — still warm, wrapped, a whole economy of courtesy — and gives the road-report honestly: east is passable, the ford has water. He does not ask about the children because the question is the kind that makes people say things they will regret having said, and the cake already said everything the farm could afford to say. He goes east, the seed-cake a small warm weight in the pack, the door's soft close behind him.",
+          "es": "Toma el bizcocho — todavía tibio, envuelto, una economía entera de cortesía — y da el informe de ruta honestamente: el este es transitable, el vado tiene agua. No pregunta por los chicos porque la pregunta es del tipo que hace que la gente diga cosas de las que se va a arrepentir de haber dicho, y el bizcocho ya dijo todo lo que la granja podía permitirse decir. Va al este, el bizcocho un peso chico y tibio en el bulto, el cierre suave de la puerta detrás."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10003-0000-4000-8000-0ba100000003:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "4256e937-43b2-4737-a3dd-17f62ce4383c",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10004-0000-4000-8000-0ba100000004",
+    "act": "talk",
+    "label": {
+      "en": "Ask whose mushrooms he picks"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — since the Grubb is dead and the mushrooms do not know — whose mushrooms the hobbit picks, on the principle that dead men's mushrooms go somewhere. 'The Grubb's,' the hobbit says, without hesitation, 'because picking them yourself would be theft, and picking them for the Grubb is just picking them.' He taps the pipe. 'The Grubb's heir is in Bree and does not know about the mushrooms. Until the heir knows, the mushrooms are the Grubb's — and the Grubb, being dead, is generous with them.' The logic is airtight; the mushrooms are excellent.",
+          "es": "Pregunta — ya que el Grubb está muerto y los hongos no saben — de quién son los hongos que el hobbit recolecta, bajo el principio de que los hongos de muertos van a algún lado. 'Del Grubb', dice el hobbit, sin vacilación, 'porque recolectarlos para uno sería robo, y recolectarlos para el Grubb es simplemente recolectarlos.' Golpea la pipa. 'El heredero del Grubb está en Bree y no sabe de los hongos. Hasta que el heredero sepa, los hongos son del Grubb — y el Grubb, estando muerto, es generoso con ellos.' La lógica es hermética; los hongos son excelentes."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10004-0000-4000-8000-0ba100000004:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "98e42f78-dd25-42cc-9c06-b1eb3fa03388",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10004-0000-4000-8000-0ba100000004",
+    "act": "avoid",
+    "label": {
+      "en": "Thank him for the ditch and walk on"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He thanks him for the ditch — the edge, the water, the pony — and walks on, taking the long way round the soft bank. Behind him the pipe-smoke drifts over the garden-bank, the burrow door stays ajar, and the ditch waits, treacherous and un-fixed, for the council that will not fix it.",
+          "es": "Le agradece por la zanja — el borde, el agua, el poni — y sigue caminando, tomando el camino largo alrededor del banco blando. Atrás el humo de pipa flota sobre el banco del jardín, la puerta de la madriguera queda entreabierta, y la zanja espera, traicionera y sin arreglar, al concejo que no la va a arreglar."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10004-0000-4000-8000-0ba100000004:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "5fab0479-c548-44f6-ae17-18805ccb8457",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10005-0000-4000-8000-0ba100000005",
+    "act": "talk",
+    "label": {
+      "en": "Ask if he has ever been east"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because the questions about the mountains were too specific to be idle — whether the hobbit has ever been east himself. 'Past the village,' he says, which is not far, and the admission costs him something. 'My cousin went east once — came back after a week and does not talk about it. I would talk about it. That is the difference.' He walks a few more steps, the mile nearly done. 'Someone in my family is going to go properly east one day. I have been thinking it is me.' The mile ends; the hobbit turns back, the questions still loaded.",
+          "es": "Le pregunta — porque las preguntas sobre las montañas eran demasiado específicas para ser ociosas — si el hobbit estuvo alguna vez al este él mismo. 'Pasado la aldea', dice, que no es lejos, y la admisión le cuesta algo. 'Mi primo fue al este una vez — volvió después de una semana y no habla de eso. Yo hablaría de eso. Esa es la diferencia.' Camina unos pasos más, la milla casi terminada. 'Alguien en mi familia va a ir al este en serio un día. Estuve pensando que soy yo.' La milla termina; el hobbit se da vuelta, las preguntas todavía cargadas."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10005-0000-4000-8000-0ba100000005:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "ff312edc-b9f6-42b4-b873-508de21d30a6",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10005-0000-4000-8000-0ba100000005",
+    "act": "avoid",
+    "label": {
+      "en": "Answer the census and let him turn back"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers the census — the from, the bound, the road-length — and lets the hobbit turn back at the mile-mark, the gossip exchanged, the mountains described. Behind him the young figure walks home with a new set of questions about what lies past the village, and the road keeps a mile of company it did not have before.",
+          "es": "Responde el censo — el de-dónde, el a-dónde, el largo-de-ruta — y deja que el hobbit se dé vuelta en la marca de la milla, el chisme intercambiado, las montañas descritas. Atrás la figura joven camina a casa con un nuevo juego de preguntas sobre qué hay pasado la aldea, y la ruta guarda una milla de compañía que no tenía antes."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10005-0000-4000-8000-0ba100000005:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "31d27ef7-bcac-48f1-8793-dd5a859aec2f",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10006-0000-4000-8000-0ba100000006",
+    "act": "talk",
+    "label": {
+      "en": "Ask where the boat would have come from"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks where a boat on that water would come from — since the reeds were cut for a blind and blinds are put where watching is wanted. 'Upstream,' the first says. 'The channels north are shallow for a cart-boat, but a flat-boat comes through. Flat-boat means river-people, not traders — traders use the deep channel, which is two miles east.' The second one nods at the far bank. 'Three days. The blind is still there — they have not used it yet. Whatever they are watching for has not come yet.' The scythe resumes; the river waits.",
+          "es": "Pregunta de dónde vendría un bote en esa agua — ya que los juncos fueron cortados para una persiana y las persianas se ponen donde se quiere vigilar. 'Río arriba', dice el primero. 'Los canales del norte son bajos para un bote de carreta, pero un bote chato pasa. Bote chato significa gente del río, no comerciantes — los comerciantes usan el canal profundo, que está dos millas al este.' El segundo asiente hacia la orilla de enfrente. 'Tres días. La persiana todavía está ahí — no la usaron todavía. Lo que sea que están mirando todavía no vino.' La hoz retoma; el río espera."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10006-0000-4000-8000-0ba100000006:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "63fe667a-4c20-4ea0-a99a-5186e7a80433",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10006-0000-4000-8000-0ba100000006",
+    "act": "avoid",
+    "label": {
+      "en": "Take the channels and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the channels — boat-channel, leg-channel, the eels at the willow-bend — and the cut-reeds report with it, filed under things-the-river-noticed. Behind him the two go back to their cutting, the water going on with its work, the far bank holding its blind and its three-days-old secret.",
+          "es": "Toma los canales — el canal de bote, el canal de pierna, las anguilas en la curva del sauce — y el informe de los juncos cortados con eso, archivado bajo cosas-que-el-río-notó. Atrás los dos vuelven a su corte, el agua siguiendo con su trabajo, la orilla de enfrente guardando su persiana y su secreto de tres días."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10006-0000-4000-8000-0ba100000006:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "96e3b7cd-90df-418e-bf55-ee97399a5062",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10007-0000-4000-8000-0ba100000007",
+    "act": "talk",
+    "label": {
+      "en": "Ask what happened at the burnt farm"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — low, at the bracken's edge, because the burnt farm was named and naming is an opening — what happened at the burnt farm. The ferns are still for a long moment. 'Fire, three weeks ago,' the voice says, quieter now. 'The family went east — they had kin in the valley. What burned it, nobody saw. The birds have not come back to the hollow since.' A pause. 'I live out here to watch the road. The road has been wrong since that night. That is all I know and all I will say.' The bracken is still again; the toll has been paid.",
+          "es": "Pregunta — bajo, al borde del matorral, porque la granja quemada fue nombrada y nombrar es una apertura — qué pasó en la granja quemada. Los helechos están quietos por un momento largo. 'Fuego, hace tres semanas', dice la voz, más baja ahora. 'La familia se fue al este — tenían parientes en el valle. Qué la quemó, nadie lo vio. Los pájaros no volvieron al hoyo desde entonces.' Una pausa. 'Vivo acá para mirar la ruta. La ruta está mal desde esa noche. Eso es todo lo que sé y todo lo que voy a decir.' Los matorrales quedan quietos otra vez; el peaje fue pagado."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10007-0000-4000-8000-0ba100000007:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "5894343a-38fb-4040-9486-ca9b29002a82",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10007-0000-4000-8000-0ba100000007",
+    "act": "avoid",
+    "label": {
+      "en": "Take the spring and the warning and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the spring and the warning — ash-tree, burnt farm, no camping in the hollow — and goes, leaving the bracken to its watch. The road ahead has a hollow in it now, and the hollow has no birds, and the voice behind him is already fading back into whatever watching it does out here.",
+          "es": "Toma el manantial y la advertencia — fresno, granja quemada, no acampar en el hoyo — y se va, dejando el matorral con su vigilia. La ruta adelante tiene un hoyo ahora, y el hoyo no tiene pájaros, y la voz detrás ya se está desvaneciendo de vuelta a cualquier vigilancia que haga por ahí."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10007-0000-4000-8000-0ba100000007:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "f6276058-feaf-4db5-ae2c-58e08a135936",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10008-0000-4000-8000-0ba100000008",
+    "act": "talk",
+    "label": {
+      "en": "Suggest he turn around"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He suggests — as gently as the truth allows, which is not very — that the mountains will still be there in a year, and that the hole by the water-meadows is four days behind him, not ten. The hobbit's face does a war between pride and relief, and relief wins by inches: 'I could go back,' he says, testing it. 'I could say the road was bad.' He looks at the pack. 'I could say it honestly, because it is bad.' He stands, adjusts the pack that has been the whole reason he could not turn around, and looks west. The hole by the water-meadows is going to get its person back.",
+          "es": "Le sugiere — tan suavemente como la verdad lo permite, que no es mucho — que las montañas van a seguir ahí en un año, y que la madriguera junto a los prados está a cuatro días atrás, no diez. La cara del hobbit hace una guerra entre orgullo y alivio, y el alivio gana por pulgadas: 'Podría volver', dice, probándolo. 'Podría decir que la ruta estaba mala.' Mira el bulto. 'Podría decirlo honestamente, porque está mala.' Se para, ajusta el bulto que fue toda la razón por la que no podía darse vuelta, y mira al oeste. La madriguera junto a los prados va a recuperar a su persona."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10008-0000-4000-8000-0ba100000008:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "0f39edba-ed78-449d-8570-89f5c08e59f5",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0ba10008-0000-4000-8000-0ba100000008",
+    "act": "avoid",
+    "label": {
+      "en": "Share the fire and let him decide"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He shares the fire — the food, the distance-truth — and lets the hobbit decide what the blisters have already decided, which is to say: nothing, yet, but the deciding is happening. In the morning the small shape and the too-big pack are a question the road will answer — east to the mountains, west to the water-meadows — and the traveller is already gone, carrying the memory of a fire that talked a hobbit into going home, probably.",
+          "es": "Comparte el fuego — la comida, la verdad-de-distancia — y deja que el hobbit decida lo que las ampollas ya decidieron, que es decir: nada, todavía, pero el decidir está pasando. A la mañana la forma chica y el bulto demasiado grande son una pregunta que la ruta va a responder — este a las montañas, oeste a los prados — y el viajero ya se fue, cargando la memoria de un fuego que convenció a un hobbit de volver a casa, probablemente."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:0ba10008-0000-4000-8000-0ba100000008:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "b5f953dc-02dd-46ea-996c-329e54fc27cb",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:795bce09-9970-4be3-bb78-9c1a16124596",
+    "act": "talk",
+    "label": {
+      "en": "Follow the prints to the village"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He follows the prints — they lead, as promised, to a lane that becomes a village: round doors in the hillside, smoke from chimneys that are not chimneys, the smell of bread that was baked this afternoon and is better for it. The hobbit who answers the door is not surprised by the traveller, which is its own kind of welcome. Hospitality follows, as the prints promised; the road's footnote becomes a meal.",
+          "es": "Sigue las huellas — llevan, como prometieron, a un sendero que se vuelve aldea: puertas redondas en la ladera, humo de chimeneas que no son chimeneas, olor a pan que se horneó esta tarde y es mejor por eso. El hobbit que abre la puerta no se sorprende del viajero, que es su propio tipo de bienvenida. La hospitalidad sigue, como las huellas prometieron; la nota al pie de la ruta se vuelve una comida."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:795bce09-9970-4be3-bb78-9c1a16124596:sit",
+      "mapped_from_form": "contact",
+      "felt": []
+    }
+  },
+  {
+    "id": "71b1caf7-1beb-481b-8ecc-f98b0d70dff7",
+    "intensity": 1,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:795bce09-9970-4be3-bb78-9c1a16124596",
+    "act": "avoid",
+    "label": {
+      "en": "Note the village direction and go"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He notes the village's direction — the prints, the lane, the promise of bread and a round door — and goes on his own road, filing the Shire-adjacent mile under roads-that-are-safe-to-walk. The village stays behind him; the prints keep their direction; the road ahead is his own again.",
+          "es": "Anota la dirección de la aldea — las huellas, el sendero, la promesa de pan y una puerta redonda — y sigue su propia ruta, archivando la milla adyacente-a-la-Comarca bajo rutas-que-son-seguras-de-caminar. La aldea queda atrás; las huellas mantienen su dirección; la ruta adelante es suya otra vez."
+        }
+      }
+    },
+    "payload": {
+      "origin": "entities_narration",
+      "situation": "cnt:795bce09-9970-4be3-bb78-9c1a16124596:sit",
       "mapped_from_form": "contact",
       "felt": []
     }

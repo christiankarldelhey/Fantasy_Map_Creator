@@ -8343,13 +8343,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Footsore, carrying too much, heading somewhere with the specific determination of someone who has not thought through what they will do when they arrive."
+      "en": "Footsore, overloaded, and going anyway — the stubbornness is absurd and oddly affecting: a garden-person three weeks past his garden, refusing to turn."
     },
     "presence": {
-      "en": "He is looking for a relative who went east to trade and stopped writing letters. The relative has been gone eight months. The hobbit has been walking for three weeks and is running out of food."
+      "en": "A hobbit on the road ahead — round-faced, sandy-haired, a waistcoat that was good tweed three weeks ago and is now mostly mud and burrs, a pack strapped on that is bigger than he is and riding crooked. His feet are bare, blistered, and still going — the specific gait of someone who has not thought through what they will do when they arrive, only that they will arrive. When the traveller reaches him he says it plainly, like a thing he has been rehearsing: he is looking for his cousin, who went east to trade and stopped writing letters eight months ago. He has been walking three weeks. He is running out of food and does not seem to have noticed."
     },
     "channel": {
-      "en": "Have them chatter about their hole, their garden, their kin and the doings of the next farm over."
+      "en": "Rehearsed-plain — he says the facts like a man who has said them to himself every mile: cousin, east, eight months, no letters."
     },
     "facts": {
       "topic": "home_and_family"
@@ -8359,7 +8359,7 @@
         "id": "cnt:139d5a73-5399-4ef6-b0d1-caba774e0467:sit",
         "tags": [],
         "situation": {
-          "en": "He is absurdly ill-equipped for this road and he knows it and he is going anyway. The stubbornness is oddly affecting."
+          "en": "He walked out of the Shire on a worry that would not stay quiet. What waits east is the question he has carefully not asked himself."
         }
       }
     ],
@@ -8382,13 +8382,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "He has been on this road too long. Something in his face has changed from the way hobbits usually look."
+      "en": "He has been on this road too long — something in his face has changed from the way hobbits usually look, and the change is not going to wash off at the first inn."
     },
     "presence": {
-      "en": "He found his relative — or found where the relative had been. He is not going to say what he found. He is heading home now. He says this very quietly."
+      "en": "A hobbit coming the other way — the same round hobbit-shape but something different in the face: he is walking with the steady, emptied gait of someone who has finished the hardest part and is now only carrying it home. He does not look up when the traveller passes. He is not going to say what he found in the east — the cousin, the trader, whatever became of the letters that stopped — and the not-saying is in his face, which has the flat quiet of a field after harvest. He says, very quietly, mostly to the road: he is heading home now."
     },
     "channel": {
-      "en": "Have them chatter about their hole, their garden, their kin and the doings of the next farm over."
+      "en": "Near-silent — the chatter this kind does for comfort has been used up; what is left is quieter and heavier."
     },
     "facts": {
       "topic": "home_and_family"
@@ -8398,7 +8398,7 @@
         "id": "cnt:1cf43b0c-6866-49f5-ab8f-28f383db4d50:sit",
         "tags": [],
         "situation": {
-          "en": "He walked into something he was not made for and came out the other side. He is still coming out the other side."
+          "en": "He walked into something he was not made for and came out the other side. He is still coming out the other side — the walking-home is the coming-out."
         }
       }
     ],
@@ -14714,13 +14714,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Startled, then polite, then talkative once it is clear nothing is going to be demanded of them."
+      "en": "Startled, then polite, then talkative — the politeness is the door; once it is clear nothing will be demanded, the talk floods through it."
     },
     "presence": {
-      "en": "Where the next farm is, whose dog to avoid, how bad the rain was last week and how good the plums will be if it holds off — delivered in one breath."
+      "en": "A hobbit at a field-gate — round-bellied, russet-waistcoated, a pipe halfway to his mouth and staying there while the information comes out in one breath: where the next farm is, whose dog to avoid (the Miller's, the brown one, do not let it get behind you), how bad the rain was last week, and how good the plums will be if it holds off. He delivers the whole district's weather, livestock, and harvest-forecast without pausing, because pausing would mean deciding what not to say."
     },
     "channel": {
-      "en": "Have them share who said what to whom, and the small scandals and rumours of the country round."
+      "en": "One-breath gossip — plums to dogs to rain with no pause for paragraphing; the whole district in a single exhale."
     },
     "facts": {
       "topic": "local_gossip"
@@ -14730,7 +14730,7 @@
         "id": "cnt:0ba10001-0000-4000-8000-0ba100000001:sit",
         "tags": [],
         "situation": {
-          "en": "There is nothing at stake for them beyond politeness, and politeness is taken very seriously."
+          "en": "Nothing at stake beyond the exchange itself — and the plum-question, answered properly, is the kind of thing a district remembers a traveller by."
         }
       }
     ],
@@ -14751,13 +14751,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Polite and plainly wishing the conversation elsewhere; one keeps a hand on the gate the whole time."
+      "en": "They do not want to be involved in whatever this is — saying it out loud is already more than they meant to do, and the gate-hand says the rest."
     },
     "presence": {
-      "en": "They will confirm the road and mention, reluctantly, that strangers came through nine days ago and did not behave like traders."
+      "en": "Two hobbits at a farm-gate — the older broad-faced and flour-dusted to the forearm, the younger wiry with a hay-fork still in hand — who confirm the road politely and plainly wish the conversation were happening anywhere else. The older one keeps a hand on the gate the whole time, not barring it — holding it, like something to stand behind. After a pause that costs them both something, the younger mentions that strangers came through nine days ago and did not behave like traders."
     },
     "channel": {
-      "en": "Have them show polite unease at strangers and the wide world, wishing adventures would happen elsewhere."
+      "en": "Polite, reluctant, gate-anchored — the confirmation of the road is free; the strangers cost them a silence they can feel."
     },
     "facts": {
       "topic": "wary_of_big_folk"
@@ -14767,7 +14767,7 @@
         "id": "cnt:0ba10002-0000-4000-8000-0ba100000002:sit",
         "tags": [],
         "situation": {
-          "en": "They do not want to be involved in whatever this is. Saying it out loud is already more than they meant to do."
+          "en": "Nine days ago, strangers, not behaving like traders — the detail they would rather not have seen, said anyway because travellers should know."
         }
       }
     ],
@@ -14788,13 +14788,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Frightened and stubbornly courteous anyway, which is a thing hobbits can do that almost nobody else manages."
+      "en": "Frightened and stubbornly courteous anyway — a thing hobbits manage that almost nobody else can: the fear is visible, the manners are impeccable."
     },
     "presence": {
-      "en": "They have moved the children to the far farm and they are not saying why; they ask only whether the road east is passable, and press a wrapped seed-cake on him."
+      "en": "A hobbit family at a lane-end — a broad woman with flour on her hands and a tightness around the mouth, a taller man behind her holding the door-post, and no children visible, which on a farm this size is its own statement. The children have been moved to the far farm; they are not saying why. The woman asks only whether the road east is passable, and presses a wrapped seed-cake on the traveller with the desperate courtesy of people using hospitality as the only language they have left for the thing they cannot say."
     },
     "channel": {
-      "en": "Have them offer food, a tale or directions, with homely, unsuspecting goodwill."
+      "en": "Cake-instead-of-words — the hospitality is doing the talking the mouths cannot; every courtesy is a sentence about the thing they are not saying."
     },
     "facts": {
       "topic": "simple_kindness"
@@ -14804,7 +14804,7 @@
         "id": "cnt:0ba10003-0000-4000-8000-0ba100000003:sit",
         "tags": [],
         "situation": {
-          "en": "They are more afraid than they will admit and the cake is what they have instead of words."
+          "en": "They are more afraid than they will admit — the moved children are the whole confession, and the road-east question is them checking their own escape-route."
         }
       }
     ],
@@ -14825,13 +14825,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Brown, small and immediately at ease once the traveller sits down, which lowers him to a reasonable size."
+      "en": "Nothing here is dangerous and nothing here is trivial to him — the ditch is the most important news in the district and he reports it like a war-dispatch."
     },
     "presence": {
-      "en": "Talk of the burrow, the state of the bank it is dug into, whose mushrooms are whose, and a warning about the ditch further on that has swallowed a pony."
+      "en": "A hobbit at his burrow's garden-bank — brown, round, pipe-smoking, immediately at ease once the traveller sits down, which brings the traveller to a reasonable size. He has a mattock in one hand and an opinion about everything within a mile: the burrow's drainage (a worry), whose mushrooms are whose (a matter of dispute), and a warning about the ditch further on that has already swallowed a pony — the pony's owner, the circumstances, and the general character of the ditch are covered in the same breath."
     },
     "channel": {
-      "en": "Have them chatter about their hole, their garden, their kin and the doings of the next farm over."
+      "en": "Garden-bank authority — he talks like the local chronicle: names, dates, and the moral standing of every dog in the parish."
     },
     "facts": {
       "topic": "home_and_family"
@@ -14841,7 +14841,7 @@
         "id": "cnt:0ba10004-0000-4000-8000-0ba100000004:sit",
         "tags": [],
         "situation": {
-          "en": "Nothing here is dangerous and nothing here is trivial to them. The ditch is the most important news in the district."
+          "en": "The sitting-down was the whole courtesy — at the traveller's height, everything is fine; standing, the big folk are just weather."
         }
       }
     ],
@@ -14862,13 +14862,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Bolder than the rest of their kind and openly delighted to have found somebody new to interrogate."
+      "en": "Bolder than the rest of his kind — openly delighted to have found somebody new to interrogate, and unembarrassed by the interrogation."
     },
     "presence": {
-      "en": "Questions about where he has been, in order, with follow-ups — and in exchange the whole gossip of the district and an offer to walk part of the way for the novelty of it."
+      "en": "A hobbit on the road — younger than the usual gate-holders, leaner, with the bright restless eyes of someone whose curiosity outruns their caution — who hails the traveller with questions in order, like a man conducting a census: where from, where bound, how long on the road, and have you seen anything interesting? The follow-ups are already loaded. In exchange he offers the whole gossip of the district and, after a pause he cannot help filling, the chance to walk part of the way — for the novelty of it, he says, as though novelty were a thing people had."
     },
     "channel": {
-      "en": "Have them share who said what to whom, and the small scandals and rumours of the country round."
+      "en": "Census-style — questions in order, follow-ups ready, answers cross-referenced against what he already knows of the road."
     },
     "facts": {
       "topic": "local_gossip"
@@ -14878,7 +14878,7 @@
         "id": "cnt:0ba10005-0000-4000-8000-0ba100000005:sit",
         "tags": [],
         "situation": {
-          "en": "Their curiosity outruns their caution. Somebody in that family is going to leave home eventually."
+          "en": "Somebody in that family is going to leave home eventually — the walking-part-of-the-way is the first mile of it."
         }
       }
     ],
@@ -14899,13 +14899,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Broad, slow-spoken river-folk who go on with their work while they talk and do not look up much."
+      "en": "They notice everything on this water and mention about a third of it — the cut-reeds remark is the third that made the cut today."
     },
     "presence": {
-      "en": "Which channel takes a boat and which takes a leg, where the eels are running, and the fact that the reeds have been cut on the far bank by somebody who does not live there."
+      "en": "River-hobbits working a reed-bank — broad, slow-spoken, weathered the deep brown of people who live on water — who go on with their cutting while they talk and do not look up much. Which channel takes a boat and which takes a leg, where the eels are running (the bend below the willow, and they are running fat), and — delivered in the same flat tone, without looking up — the fact that the reeds on the far bank have been cut by somebody who does not live there."
     },
     "channel": {
-      "en": "Have them share who said what to whom, and the small scandals and rumours of the country round."
+      "en": "Slow, working-paced, eyes on the river — the talk runs alongside the cutting the way the channel runs alongside the bank."
     },
     "facts": {
       "topic": "local_gossip"
@@ -14915,7 +14915,7 @@
         "id": "cnt:0ba10006-0000-4000-8000-0ba100000006:sit",
         "tags": [],
         "situation": {
-          "en": "They notice everything on this water and mention about a third of it."
+          "en": "The reeds cut by a stranger on the far bank is the detail that matters — river-folk know every cutting-right by name, and this name was not one of them."
         }
       }
     ],
@@ -14936,13 +14936,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Barely willing to be seen — the talk happens across ten feet of bracken and could end at any moment."
+      "en": "Barely willing to be seen — every word is a concession; the three sentences he gave are a fortune by his accounting."
     },
     "presence": {
-      "en": "Two sentences about where the water is good and one about a place further on where the birds have gone quiet, and then they are finished with him."
+      "en": "A voice from the bracken — a hobbit, barely visible, crouched low where the ferns are thickest: two sentences about where the water is good ('the spring past the ash-tree, cold and clean') and one about a place further on where the birds have gone quiet ('the hollow before the burnt farm — do not camp there'), and then the bracken is still and the conversation is over. The talk happened across ten feet of ferns and could have ended at any moment; it ended."
     },
     "channel": {
-      "en": "Have them show polite unease at strangers and the wide world, wishing adventures would happen elsewhere."
+      "en": "Bracken-muffled, minimal, done — the words came out like a man paying a toll he did not agree to but decided not to argue."
     },
     "facts": {
       "topic": "wary_of_big_folk"
@@ -14952,7 +14952,7 @@
         "id": "cnt:0ba10007-0000-4000-8000-0ba100000007:sit",
         "tags": [],
         "situation": {
-          "en": "They live out here precisely to avoid conversations like this one. Every word is a concession."
+          "en": "He lives out here precisely to avoid conversations like this one — and he gave the water and the warning anyway, which is the whole of what his charity looks like."
         }
       }
     ],
@@ -14973,13 +14973,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "On the road with a pack far too big for him and pathetically glad of company at the fire."
+      "en": "Glad of the fire's company to a degree that would embarrass a dog — the loneliness of three days on the road is sitting on him like the pack."
     },
     "presence": {
-      "en": "Where he is from, where he thinks he is going, and a request for an honest opinion on whether the eastern road is as bad as people say."
+      "en": "A hobbit at a road-fire — small, sandy-haired, a pack beside him that is nearly his own size and stuffed to bursting — who is pathetically glad of the company and says so without being asked: where he is from (a hole by the water-meadows, he draws it in the air), where he thinks he is going (east, to see the mountains, he has heard they are very large), and a request for an honest opinion on whether the eastern road is as bad as people say. He has no idea how far he actually is from home; the map in his head is a wish, not a distance."
     },
     "channel": {
-      "en": "Have them talk of the next meal, good ale, a warm fire and a soft bed — the real business of life."
+      "en": "Fire-side open — everything comes out: the village, the reason for going, the fear he is pretending is anticipation."
     },
     "facts": {
       "topic": "food_and_comfort"
@@ -14989,7 +14989,7 @@
         "id": "cnt:0ba10008-0000-4000-8000-0ba100000008:sit",
         "tags": [],
         "situation": {
-          "en": "He has no idea how far he actually is from home. Telling him the truth might turn him around, which would be the kindest outcome."
+          "en": "Telling him the truth about the distance might turn him around — which would be the kindest outcome, and he would not thank the traveller for a year."
         }
       }
     ],
@@ -24569,10 +24569,10 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Hobbit-feet in the mud at the road's edge — unmistakeable, large and hairy and bare-soled. Two sets, heading toward the village."
+      "en": "Sign only — the road's own footnote: hobbits passed here, walking home, carrying something worth the depth of the print."
     },
     "presence": {
-      "en": "They walked here recently, at a comfortable pace, and they were carrying something — the depth of the prints suggests a full pack. Moving toward home at the end of the day."
+      "en": "Hobbit-feet in the mud at the road's edge — unmistakeable: large for the size of the maker, hairy, bare-soled, the prints of people who have never owned boots and do not miss them. Two sets, side by side, heading toward the village — deep enough to say they were carrying something, steady enough to say they were not hurrying. Walking home at the end of the day, by the look of the spacing: tired, content, nearly there."
     },
     "channel": null,
     "facts": {
@@ -24583,7 +24583,7 @@
         "id": "cnt:795bce09-9970-4be3-bb78-9c1a16124596:sit",
         "tags": [],
         "situation": {
-          "en": "Nothing threatening here. The Shire is close, or a Hobbit community is."
+          "en": "Nothing threatening here — the Shire is close, or a Hobbit community is, and the prints say as much about the road's safety as any signpost."
         }
       }
     ],
