@@ -5322,13 +5322,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A man mending a fence at the road's edge. Looks up. Speaks without preamble."
+      "en": "Offers the report because the traveller looks like someone who deals with strangers-on-roads-at-night — and keeps both hands on the fence while he does it, a man whose first duty is the fence."
     },
     "presence": {
-      "en": "Strangers on the south road at night for a week — not camping, moving. No lights. He has not gone to look at the tracks because he has children."
+      "en": "A man mending a fence at the road's edge — grey-bearded, broad-handed, working the rail back into its post-hole with the patience of a man who has done it before and will again. He looks up as the traveller approaches, measures him once — the way you measure a man for work — and goes back to the rail. 'You're the kind who walks nights,' he says, not quite a question. 'Strangers on the south road this week. Not camping. Moving. No lights.' He has not gone to look at the tracks himself. He has children."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Speaks without preamble and without stopping his work — each piece of news delivered between hammer-taps, weighted like the rails he is setting."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -5338,7 +5338,7 @@
         "id": "cnt:e62e93b2-f164-4929-a9f4-1b78d6448ced:sit",
         "tags": [],
         "situation": {
-          "en": "He is telling the traveller because the traveller looks like someone who deals with strangers-on-roads-at-night. He is right."
+          "en": "He is telling the traveller because the traveller looks like the right sort to tell. Whether the traveller stops for it is the traveller's business."
         }
       }
     ],
@@ -8934,13 +8934,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A group of three, stopped at the side of the road. They are not resting — they are deciding whether to continue."
+      "en": "Paused between two fears — the road ahead holds whatever they will not name, and the namelessness is the whole of the warning they are willing to give a stranger."
     },
     "presence": {
-      "en": "They have heard something about the road ahead that has given them pause. They will not say what exactly, only that someone they trust came back from that road looking wrong. They ask if the traveller has been on it recently."
+      "en": "Three of them stopped at the road's edge — not resting: deciding. Two packs on the ground and a woman standing over them looking north the way you look at weather you're not sure you can outwalk. They turn as the traveller comes up, and the question comes out plain: 'Have you been on the north road? Recently.' What they will not say is why — only that someone they trust came back off it looking wrong, and 'wrong' is the whole description they are offering."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "They answer questions about the road readily and questions about the fear not at all — the boundary is visible every time it is approached."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -8950,7 +8950,7 @@
         "id": "cnt:12e0a24c-cff4-4b1b-be39-82b6109882c3:sit",
         "tags": [],
         "situation": {
-          "en": "They are afraid of something specific and they are not going to say what it is to a stranger. Their caution is its own warning."
+          "en": "They are afraid of something specific and they are not going to name it to a stranger. Their caution is its own report."
         }
       }
     ],
@@ -9045,13 +9045,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Moving fast and not stopping. One of the hands calls out as they pass: road is bad north of the junction."
+      "en": "Frightened commerce — a merchant who does not want to be on this road long enough to explain himself, giving a stranger the one-word version because it is all he can afford."
     },
     "presence": {
-      "en": "Bad means something specific in the way he said it. Not conditions — people. He said it and the wagon did not slow."
+      "en": "A wagon going south at a pace that is nearly a canter — driver hunched, two hands walking beside the wheels — and as it passes, one of the hands calls back without slowing: 'Road is bad north of the junction.' He said 'bad' in a way that means people, not conditions, and the wagon does not stop to clarify. It is already ten yards gone."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "No conversation — one shouted phrase thrown backward over a shoulder already pointed south."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9061,7 +9061,7 @@
         "id": "cnt:8297a25e-b394-401d-a486-16988b0d90f5:sit",
         "tags": [],
         "situation": {
-          "en": "The merchant does not want to be on this road long enough to explain himself."
+          "en": "The speed of the warning is the warning. Whatever made a wagon run north of the junction is still north of the junction."
         }
       }
     ],
@@ -9119,13 +9119,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He steps out of cover without warning, which is the point. He already knows the traveller is not a threat — he has been watching for a while."
+      "en": "A warden doing a job meant for two — alone long enough that every stranger gets weighed, and this one weighed enough to be shown to."
     },
     "presence": {
-      "en": "He is running a circuit alone because his partner was called north two weeks ago and has not come back. He does not say this like a complaint — it is a field report delivered to the first person who seemed worth reporting to."
+      "en": "A man steps out of cover ahead without warning — hard-faced, weather-beaten, the deliberate ease of someone who was in cover and chose not to be anymore. He already knows the traveller is not a threat; he has been watching for a while. 'Running the circuit alone these days,' he says, flat, like a field report. 'Partner got called north two weeks back. Hasn't come back.' It is not a complaint. It is a report delivered to the first person who seemed worth reporting to."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "Field-report register — short sentences, no ornament, the facts laid out like equipment for inspection. What he wants back is the same coin."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9135,7 +9135,7 @@
         "id": "cnt:ced7c29e-7ef8-4b05-90f8-2c89fd0c928e:sit",
         "tags": [],
         "situation": {
-          "en": "He is asking indirectly whether the traveller has seen anything on the northern road that would explain the absence."
+          "en": "He is asking indirectly whether the traveller has seen anything on the northern road that would explain the absence. The question underneath — whether his partner is dead — he does not ask at all."
         }
       }
     ],
@@ -9156,13 +9156,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "He has been tracking the traveller for three miles before making contact. He says so without apology."
+      "en": "Alone too long — his judgement about people has compressed into very fast pattern-matching, and the traveller is being checked against a pattern nobody else can see."
     },
     "presence": {
-      "en": "Something on this road has been wrong for a week and the traveller is the third person he has stopped. The first two he let go — they were clearly not what he was looking for. He is not yet certain about this one."
+      "en": "A man steps out of the treeline ahead — lean, mud to the shins, eyes that have clearly been on the traveller for some time. 'Three miles I've been walking your shadow,' he says, without apology. 'You're the third person I've stopped this week. First two weren't it.' He does not say what 'it' is — only that something on this road has been wrong for a week, and the traveller has not yet been ruled out."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "He asks questions the way a man checks traps — quick, thorough, already half-decided — and listens for the wrongness he has not yet found."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9172,7 +9172,7 @@
         "id": "cnt:a99d21ff-5cd8-4273-9fe2-c396bfcd9a97:sit",
         "tags": [],
         "situation": {
-          "en": "He has been alone long enough that his judgement about people has compressed into very fast pattern-matching. He is checking the traveller against a pattern."
+          "en": "He stopped the traveller because stopping people is the only tool he has left. He is not certain about this one — yet — and 'yet' is doing all the work in the scene."
         }
       }
     ],
@@ -9267,13 +9267,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He is moving fast and does not slow when the traveller comes into view — a sign, not a slight. He calls out as he passes: the eastern road is watched, use the ridge track."
+      "en": "Delivering and gone — he has said what he knows, it cost him four seconds, and he is not spending a fifth. The urgency is the credential."
     },
     "presence": {
-      "en": "He does not stop to explain. He has delivered what he knows and he is not slowing for anything."
+      "en": "A man coming east at a pace that is not quite running — pack bouncing, coat open, eyes fixed somewhere past the traveller's shoulder. He does not slow when the traveller comes into view — it is a sign, not a slight. As he passes, he calls it out in the tone of a man relaying an order: 'Eastern road is watched. Use the ridge track.' Then he is past, and still moving, and clearly not slowing for anything."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "One shouted sentence in passing — everything he knows compressed to its usable form."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9283,7 +9283,7 @@
         "id": "cnt:85085423-9724-46b5-881d-6c474861830a:sit",
         "tags": [],
         "situation": {
-          "en": "He is the third person today to have said something about the eastern road without stopping to elaborate."
+          "en": "He is the third person today to have said something about the eastern road without stopping to elaborate. The pattern is itself the message."
         }
       }
     ],
@@ -9378,13 +9378,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A group of three moving south in a hurry, clearly done with whatever brought them north."
+      "en": "Done with the north — whatever brought them up the road, the road itself has ended the arrangement, and their speed south is its own report."
     },
     "presence": {
-      "en": "One of them glances at the traveller and then looks away fast — not guilty, scared. They have seen something on the road north of here and they are not going to describe it to a stranger. They are just leaving."
+      "en": "Three of them moving south in a hurry — packs pulled high, walking the way people walk when the walking is the only part of the plan that works — and as they pass, one of them glances at the traveller and then looks away fast. Not guilty: scared. They have seen something on the road north of here, and whatever it was, it is not going to be described to a stranger. They are just leaving."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "One of them might answer a direct question; the other two will not stop for anything. The scared glance is the most information they are giving away."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9394,7 +9394,7 @@
         "id": "cnt:83829eb6-599b-41c4-bfa2-04da8025498d:sit",
         "tags": [],
         "situation": {
-          "en": "The speed of their departure is its own description."
+          "en": "The speed of their departure is its own description — and it points north."
         }
       }
     ],
@@ -10484,13 +10484,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Moving fast in the other direction, not stopping. One of them looks at the traveller in a way that carries more information than a look should."
+      "en": "Fleeing — they will not stop to explain, because explaining is standing still and standing still is what they are specifically not doing."
     },
     "presence": {
-      "en": "The look is a warning. It is not hostile — it is the look of someone who wants the traveller to know that what is ahead of them is something they are running from."
+      "en": "People coming fast down the road toward him — four, maybe five, moving at the pace of those who have somewhere to be urgently, which is 'not here.' One of them, passing close, looks at the traveller directly — a look held a beat too long, not hostile: a warning. The look of someone who wants a stranger to know that what is ahead is what they are running from. Then they are past, and the road is dust settling."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "No words — one look, carrying more information than a look should, and then gone."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -10500,7 +10500,7 @@
         "id": "cnt:d0769fe1-3b6d-442a-abf3-9832e0939de9:sit",
         "tags": [],
         "situation": {
-          "en": "They are not going to stop and explain. They are running."
+          "en": "Whatever is ahead of the traveller is behind them. That is all the look was meant to convey, and it conveyed it."
         }
       }
     ],
@@ -11000,13 +11000,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A group of them camped off the road — fifteen, twenty people, more than a family."
+      "en": "Trapped between two fears and choosing stillness over either direction — the camp is not a rest, it is a stalemate with the road."
     },
     "presence": {
-      "en": "They are not moving. They have been here three days. The road ahead, they say, is where it started, and they will not go back onto it. The road behind, someone in the group says quietly, is no different."
+      "en": "A camp off the road in the lee of a scrubby rise — fifteen, maybe twenty people, more than a family: smoke kept low, bundles not unpacked, children kept quiet with the particular stillness of children who know the rule is real. They have been here three days. The road ahead, one of the men says when the traveller is noticed watching, is where it started — and they will not go back onto it. 'And behind's no different,' a woman adds, quiet, like a footnote nobody wanted to write."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "They answer direct questions carefully and offer nothing unprompted — a camp that has learned that being noticed is how the trouble started."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -11016,7 +11016,7 @@
         "id": "cnt:788b8c5f-c022-4d63-b7e0-a60aa7e3d6de:sit",
         "tags": [],
         "situation": {
-          "en": "They are trapped between two fears and they have chosen stillness over either direction."
+          "en": "What they know is what they are waiting out. What they are waiting out, they will describe only to someone who asks like they intend to walk into it."
         }
       }
     ],
@@ -22539,12 +22539,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A woman drawing water who looks at the traveller with the frank assessment of someone who has seen enough travelers to read them quickly."
+      "en": "Matter-of-fact — a woman delivering a standing request the way she draws water: daily, efficiently, without drama."
     },
     "presence": {
-      "en": "She says the village headman wants to speak with anyone coming off the northern road. She says this without urgency — it is a standing request, not an emergency."
+      "en": "A woman drawing water at the settlement's edge — sleeves rolled, hauling the bucket with the ease of long practice — who looks at the traveller with the frank assessment of someone who has seen enough travellers to read them quickly. 'The headman wants word with anyone coming off the northern road,' she says, setting the bucket on the well's lip. Said without urgency — a standing request, not an emergency. She goes back to the rope like the message has been delivered to its proper address."
     },
-    "channel": null,
+    "channel": {
+      "en": "She will answer questions while the work allows — which is to say, briefly and usefully, and then she has water to carry."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -22553,7 +22555,7 @@
         "id": "cnt:159c944a-eadb-45e6-b518-581bd7bb67e5:sit",
         "tags": [],
         "situation": {
-          "en": "A standing request means it has been standing for some time. Something on the northern road is being tracked through traveler reports."
+          "en": "A standing request means it has been standing for some time. Something on the northern road is being tracked through traveller reports — and the headman's door is apparently the collection point."
         }
       }
     ],
@@ -22574,12 +22576,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A group outside a farmhouse who watch the traveller pass with the still attention of people who have been told to watch."
+      "en": "Watching under instruction — the whole village has the posture of people who already suspect something and are collecting confirmation one traveller at a time."
     },
     "presence": {
-      "en": "One of them calls out: which road did you come from? They want to know if the traveller saw anything on the road that would explain the smoke column visible to the north this morning."
+      "en": "A group outside a farmhouse — five or six, tools in hand but not working, standing in that particular stillness of people who have been told to watch something. One of them calls out as the traveller passes: 'Which road did you come from?' Then, when he points: 'See anything that'd explain the smoke?' North of them, above the treeline, a column of smoke hangs grey and sourceless, the way it has hung since morning."
     },
-    "channel": null,
+    "channel": {
+      "en": "Blunt, practical, a little short — the questions of people who have asked them all day and need an actual answer, not another shrug."
+    },
     "facts": {
       "topic": "what_stirs_in_the_dark"
     },
@@ -22588,7 +22592,7 @@
         "id": "cnt:7fd311be-3d8c-4e49-a624-4a634081a994:sit",
         "tags": [],
         "situation": {
-          "en": "Smoke to the north that nobody can explain and a village watching the road with attention is a village that already suspects something."
+          "en": "Smoke to the north that nobody can explain, and a village watching the road with attention, is a village that already has a theory."
         }
       }
     ],
@@ -23169,12 +23173,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One of them on the path — visible, which is unusual. He is watching the traveller directly."
+      "en": "A warning offered, not insisted on — the Woses know this forest better than anyone, and he has decided this particular traveller is worth a sentence."
     },
     "presence": {
-      "en": "He says, in rough Westron: you are going wrong way. He does not elaborate. He points, once, in another direction."
+      "en": "One of them on the path — a Wose, short and broad and weathered to the colour of old wood, visible, which itself is unusual — watching the traveller directly with unhurried attention. 'You are going wrong way,' he says, in rough Westron, each word placed like a stone. He does not elaborate. He points, once, in another direction, and then simply stands there, waiting to see what the traveller does with the information."
     },
-    "channel": null,
+    "channel": {
+      "en": "Very few words — each one earned, and silence is his default register. What he offers in gesture he offers fully; what he does not say, he will not say."
+    },
     "facts": {
       "topic": "care_of_living_things"
     },
@@ -23183,7 +23189,7 @@
         "id": "cnt:c2faee22-9951-4de3-8716-61c11fbae44b:sit",
         "tags": [],
         "situation": {
-          "en": "The Woses know this forest better than anyone. If he says the way is wrong, the way is wrong."
+          "en": "If a Wose says the way is wrong, the way is wrong. The open question is whether the traveller is the kind who can be told."
         }
       }
     ],
@@ -23204,12 +23210,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Two of them appear from the undergrowth at the forest edge — not threateningly, but without any attempt at subtlety either."
+      "en": "A warning chosen, not owed — he selected this traveller for the sign, and from a Wose that selection is itself a form of respect."
     },
     "presence": {
-      "en": "One of them holds up three fingers, then points down the road, then makes a slow closing gesture with his hand. Three of something on the road ahead, waiting."
+      "en": "Two of them appear from the undergrowth at the forest edge — Woses, short, dark, gnarled as the roots they stepped over — and without any attempt at subtlety: they are simply there. One holds up three fingers. Points down the road. Then makes a slow closing gesture with his hand, fingers folding into the palm like something taking hold. Three of something, on the road ahead, waiting. Then they wait — watching what he does with it."
     },
-    "channel": null,
+    "channel": {
+      "en": "Gesture only — arithmetic and shape. Three. Ahead. Closing. The vocabulary is small and exact and worth more than most sentences."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -23218,7 +23226,7 @@
         "id": "cnt:200573f0-0102-48cc-aa66-06536f86dc3c:sit",
         "tags": [],
         "situation": {
-          "en": "He chose to warn the traveller. That is not nothing from a Wose."
+          "en": "He chose to warn the traveller. That is not nothing from a Wose — it is, in fact, nearly everything."
         }
       }
     ],
