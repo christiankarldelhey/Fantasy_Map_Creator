@@ -4316,13 +4316,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Startled but not hostile — a practical man asking a stranger what his neighbours would not grant, and not ashamed of not wanting to go alone. The refusal of his neighbours sits heavier than the missing animals."
+      "en": "Caught between pride and practicality — he did not plan to ask a stranger, but the stranger is here, armed, and his neighbours already refused."
     },
     "presence": {
-      "en": "A herdsman steps out of a side-track directly in front of him — stocky, hill-boots, a crook over the shoulder, startled but not hostile, the way men are when their question arrives before their manners. 'Something's been taking animals from the high pasture,' he says. 'There and gone by midday. No tracks.' He wants someone with him when he goes to look. He already asked his neighbours. They refused."
+      "en": "On the side-track climbing to the high pasture a herdsman crouches over the turf — stocky, hill-boots, crook laid aside, studying a patch of grass the way men study things with no explanation. He straightens when he notices the traveller, startled but not hostile — a man caught mid-puzzle by a witness."
     },
     "channel": {
-      "en": "He says it plainly and waits — no softening, no story. The asking costs him little pride; he spent that asking the neighbours first."
+      "en": "If engaged he says it plainly and waits — no softening, no story. The asking costs him little pride; he spent that asking the neighbours first."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -4332,7 +4332,7 @@
         "id": "cnt:78ec1b9e-2df3-4772-9be2-ea92e4c45e8e:sit",
         "tags": [],
         "situation": {
-          "en": "He is going up to the high pasture either way — he only wants a second pair of eyes and a second blade if eyes are not the problem. No tracks and gone by midday is not the signature of anything he wants to meet alone."
+          "en": "Whatever took his animals left no tracks and finished by midday. He means to go up and look — alone if no one stops, with company if someone does."
         }
       }
     ],
@@ -4355,13 +4355,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Watchful and a little sheepish — he takes time to look at the traveller's gear before speaking, calculating who might know the answer to a bureaucratic question he was never taught to ask."
+      "en": "Stuck and a little sheepish — a man with a bureaucratic problem he was never taught to solve, weighing whether a stranger looks like someone who might know the answer."
     },
     "presence": {
-      "en": "A man hails him from the road's verge — middle-aged, careful-dressed, holding a folded paper with the particular care of someone carrying a document that has stopped working. 'Your pardon — the road-permit,' he says. 'It was issued to my father. It is no longer valid and I don't — do you know where the nearest garrison would reissue one?' A practical question, slightly embarrassing to ask a stranger."
+      "en": "A man stands at the road's milestone comparing a folded paper to the garrison direction-post — middle-aged, careful-dressed, folding and unfolding the document with the particular care of someone handling a thing that has stopped working. He notices the traveller's glance and half-raises the paper — a question forming, then reconsidered: he does not presume on a stranger's time."
     },
     "channel": {
-      "en": "He asks the way men ask about systems they were never taught — haltingly, over-precisely, showing the paper as though the paper might explain itself. The embarrassment is the bureaucracy's, not his."
+      "en": "If engaged he asks the way men ask about systems they were never taught — haltingly, over-precisely, showing the paper as though it might explain itself. The embarrassment is the bureaucracy's, not his."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -4371,7 +4371,7 @@
         "id": "cnt:f1df75ce-22a3-454d-b963-646d385d633a:sit",
         "tags": [],
         "situation": {
-          "en": "A dead man's permit and a live problem: he cannot travel the controlled roads on it and does not know the machinery for a new one. A small thing — the kind of small thing that stops a man entirely."
+          "en": "A dead man's permit and a live problem — he cannot travel the controlled roads on it and does not know the machinery for a new one. He will not stop a stranger; whether the traveller stops is the traveller's."
         }
       }
     ],
@@ -4472,13 +4472,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Quiet and absolute — a man whose question is not really a question. He is going regardless; whether she comes only decides how much longer it takes him."
+      "en": "He does not engage — his stillness is not an invitation, only a fact of the road. If spoken to he answers honestly and completely; he has nothing left to spend on pride."
     },
     "presence": {
-      "en": "An old man stands on the road alone — no pack, no staff, just standing, in the threadbare coat of a man who has stopped travelling but not stopped going somewhere. He was a healer's apprentice at a Gondorian outpost abandoned after the Plague, and he has been in this country ever since. 'Have you seen the old mine at the eastern fork?' he asks — with the terrible calm of a man who will go there alone if she says no."
+      "en": "At the eastern fork stands an old man — threadbare coat, no pack, no staff — facing the east road the way a man faces a door he has long decided to open. He does not hail the traveller. The dust on his boots is settled, not fresh: he has been standing there some time, past asking the road's permission. He notices her without turning."
     },
     "channel": {
-      "en": "He asks once and waits, patient as stone — an old man with nothing left to hurry for except this. What he offers in return is himself: what the outpost knew, what the mine took, why it was never reopened."
+      "en": "If engaged he talks plainly, without self-pity — an old man giving an accounting he has rehearsed to himself for fifty years. He asks nothing until asked; what he offers in return is himself: what the outpost knew, what the mine took, why it was never reopened."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -4488,7 +4488,7 @@
         "id": "cnt:d268400f-8f50-4385-b696-623e660e7f94:sit",
         "tags": [],
         "situation": {
-          "en": "The mine has something in it he intends to face at his age, alone if he must. The question is only whether she is curious enough about what it is to walk him there."
+          "en": "He is going to the mine regardless — the standing is only the last pause before the walking. Whether she stops decides nothing about his errand, only about whether it is witnessed."
         }
       }
     ],
@@ -10487,13 +10487,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Friendly in the easy way of people used to travellers — no suspicion, no ceremony, the uncomplicated courtesy of folk who trade in passing faces and count the road one of their comforts."
+      "en": "Friendly in the unbothered way of people used to travellers — no suspicion, no petition, the uncomplicated courtesy of folk who trade in passing faces."
     },
     "presence": {
-      "en": "A knot of settlement folk at the road's edge — not quite farmers, not quite townsfolk, the particular coastal mix of western Gondor — and they hail him in the easy way of people used to travellers. Water is offered before anything is asked: a skin passed hand to hand, and the news that the ford ahead runs tricky this time of year. 'Where are you coming from, then?' — the question of people whose world is a day's walk wide and hungry for what is beyond it."
+      "en": "Settlement folk working at the road's edge — a woman hauling the well-rope, two men easing a cart-wheel back onto its rim, the particular coastal mix of western Gondor. They look up as he passes in the easy way of people used to travellers: a nod is offered, nothing is asked. The well stands open by the road, as wells in friendly country do."
     },
     "channel": {
-      "en": "They talk plainly the way working folk do — crops, weather, the ford, who married whom — and news from elsewhere is the coin they are happiest to be paid in. They give road-knowledge freely, the way people give what they have plenty of."
+      "en": "If he stops they talk plainly the way working folk do — crops, weather, the ford's temper — and news from elsewhere is the coin they are happiest to be paid in."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -10503,7 +10503,7 @@
         "id": "cnt:141027f7-0e24-413d-bc03-09236c91eeb8:sit",
         "tags": [],
         "situation": {
-          "en": "They want news from elsewhere and they will trade road-information freely for it. The ford warning is worth the telling of two stories — fair exchange, and both sides know it."
+          "en": "They want nothing from him — only the well is open and the company is easy. If he stops, road-knowledge flows both ways; if he passes, a wave sees him off."
         }
       }
     ],
@@ -21812,13 +21812,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Neither welcoming nor unwelcoming — a woman whose attention is mostly elsewhere, on the road behind the traveller. The hope she carries is worn smooth, the way things get after they have been carried too long."
+      "en": "Neither welcoming nor unwelcoming — her attention is mostly elsewhere, on the road behind the traveller. The hope she carries is worn smooth, the way things get after they have been carried too long."
     },
     "presence": {
-      "en": "A woman at a farmstead gate stops what she is doing when he passes — middle-aged, work-hardened, a bundle of kindling still in one arm. 'Which road did you come by?' she asks. Not curiosity: she is waiting for someone from that direction, and the traveller is plainly not them. She does not say who. The question underneath is the only one that matters to her: did he see anyone coming."
+      "en": "A woman stands at her farmstead gate as he passes — middle-aged, work-hardened, a bundle of kindling held and forgotten in one arm. She is not watching him; she is watching the road behind him, past his shoulder, the way people watch for a specific shape in the distance. She gives the traveller the bare nod owed a passerby — and her eyes go straight back to the road."
     },
     "channel": {
-      "en": "She asks directly and waits for the answer without decorating it — farm people do not pad questions when the answers cost them days. Whatever she is waiting for, she has been waiting long enough to be exact about it."
+      "en": "She answers directly when spoken to, without padding — farm people do not decorate questions when the answers cost them days. She will not say who she is waiting for unless asked straight."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -21828,7 +21828,7 @@
         "id": "cnt:9aa81891-5eba-4955-b233-2bc44caf8ebd:sit",
         "tags": [],
         "situation": {
-          "en": "She will not say who she is waiting for. The question is whether the traveller saw anyone on the road behind him — and her stillness while she waits says how much the answer costs."
+          "en": "She is waiting for someone from the direction he came. Whether he stops to give her the road-report is his to choose; her watching will continue either way."
         }
       }
     ],

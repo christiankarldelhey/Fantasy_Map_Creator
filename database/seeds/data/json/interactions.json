@@ -48542,7 +48542,7 @@
     "entities_narration_id": "cnt:78ec1b9e-2df3-4772-9be2-ea92e4c45e8e",
     "act": "talk",
     "label": {
-      "en": "Go with him to the high pasture",
+      "en": "Ask what he's studying, then go with him",
       "es": null
     },
     "need_tags": [],
@@ -48550,8 +48550,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He asks what the schedule is and goes with him — a morning's detour for a man with a crook and no backing. Up on the pasture they find what 'no tracks' means: the kill-sites are clean because whatever feeds there does not leave the ground — it leaves the sky. The herdsman looks at him differently after that. 'The neighbours,' he says, 'will hear about this from someone braver than me.'",
-          "es": "Pregunta cuál es el horario y va con él — una mañana de desvío para un hombre con cayado y sin respaldo. Arriba en el pastizal encuentran lo que 'sin rastros' significa: las matanzas están limpias porque lo que se alimenta ahí no deja el suelo — deja el cielo. El pastor lo mira distinto después de eso. 'Los vecinos', dice, 'se van a enterar de esto por alguien más valiente que yo.'"
+          "en": "He asks what the man is crouched over — 'Something's been taking animals from the high pasture. There and gone by midday. No tracks.' He already asked his neighbours; they refused, and asking a stranger costs him what pride he has left. The traveller goes with him — and up on the pasture they find what 'no tracks' means: the kill-sites are clean because whatever feeds there does not leave the ground. It leaves the sky. 'The neighbours,' the herdsman says, 'will hear about this from someone braver than me.'",
+          "es": "Pregunta qué está mirando el hombre — 'Algo se viene llevando animales del pastizal alto. Está y se fue al mediodía. Sin rastros.' Ya les preguntó a los vecinos; se negaron, y preguntarle a un extraño le cuesta el poco orgullo que le queda. El viajero va con él — y arriba en el pastizal encuentran lo que 'sin rastros' significa: las matanzas están limpias porque lo que se alimenta ahí no deja el suelo. Deja el cielo. 'Los vecinos', dice el pastor, 'se van a enterar de esto por alguien más valiente que yo.'"
         },
         "effects": []
       }
@@ -48570,7 +48570,7 @@
     "entities_narration_id": "cnt:f1df75ce-22a3-454d-b963-646d385d633a",
     "act": "talk",
     "label": {
-      "en": "Tell him where the garrison reissues permits",
+      "en": "Ask what the paper says",
       "es": null
     },
     "need_tags": [],
@@ -48578,8 +48578,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He gives him the answer plainly — the garrison town's name, and that the permit is expired but they reissue in person, no penalty for the asking. 'In person,' the man repeats, tasting the phrase like a man who had expected to be arrested. He folds the dead paper away with the same care it was shown — it was his father's — and thanks him more times than the answer was worth.",
-          "es": "Le da la respuesta sin vueltas — el nombre del pueblo de la guarnición, y que el permiso venció pero lo renuevan en persona, sin multa por preguntar. 'En persona', repite el hombre, saboreando la frase como un hombre que esperaba ser arrestado. Guarda el papel muerto con el mismo cuidado con que lo mostró — era de su padre — y agradece más veces de lo que la respuesta valía."
+          "en": "He stops and asks what the paper says — and the man produces it like a confession: a Gondorian road-permit issued to his father, long expired. 'Where would the nearest garrison reissue one?' The traveller answers plainly — the town's name, and that they reissue in person, no penalty for the asking. 'In person,' the man repeats, tasting the phrase like a man who had expected to be arrested.",
+          "es": "Para y pregunta qué dice el papel — y el hombre lo produce como una confesión: un permiso de ruta gondoriano extendido a su padre, vencido hace tiempo. '¿Dónde lo renovaría la guarnición más cercana?' El viajero responde sin vueltas — el nombre del pueblo, y que lo renuevan en persona, sin multa por preguntar. 'En persona', repite el hombre, saboreando la frase como un hombre que esperaba ser arrestado."
         },
         "effects": []
       }
@@ -48654,7 +48654,7 @@
     "entities_narration_id": "cnt:d268400f-8f50-4385-b696-623e660e7f94",
     "act": "talk",
     "label": {
-      "en": "Hear the old man's account of the mine",
+      "en": "Ask what holds him at the fork",
       "es": null
     },
     "need_tags": [],
@@ -48662,8 +48662,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "She considers it — does not decide immediately — and the old man accepts the considering as more than he expected. 'I was fourteen when the outpost closed,' he says. 'They sealed the mine with men still in it, some of them. I have been old longer than they were allowed to be.' Whatever is in that shaft, she understands suddenly, he has been carrying it longer than any traveller should.",
-          "es": "Ella lo considera — no decide enseguida — y el viejo acepta la consideración como más de lo que esperaba. 'Tenía catorce cuando cerró el puesto', dice. 'Sellaron la mina con hombres adentro, algunos de ellos. Llevo siendo viejo más tiempo del que a ellos les dejaron ser.' Lo que haya en ese pozo, ella entiende de golpe, él lo viene cargando más de lo que ningún viajero debería."
+          "en": "She stops and asks what the east fork holds. 'The mine,' he says, without turning. Then, because she stopped when no one stops: 'I was a healer's apprentice at the outpost up there, before the Plague closed it. They sealed the mine with men still in it, some of them. I have been old longer than they were allowed to be.' Whatever is in that shaft, she understands, he has been carrying it longer than any traveller should.",
+          "es": "Ella para y pregunta qué tiene la bifurcación del este. 'La mina', dice él, sin darse vuelta. Después, porque ella paró cuando nadie para: 'Yo era aprendiz de curandero en el puesto de allá arriba, antes de que la Plaga lo cerrara. Sellaron la mina con hombres adentro, algunos de ellos. Llevo siendo viejo más tiempo del que a ellos les dejaron ser.' Lo que haya en ese pozo, ella entiende, él lo viene cargando más de lo que ningún viajero debería."
         },
         "effects": []
       }
@@ -52918,7 +52918,7 @@
     "entities_narration_id": "cnt:141027f7-0e24-413d-bc03-09236c91eeb8",
     "act": "talk",
     "label": {
-      "en": "Trade road news for the ford's temper",
+      "en": "Take the well and trade news",
       "es": null
     },
     "need_tags": [],
@@ -52926,8 +52926,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He trades road for road — what the north looked like, where the trouble sat, what the weather did — for the ford's temper: where it runs fast, which side to take, and the name of the farm on the far bank that puts up travellers honestly. 'Cross before noon,' the oldest advises, 'the tide argues with it after.'",
-          "es": "Cambia camino por camino — cómo se veía el norte, dónde se sentó el problema, qué hizo el clima — por el carácter del vado: dónde corre rápido, qué lado tomar, y el nombre de la granja de la otra orilla que aloja viajeros honestamente. 'Cruzá antes del mediodía', aconseja el más viejo, 'después la marea le discute.'"
+          "en": "He takes the well and stays a moment — and the talk comes easily once he does: the ford's temper, where it runs fast, which side to take, and the name of the farm on the far bank that puts up travellers honestly. In exchange they get the road behind him — what the north looked like, where the trouble sat. 'Cross before noon,' the oldest advises, 'the tide argues with it after.'",
+          "es": "Toma el pozo y se queda un momento — y la charla viene fácil una vez que lo hace: el carácter del vado, dónde corre rápido, qué lado tomar, y el nombre de la granja de la otra orilla que aloja viajeros honestamente. A cambio ellos se llevan el camino a sus espaldas — cómo se veía el norte, dónde se sentó el problema. 'Cruzá antes del mediodía', aconseja el más viejo, 'después la marea le discute.'"
         },
         "effects": []
       }
@@ -62775,7 +62775,7 @@
     "entities_narration_id": "cnt:9aa81891-5eba-4955-b233-2bc44caf8ebd",
     "act": "talk",
     "label": {
-      "en": "Describe who was on the road",
+      "en": "Stop and give her the road-report",
       "es": null
     },
     "need_tags": [],
@@ -62783,8 +62783,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He names the road and describes who was on it — the merchant with the two mules, the family at the ford, nobody after that. She listens with the particular stillness of a woman building a conclusion, and nods once — whether at relief or at confirmation of the other thing, he cannot tell. She is turning back to the gate before he is fully gone.",
-          "es": "Nombra el camino y describe quién andaba en él — el mercader con las dos mulas, la familia en el vado, nadie después de eso. Ella escucha con la quietud particular de una mujer construyendo una conclusión, y asiente una vez — si de alivio o de confirmación de la otra cosa, él no puede saber. Ya está volviendo al portón antes de que él se haya ido del todo."
+          "en": "He stops and names what was on the road behind him — unasked: the merchant with the two mules, the family at the ford, nobody after that. She listens with the particular stillness of a woman building a conclusion, and nods once — whether at relief or at confirmation of the other thing, he cannot tell. She is turning back to the gate before he is fully gone.",
+          "es": "Para y nombra lo que había en el camino a su espalda — sin que se lo pidan: el mercader con las dos mulas, la familia en el vado, nadie después de eso. Ella escucha con la quietud particular de una mujer construyendo una conclusión, y asiente una vez — si de alivio o de confirmación de la otra cosa, él no puede saber. Ya está volviendo al portón antes de que él se haya ido del todo."
         },
         "effects": []
       }
@@ -66611,7 +66611,7 @@
     "entities_narration_id": "cnt:141027f7-0e24-413d-bc03-09236c91eeb8",
     "act": "talk",
     "label": {
-      "en": "He asks about the coast road west ",
+      "en": "Ask about the coast road west",
       "es": null
     },
     "need_tags": null,
@@ -66638,7 +66638,7 @@
     "entities_narration_id": "cnt:141027f7-0e24-413d-bc03-09236c91eeb8",
     "act": "avoid",
     "label": {
-      "en": "He takes the water with thanks and keeps his news ",
+      "en": "Return the nod and leave them their work",
       "es": null
     },
     "need_tags": null,
@@ -66650,8 +66650,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He takes the water with thanks and keeps his news — a fair enough exchange for them: the sight of a stranger's face is itself a coin in a place where faces repeat. They wave him on to the ford like neighbours.",
-          "es": "Toma el agua con agradecimiento y se guarda sus noticias — intercambio bastante justo para ellos: la vista de una cara extraña ya es una moneda en un lugar donde las caras se repiten. Lo despiden hacia el vado como a un vecino."
+          "en": "He returns the nod and goes — takes nothing, owes nothing. They wave him on like neighbours; the sight of a stranger's face is itself a coin in a place where faces repeat.",
+          "es": "Devuelve el saludo y sigue — no toma nada, no debe nada. Lo despiden como a un vecino; la vista de una cara extraña ya es moneda en un lugar donde las caras se repiten."
         },
         "effects": []
       }
@@ -66773,7 +66773,7 @@
     "entities_narration_id": "cnt:78ec1b9e-2df3-4772-9be2-ea92e4c45e8e",
     "act": "talk",
     "label": {
-      "en": "He asks about the pasture's history first ",
+      "en": "Read the site from where he stands",
       "es": null
     },
     "need_tags": null,
@@ -66785,8 +66785,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He asks about the pasture's history first — how long the taking has run, whether it comes with a season, whether the old men named it. 'Six years now,' the herdsman admits, 'each spring. We just stopped talking about it.' Six years of silence is its own kind of information.",
-          "es": "Pregunta primero por la historia del pastizal — cuánto hace que pasa, si viene con una estación, si los viejos le pusieron nombre. 'Seis años ya', admite el pastor, 'cada primavera. Simplemente dejamos de hablarlo.' Seis años de silencio son su propia clase de información."
+          "en": "He crouches beside the man uninvited and reads the grass — the kill-sites too clean, nothing entering or leaving on the ground. 'Whatever feeds there doesn't walk,' he says. 'Do not go up alone — and not at midday.' The herdsman looks at the sky a long moment, then nods like a man told the thing he already knew.",
+          "es": "Se pone en cuclillas junto al hombre sin invitación y lee el pasto — las matanzas demasiado limpias, nada entrando ni saliendo por el suelo. 'Lo que se alimenta ahí no camina', dice. 'No subas solo — y no al mediodía.' El pastor mira el cielo un momento largo, y después asiente como un hombre a quien le dijeron lo que ya sabía."
         },
         "effects": []
       }
@@ -66800,7 +66800,7 @@
     "entities_narration_id": "cnt:78ec1b9e-2df3-4772-9be2-ea92e4c45e8e",
     "act": "avoid",
     "label": {
-      "en": "He declines ",
+      "en": "Leave him his puzzle",
       "es": null
     },
     "need_tags": null,
@@ -66812,8 +66812,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He declines — his road has its own dead schedule — and gives him the honest advice instead: 'Do not go up alone, and do not go up at midday, whatever it is feeds then.' The herdsman nods like a man who has just been told the thing he already knew.",
-          "es": "Declina — su camino tiene su propio horario muerto — y le da el consejo honesto en cambio: 'No subas solo, y no subas al mediodía, sea lo que sea se alimenta entonces.' El pastor asiente como un hombre a quien acaban de decirle lo que ya sabía."
+          "en": "He nods to the crouched man and keeps the road — the pasture's secret keeps one more day, and the herdsman returns to his grass with no worse company than the question.",
+          "es": "Saluda con la cabeza al hombre en cuclillas y sigue su camino — el secreto del pastizal se guarda un día más, y el pastor vuelve a su pasto sin peor compañía que la pregunta."
         },
         "effects": []
       }
@@ -66989,7 +66989,7 @@
     "entities_narration_id": "cnt:9aa81891-5eba-4955-b233-2bc44caf8ebd",
     "act": "talk",
     "label": {
-      "en": "He asks who she is waiting for ",
+      "en": "Ask who she is waiting for",
       "es": null
     },
     "need_tags": null,
@@ -67001,8 +67001,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He asks who she is waiting for — gently, the way you ask about weather you suspect is grief. 'My son,' she says, 'who went soldiering south. They said the autumn.' The autumn was two months back, and neither of them says it.",
-          "es": "Pregunta a quién espera — suavemente, como se pregunta por un clima que se sospecha es duelo. 'A mi hijo', dice, 'que se fue a soldar al sur. Dijeron que para el otoño.' El otoño fue hace dos meses, y ninguno de los dos lo dice."
+          "en": "He asks it straight, the only way it can be asked — 'Who are you waiting for?' A pause, while she decides whether a stranger has earned it. 'My son,' she says finally, 'who went soldiering south. They said the autumn.' The autumn was two months back, and neither of them says it.",
+          "es": "Lo pregunta directo, la única forma de preguntarlo — '¿A quién espera?' Una pausa, mientras ella decide si un extraño se lo ganó. 'A mi hijo', dice al final, 'que se fue a soldar al sur. Dijeron que para el otoño.' El otoño fue hace dos meses, y ninguno de los dos lo dice."
         },
         "effects": []
       }
@@ -67016,7 +67016,7 @@
     "entities_narration_id": "cnt:9aa81891-5eba-4955-b233-2bc44caf8ebd",
     "act": "avoid",
     "label": {
-      "en": "He answers the road-question and nothing more ",
+      "en": "Return the nod and leave her the road",
       "es": null
     },
     "need_tags": null,
@@ -67028,8 +67028,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He answers the road-question and nothing more — her waiting is hers, and a stranger's guesses would only bend it out of shape. She nods him on with the same efficiency she asked him with.",
-          "es": "Responde la pregunta del camino y nada más — la espera de ella es de ella, y las conjeturas de un extraño solo la deformarían. Ella lo despide con la misma eficiencia con que lo preguntó."
+          "en": "He returns the nod and does not stop — her watching belongs to her, and a stranger's volunteered guesses would only bend it out of shape. The gate, the kindling, and the road she is watching all stay behind him.",
+          "es": "Devuelve el saludo con la cabeza y no para — la vigilia de ella es de ella, y las conjeturas voluntarias de un extraño solo la deformarían. El portón, la leña y el camino que ella mira quedan todos atrás."
         },
         "effects": []
       }
@@ -67313,7 +67313,7 @@
     "entities_narration_id": "cnt:d268400f-8f50-4385-b696-623e660e7f94",
     "act": "talk",
     "label": {
-      "en": "She asks what he believes is in the mine ",
+      "en": "Ask what he expects to find",
       "es": null
     },
     "need_tags": null,
@@ -67325,8 +67325,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "She asks what he believes is in the mine — and he tells it without drama: the Plague took the outpost, the mine took the men they could not treat, and the sealing took the rest. 'I do not expect to find them,' he says. 'I expect them to be found.'",
-          "es": "Pregunta qué cree que hay en la mina — y él lo cuenta sin drama: la Plaga se llevó el puesto, la mina se llevó los hombres que no pudieron tratar, y el sellado se llevó el resto. 'No espero encontrarlos', dice. 'Espero que sean encontrados.'"
+          "en": "She asks what he expects to find there. 'I do not expect to find them,' he says. 'I expect them to be found.' Said without drama — a debt stated plainly, fifty years in the keeping.",
+          "es": "Pregunta qué espera encontrar ahí. 'No espero encontrarlos', dice. 'Espero que sean encontrados.' Dicho sin drama — una deuda declarada sin vueltas, cincuenta años guardándola."
         },
         "effects": []
       }
@@ -67340,7 +67340,7 @@
     "entities_narration_id": "cnt:d268400f-8f50-4385-b696-623e660e7f94",
     "act": "avoid",
     "label": {
-      "en": "She does not go ",
+      "en": "Exchange a nod and keep her road",
       "es": null
     },
     "need_tags": null,
@@ -67352,8 +67352,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "She does not go — the road has its own debts, and his, she sees, is the kind of errand that belongs to one man and his whole life. He nods, unsurprised, and turns his face to the eastern fork like a man checking a compass he already knows.",
-          "es": "No va — el camino tiene sus propias deudas, y la de él, ve ella, es la clase de mandado que le pertenece a un hombre y a su vida entera. Él asiente, sin sorpresa, y gira la cara hacia la bifurcación del este como un hombre consultando una brújula que ya conoce."
+          "en": "She does not stop — only returns the old man's not-quite-nod and takes the west fork. Some errands belong to one man and his whole life; she recognizes the shape of it without needing the details.",
+          "es": "No para — solo le devuelve al viejo su casi-movimiento de cabeza y toma la bifurcación del oeste. Algunos mandados le pertenecen a un hombre y a su vida entera; ella reconoce la forma sin necesitar los detalles."
         },
         "effects": []
       }
@@ -67475,7 +67475,7 @@
     "entities_narration_id": "cnt:f1df75ce-22a3-454d-b963-646d385d633a",
     "act": "talk",
     "label": {
-      "en": "He asks to see the permit ",
+      "en": "Read the old stamps in it",
       "es": null
     },
     "need_tags": null,
@@ -67487,7 +67487,7 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He asks to see the permit — and reads the real story in it: his father's route, his father's stamps, a man who used to travel these roads legally and often. 'Keep the old one even after they reissue,' he advises. 'The stamps say he went before you. That is worth more than the paper.'",
+          "en": "He asks to see the permit — and reads the real story in it: the father's route, the father's stamps, a man who used to travel these roads legally and often. 'Keep the old one even after they reissue,' he advises. 'The stamps say he went before you. That is worth more than the paper.'",
           "es": "Pide ver el permiso — y lee la historia real en él: la ruta del padre, los sellos del padre, un hombre que viajaba estos caminos legalmente y seguido. 'Guardá el viejo aunque te lo renueven', aconseja. 'Los sellos dicen que él fue antes que vos. Eso vale más que el papel.'"
         },
         "effects": []
@@ -67502,7 +67502,7 @@
     "entities_narration_id": "cnt:f1df75ce-22a3-454d-b963-646d385d633a",
     "act": "avoid",
     "label": {
-      "en": "He admits he does not know the machinery either ",
+      "en": "Return the half-raised question with a nod",
       "es": null
     },
     "need_tags": null,
@@ -67514,8 +67514,8 @@
     "outcomes": {
       "success": {
         "text": {
-          "en": "He admits he does not know the machinery either — an honest answer, cheaper than a wrong direction. The man thanks him anyway, folds the paper back, and sets off asking the next traveller, which is also a kind of road.",
-          "es": "Admite que tampoco conoce la maquinaria — respuesta honesta, más barata que una dirección equivocada. El hombre agradece igual, guarda el papel, y sale a preguntarle al próximo viajero, que también es una clase de camino."
+          "en": "He returns the half-raised question with a nod and walks on — some confusions solve themselves at the next gate, and a man who will not ask is owed the respect of not being asked.",
+          "es": "Devuelve la pregunta a medias con un gesto de cabeza y sigue — algunas confusiones se resuelven solas en el próximo puesto, y a un hombre que no se anima a preguntar se le debe el respeto de no preguntarle."
         },
         "effects": []
       }
