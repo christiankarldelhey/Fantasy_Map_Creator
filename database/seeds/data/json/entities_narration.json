@@ -9413,13 +9413,13 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A small party of riders crossing the road ahead — moving east at an easy canter, not in formation."
+      "en": "On their own land doing their own business — the traveller is a small fact in a large landscape, acknowledged and correctly filed."
     },
     "presence": {
-      "en": "Four of them, well-armed, moving between camps. They register the traveller on the road below and one of them raises a hand — not a greeting exactly, an acknowledgment. They continue without slowing."
+      "en": "Four riders cross the road ahead at an easy canter — unhurried, out of formation, well-armed, moving east between camps with the loose seat of men whose horses know the way themselves. One of them registers the traveller on the road below and raises a hand — not a greeting exactly, an acknowledgment: seen, weighed, not a problem. They continue without slowing. The dust they leave smells of grass and horse-sweat."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "If hailed, they will stop and trade news the way riders do — brief, useful, already thinking of the next camp."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -9429,7 +9429,7 @@
         "id": "cnt:12289254-ea74-4e0a-a781-500f913a1b06:sit",
         "tags": [],
         "situation": {
-          "en": "They are on their own land doing their own business. The traveller is a small fact in a large landscape."
+          "en": "They answer to their own errand, not to the road. Whatever moves four armed men between camps at an easy pace is the region's real news."
         }
       }
     ],
@@ -9450,13 +9450,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One of them has separated from a larger group and ridden to the road to speak. He does not dismount."
+      "en": "Doing a job — the question is legitimate, the courtesy is real, and he expects a direct answer because that is what he would give."
     },
     "presence": {
-      "en": "He wants to know where the traveller has come from and whether they saw anything unusual on the road from the west. He asks this in Westron with a Rohirric accent and the directness of someone who considers it a waste of time to build up to the question."
+      "en": "A horseman separates from a larger group on the ridge and rides down to the road — does not dismount, just reins in close enough to talk down from the saddle: a big man in boiled leather, shield on his back, accent thick as river water. 'Westron enough?' he opens, and then directly, without circling: 'Where did you come from, and did you see anything unusual on the road from the west?' The question of someone who considers a straight answer the cheapest thing on the road."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "Frank and mounted — asks from the saddle, takes the answer at face value, thanks in his own tongue and rides back to the group."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -9466,7 +9466,7 @@
         "id": "cnt:3c266dd6-8403-4b76-bc7d-bb3c49a20c2b:sit",
         "tags": [],
         "situation": {
-          "en": "He is doing a job. The question is legitimate. He expects a direct answer."
+          "en": "He was sent down to ask. What his group is watching the western road for is not his question to answer."
         }
       }
     ],
@@ -9487,13 +9487,13 @@
       "felt:tense"
     ],
     "disposition": {
-      "en": "A full éored on the road ahead — thirty riders blocking it completely, watching the approach."
+      "en": "Calm, immovable, professionally incurious — a military closure, not a patrol check, and the captain's patience is part of the wall."
     },
     "presence": {
-      "en": "The captain rides forward alone. He says the road is closed by order of the Marshal until further notice. He says it with the calm of someone who has said it many times today."
+      "en": "A full éored holds the road ahead — thirty riders drawn up across it completely, horse-hooves churning the mud at the edges, banners furling in the wind off the plain. They watch the traveller approach for a long time before a captain rides forward alone, unhurried: 'The road is closed. By order of the Marshal, until further notice.' Said with the calm of a man who has already said it many times today and expects to say it many more."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "He answers what he may, in few words, from the saddle. The éored behind him does not relax; they are a wall that happens to have a spokesman."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9503,7 +9503,7 @@
         "id": "cnt:186bc13e-db8e-4e42-bc10-f1d0c435f1ea:sit",
         "tags": [],
         "situation": {
-          "en": "This is not a patrol check. This is a military closure. Something significant has happened on this road."
+          "en": "Something significant has happened on this road — a Marshal does not close a road for weather. What it is, the captain either does not know or has been ordered not to say."
         }
       }
     ],
@@ -9524,13 +9524,13 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "Two of them in the trees above the trail, moving silently parallel to the road. They are not hiding — just at home in the canopy."
+      "en": "At home and unbothered — they noted the traveller, decided he is not a problem, and the canopy keeps them."
     },
     "presence": {
-      "en": "They are checking something in the upper branches — a nest, a mark, something they maintain. They have noted the traveller on the road below without making it obvious."
+      "en": "Movement in the canopy above the trail — two woodmen moving parallel to the road through the upper branches, silent, at home. They are checking something up there — a nest, a mark, something they maintain — and they have noted the traveller below without making anything of it: a glance exchanged between them, a small nod down, and they continue their work. The leaves barely move for them."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "If the traveller hails them, they answer from the branches — friendly enough, brief, the talk of men standing on air."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -9540,7 +9540,7 @@
         "id": "cnt:0bfe858a-a1c1-46ab-910f-a56bdf3bee02:sit",
         "tags": [],
         "situation": {
-          "en": "They decide the traveller is not a problem and continue their work."
+          "en": "They maintain something in these trees — a watch-line, a mark-system — and the road's safety is partly their quiet work."
         }
       }
     ],
@@ -9561,13 +9561,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A woodman at the forest edge, sharpening a tool. He looks up when the traveller approaches and does not stop sharpening."
+      "en": "Practical and unafraid — but the marks don't match his catalogue, and a woodman's catalogue not matching is its own kind of alarm."
     },
     "presence": {
-      "en": "Something has been coming out of the deep forest at night — not the usual things. He has been setting marks and finding them disturbed in ways that do not match any animal he knows. He mentions this because the traveller is going into the forest and he would want to know."
+      "en": "A woodman at the forest's edge, sitting on a stump sharpening a billhook — grey-bearded, broad, sawdust on his boots and a two-handed calm about him. He looks up when the traveller approaches and does not stop sharpening. 'Something's been coming out of the deep woods at night,' he says, the way he'd report rain. 'Not the usual things. I set marks — I find them disturbed in ways that don't match any animal I know.' He mentions it between strokes, and does not go deeper into the forest himself right now, and says that without embarrassment."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Talks while sharpening — facts, directions, the shape of the disturbances. Refuses drama; the marks speak plainly enough."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -9577,7 +9577,7 @@
         "id": "cnt:a5a2ddee-368a-4cf2-b18a-48fa053f9c02:sit",
         "tags": [],
         "situation": {
-          "en": "He is not going into the deep forest himself right now. He is saying this without embarrassment."
+          "en": "He is saying this to a stranger because the next traveller going past the deep treeline should know it too — the warning is the whole errand."
         }
       }
     ],
@@ -9598,13 +9598,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A group of them blocking the forest track — not hostile, but not moving either."
+      "en": "Not hostile, immovable — they are telling, and the telling is the whole of it. The forest's strangeness is theirs to measure, not the traveller's to test."
     },
     "presence": {
-      "en": "They do not want anyone going deeper into the forest right now. Something is wrong in there and they have not identified what it is yet. They are not asking — they are telling."
+      "en": "A group of woodsmen blocking the forest track — four of them, axes in hand but carried like tools, standing across the path where the trees begin to mean business. The spokesman steps half a pace forward: 'Nobody goes deeper today. Something's wrong in there and we haven't named it yet.' Not asking — telling, with the flat authority of people who know this forest better than anyone alive and have decided that is worth something."
     },
     "channel": {
-      "en": "Have them probe in a guarded, even hostile way, mistrusting an unknown face in hard times."
+      "en": "One speaker, flat statements, no negotiation. The others watch the treeline, not the traveller — the threat is behind them."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -9614,7 +9614,7 @@
         "id": "cnt:64f8bc5e-7a4a-46c3-a065-7707298b2207:sit",
         "tags": [],
         "situation": {
-          "en": "They know this forest better than anyone. When people who know a forest this well close a track, the reason is real."
+          "en": "People who know a forest this well closing a track is itself the warning. What they will not name, they have measured — and it outweighs politeness."
         }
       }
     ],
@@ -9635,13 +9635,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Enormous, unhurried, and looking at the traveller with the specific assessment of someone who has decided size is information."
+      "en": "Unhurried certainty — the toll is fair, non-negotiable, and non-threatening: simply what the road costs here."
     },
     "presence": {
-      "en": "He is a toll-keeper on this stretch of the Anduin road — the toll is real, Beorning-set, and it keeps the road open. He names the price, names what it pays for (road maintenance, patrol, the exclusion of wolves from this stretch), and waits."
+      "en": "An enormous man at the toll-post on the Anduin road — a head taller than the traveller and twice his width, unhurried, looking down at him with the specific assessment of someone who has decided that size is information. 'Toll,' he says, and names the price and what it pays for in one breath: road maintenance, patrol, the exclusion of things that shouldn't use the road. Beorning-set, real, and the road behind him is visibly better for it. 'You'll see the difference by the bridge.'"
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "States the price, states what it buys, states nothing else. Answers questions about the road with the precision of the man who maintains it."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -9651,7 +9651,7 @@
         "id": "cnt:98ac0ce1-d02f-4196-979c-c965d3582401:sit",
         "tags": [],
         "situation": {
-          "en": "The toll is fair. He is not going to negotiate but he is not going to threaten either. It is simply what the road costs here."
+          "en": "The toll is honest and the road behind him proves it — patrolled, cleared, maintained. It is the rarest kind of toll: one that delivers."
         }
       }
     ],
@@ -9672,13 +9672,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He has been watching the traveller for ten minutes from a distance before approaching. He walks like someone for whom walking is not the first option."
+      "en": "Curious in the way of a man who has found one item his catalogue can't place — not afraid, hunting a classification."
     },
     "presence": {
-      "en": "Something has been using the road at night without paying. Not orcs — he knows what orcs smell like. Something else, something he cannot identify, which is unusual for him. He asks if the traveller has seen anything on the road south that they could not name."
+      "en": "A woodsman appears at the road's edge — the traveller realizes, counting back, that the man has been watching him for ten minutes from the treeline before deciding to approach. He walks like someone for whom walking is not the first option. 'Something's been using this road at night without paying,' he says. 'Not orcs — I know what orcs smell like. Something else. Something I can't name, which is unusual — I've catalogued every dangerous thing in this valley.' He asks if the traveller has seen what leaves the road by dark."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Precise questions, woodman's patience — he will take whatever the traveller saw and weigh it against forty years of knowing what should be here."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -9688,7 +9688,7 @@
         "id": "cnt:7c097e18-ed29-4f06-b7f9-8b14884697e6:sit",
         "tags": [],
         "situation": {
-          "en": "He is not afraid. He is curious in the way of someone who has catalogued every dangerous thing in this valley and found one he has not catalogued yet."
+          "en": "He has catalogued every dangerous thing in this valley and found one he has not catalogued yet. A stranger's eyes on the night-road are data."
         }
       }
     ],
@@ -12154,13 +12154,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Loud, generous and immediately curious, with beer in his hand before the greeting is finished."
+      "en": "Loud, generous and immediately curious — the questioning is relentless but so is the feeding, and nothing is owed but the talk."
     },
     "presence": {
-      "en": "A bench in the hall, meat and ale, and the whole household wanting news of the southern roads; they will send him on with smoked fish and a fresh haft for his axe."
+      "en": "A hall glowing fire-warm at the day's end — and hospitality that arrives faster than questions: a bench by the hearth, meat and ale in the traveller's hands before his name is out, a beer already in the host's. 'Sit, sit — the southern roads, tell us everything.' The whole household leans in — loud, generous, immediately curious, wanting the state of the south like rain-want."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Rapid-fire southern questions between bites — they want the roads, the towns, the war, the weather, all of it at once."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -12170,7 +12170,7 @@
         "id": "cnt:0a1d0012-0000-4000-8000-0a1d00000012:sit",
         "tags": [],
         "situation": {
-          "en": "The generosity is genuine and the questioning is relentless. Nothing is owed and everything is asked."
+          "en": "They will send him on with smoked fish and a fresh haft for his axe. The price of the best meal in fifty miles is everything he knows."
         }
       }
     ],
@@ -12191,13 +12191,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Hospitable, but the talk keeps circling back to the eastern road and who has been coming down it."
+      "en": "Hospitable on the surface, circling underneath — they would rather send a warning than say aloud what the warning is for."
     },
     "presence": {
-      "en": "They will provision him for three days if he carries word to the next steading: keep the beasts in and send no children to the summer pasture this year."
+      "en": "A steading table laden and wary in equal measure — they will provision the traveller for three days, and the price is a message carried to the next steading: 'Tell them — keep the beasts in, and send no children to the summer pasture this year.' The talk keeps circling the eastern road and who has been coming down it, and nobody will name why at the table."
     },
     "channel": {
-      "en": "Have them raise a trouble of their own — a beast, a feud, a missing kinsman — and hope the stranger might aid it."
+      "en": "Warm host-talk with a held breath under it — every question about the eastern road asked sideways, through the food."
     },
     "facts": {
       "topic": "a_request_for_help"
@@ -12207,7 +12207,7 @@
         "id": "cnt:0a1d0013-0000-4000-8000-0a1d00000013:sit",
         "tags": [],
         "situation": {
-          "en": "They are being pushed westward by something they will not name at the table and would rather send a warning than admit it aloud."
+          "en": "They are being pushed westward by something they will not name at the table. The message to the next steading is the honest version."
         }
       }
     ],
@@ -12787,13 +12787,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Riders pull up, look down from the saddle, and are courteous in the way of people who have already decided they could deal with him if it came to that."
+      "en": "Courteous strength — the gift costs them nothing and is a point of honour; refusing it would be the insult."
     },
     "presence": {
-      "en": "Hard cheese, dried meat and a full water-skin, plus the shortest line to the nearest hall — freely given, because on the open grass a traveller left dry is a traveller who dies badly."
+      "en": "Riders pull up alongside the traveller on the open grass — three of them, easy in the saddle, courteous in the way of people who have already decided they could deal with him if it came to that. One unstraps a water-skin and tosses it down, then cheese and dried meat: 'On the grass a traveller left dry is a traveller who dies badly. Eat.' They give directions to the nearest hall in three sentences, cheerfully."
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "Loud, brief, generous — they talk from the saddle, give what they give, and ask the road-questions riders ask."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -12803,7 +12803,7 @@
         "id": "cnt:0a1e0007-0000-4000-8000-0a1e00000007:sit",
         "tags": [],
         "situation": {
-          "en": "The gift costs them nothing and is a point of honour. Refusing it would be the insult."
+          "en": "On the open grass hospitality is survival-law. They provision him because the grass demands it of people with full packs."
         }
       }
     ],
@@ -12861,13 +12861,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Horse-folk at a picket-line, easy and loud, feeding him before they have his name."
+      "en": "Easy, loud, herd-minded — feeding strangers is reflex; the questions are the family's real wealth."
     },
     "presence": {
-      "en": "Mare's milk, meat and a place at the fire; they want to hear the state of the grass and the water on the road he came by, since they are moving the herd within the week."
+      "en": "Horse-folk at a picket-line — a dozen mares tethered, a cookfire going, a family that smells of smoke and mare's milk — who see the traveller coming and put a bowl in his hand before they have his name. 'Sit, eat — tell us the grass.' They are moving the herd within the week and want the state of the grazing and the water on the road he came by, exact, river by river."
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "Herd-talk: grass, water, the state of the country — asked over bowls, corrected by grandmother, logged by everyone."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -12877,7 +12877,7 @@
         "id": "cnt:0a1e0009-0000-4000-8000-0a1e00000009:sit",
         "tags": [],
         "situation": {
-          "en": "Their whole year turns on where the grazing is good. A traveller's eyes are worth a meal."
+          "en": "Their whole year turns on where the grazing is good. A traveller's eyes are worth a meal — mare's milk, meat, a place at the fire."
         }
       }
     ],
@@ -13009,13 +13009,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Boatmen who deal briskly and price everything, including kindness, without embarrassment."
+      "en": "Brisk commercial river-folk — they price everything, including kindness, without embarrassment and without rancour."
     },
     "presence": {
-      "en": "Passage downriver on the barge, a share of the fish and a dry place among the bales, for coin, tobacco or three hours at the pole."
+      "en": "Boatmen working a barge at the landing — four of them, poles in hand, shirtsleeves, the smell of fish and river-mud — who size the traveller up in one commercial glance and name the deal without preamble: 'Passage downriver, a share of the fish, a dry place among the bales. Coin, tobacco, or three hours at the pole. Your pick.'"
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "Deal-first, talk-later — they'll take him if he's useful and put him off at the next landing if he's not. It is not personal."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -13025,7 +13025,7 @@
         "id": "cnt:0a1e0013-0000-4000-8000-0a1e00000013:sit",
         "tags": [],
         "situation": {
-          "en": "They will take him if he is useful and put him off at the next landing if he is not. It is not personal."
+          "en": "The barge is going downriver either way. The traveller is either cargo that pays or cargo that works."
         }
       }
     ],
@@ -13083,13 +13083,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "A big man who does not smile, blocks the doorway of the steading, then steps aside and puts honey on the table."
+      "en": "Generous house, iron rules — the hospitality is real and the accounting is not open to discussion."
     },
     "presence": {
-      "en": "Bread, cream and honey and no meat at all at that board, and a bed in the hay; what he wants in return is an accounting of any beast the traveller has killed on his land."
+      "en": "A big man blocks the doorway of the steading — does not smile, fills the frame, looks at the traveller the way a gate looks — then steps aside and puts bread, cream and honey on the table. No meat at that board, and no apology for it. 'Hay's clean,' is the whole welcome. What he wants in return is named at the end, flat: an accounting of any beast the traveller has killed on his land."
     },
     "channel": {
-      "en": "Have them turn the talk to beasts, trees and growing things, and the keeping of them."
+      "en": "Few words, heavy silences, food that keeps arriving — he asks about beasts, trees and growing things, and weighs the answers like debts."
     },
     "facts": {
       "topic": "care_of_living_things"
@@ -13099,7 +13099,7 @@
         "id": "cnt:0a1e0015-0000-4000-8000-0a1e00000015:sit",
         "tags": [],
         "situation": {
-          "en": "The hospitality is generous and there are rules under it that are not open to discussion."
+          "en": "He keeps this land and what lives on it. The traveller ate his honey — now the books open, and honest answers are the currency."
         }
       }
     ],
@@ -13120,13 +13120,13 @@
       "felt:content"
     ],
     "disposition": {
-      "en": "Wary at the treeline, then practical once it is clear he is walking through and not settling in."
+      "en": "Wary then practical — they measure every kindness against the risk of being noticed, and have decided the traveller is worth the risk."
     },
     "presence": {
-      "en": "A share of the pot, resin-torches for the night stretch and directions to the one clearing where a fire will not be seen from the eastern slopes."
+      "en": "Woods-folk at the treeline — a woman and two youths, resin-torches already being dipped — who were wary until it was clear the traveller is walking through and not settling in. Then practical: a share of the pot, torches for the night stretch, and directions to the one clearing where a fire won't be seen from the eastern slopes. 'Take the low path. The high one's watched lately.'"
     },
     "channel": {
-      "en": "Have them ask quietly about the growing shadow, and rumour of orcs, wolves and fouler things abroad."
+      "en": "Quiet voices, dark-questions — orcs, wolves, fouler things abroad — asked at fireside levels under the eaves of a worsening wood."
     },
     "facts": {
       "topic": "what_stirs_in_the_dark"
@@ -13136,7 +13136,7 @@
         "id": "cnt:0a1e0016-0000-4000-8000-0a1e00000016:sit",
         "tags": [],
         "situation": {
-          "en": "They live under the eaves of a wood that has been getting worse for a generation and they measure every kindness against the risk of being noticed."
+          "en": "They live under the eaves of a forest that has been getting worse for a generation. The directions they give are the ones they'd want."
         }
       }
     ],
@@ -17056,13 +17056,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Talkative traders of the wine-country, immediately friendly and immediately calculating."
+      "en": "Immediately friendly and immediately calculating — everything is business, and the business is genuinely pleasant."
     },
     "presence": {
-      "en": "The price of wine three markets downriver, the state of the eastern road, and an offer to carry a letter for him if he is going the other way."
+      "en": "Wine-traders at a riverside stall — three of them, sun-browned, smelling of cooperage and dried grape — who hail the traveller over with the instant friendliness of men whose friendliness is inventory. 'News for news, friend! What's the price of wine three markets downriver — and what's the eastern road like? And if you're going the other way, we'll carry a letter for you — free, because we're pleasant.'"
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Fast talk, open books, offers stacked on offers — no hidden edge, just the honest commerce of men who like their work."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -17072,7 +17072,7 @@
         "id": "cnt:0b2e0003-0000-4000-8000-0b2e00000003:sit",
         "tags": [],
         "situation": {
-          "en": "Everything is business and the business is pleasant. There is no hidden edge to this one."
+          "en": "Wine-prices, road-conditions, letter-carrying — all business and all above board. The rare encounter with no second layer."
         }
       }
     ],
@@ -17352,13 +17352,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Town-bred, brisk and less interested in him than in whether the road he came by is fit for a waggon."
+      "en": "Brisk, transactional, and less interested in the traveller than in whether his road fits a waggon — friendly about it."
     },
     "presence": {
-      "en": "The market days in the next three towns, the current price of grain, and a complaint about the tolls that is at least half accurate."
+      "en": "A town-bred trader at the road's edge — soft hands, good coat, a wagoner's eye for surfaces — who greets the traveller briskly and gets to the point: 'Market days in the next three towns — I'll trade you. What's the road like where you came? Fit for a waggon?' And then, inevitably, the complaint about the tolls that is at least half accurate."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Rapid market-talk: days, prices, toll-grievances — all information, no menace, mildly charming in its one-trackedness."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -17368,7 +17368,7 @@
         "id": "cnt:0b2e0011-0000-4000-8000-0b2e00000011:sit",
         "tags": [],
         "situation": {
-          "en": "Purely transactional and quite friendly with it. He is a source of road conditions and nothing more."
+          "en": "He is a source of road-conditions and market-days and nothing more — which on this road is already a good trade."
         }
       }
     ],
@@ -21971,12 +21971,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A horseman who has dismounted to check a shoe — he raises a hand when the traveller passes, the universal greeting of someone with their hands occupied."
+      "en": "Occupied and courteous — the question is half errand, half worry, and he asks it over a hoof."
     },
     "presence": {
-      "en": "He asks if the traveller saw any wolf-sign on the southern road. His flock was hit two nights ago and the track led that way."
+      "en": "A horseman dismounted at the roadside, one hoof in his lap checking a shoe — he raises a hand as the traveller passes, the universal greeting of someone whose hands are occupied. 'Friend — a question while I've got you. Saw any wolf-sign on the southern road?' His flock was hit two nights ago and the track led south; he is polite about it and would rather get the answer before the light goes."
     },
-    "channel": null,
+    "channel": {
+      "en": "Short questions over the shoe — wolf-sign, direction, numbers. He weighs answers like a man who reads tracks for a living."
+    },
     "facts": {
       "topic": "care_of_living_things"
     },
@@ -21985,7 +21987,7 @@
         "id": "cnt:af15eaef-6829-43b2-817a-fac3067718d5:sit",
         "tags": [],
         "situation": {
-          "en": "A single wolf taking from a flock is normal. A wolf that moves south after is unusual."
+          "en": "A single wolf taking from a flock is normal. A wolf that moves south after is unusual — and he wants to know what the traveller's road showed."
         }
       }
     ],
@@ -22006,12 +22008,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Two of them at a ford — they check the traveller with a quick professional assessment that is not unfriendly, just thorough."
+      "en": "Professional and even-handed — they ask because it's their circuit, they give because that's the law of the road."
     },
     "presence": {
-      "en": "They are running a circuit for a local lord and they want to know what the road east looks like. They share: the road west had fresh Orc-sign two days ago, above the tree-line."
+      "en": "Two riders at the ford — harnessed for a circuit, checking the traveller with a quick professional assessment that is not unfriendly, just thorough. 'Running a circuit for the lord,' the senior one says. 'What does the road east look like?' And because road-law is trade: 'Fair's fair — the road west had fresh Orc-sign two days ago. Above the tree-line.'"
     },
-    "channel": null,
+    "channel": {
+      "en": "Information traded flatly, fact for fact — they want the east, they sell the west, and the Orc-sign is offered as the full price."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -22020,7 +22024,7 @@
         "id": "cnt:892c635d-bef6-46d0-8a86-5615fb9f91da:sit",
         "tags": [],
         "situation": {
-          "en": "Orc-sign above the tree-line means scouts, not raiders. Scouts report back."
+          "en": "Orc-sign above the tree-line means scouts, not raiders. Scouts report back — which makes the sign worth more than the toll."
         }
       }
     ],
@@ -22041,12 +22045,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A lone rider on the road, moving at a walk, which is wrong — a Northman on a road at this hour should be moving faster."
+      "en": "Exhausted, urgent, sealed — whatever he carries has cost him and the horse everything, and it isn't finished costing."
     },
     "presence": {
-      "en": "His horse is tired and so is he and he has been riding for two days with minimal sleep. He is carrying something he will not describe, to someone he will not name, and he needs to know if the road ahead is clear."
+      "en": "A lone rider coming the other way — moving at a walk, which is wrong: a Northman with any choice moves faster. The horse is done in, foam-dried on its flanks, and the rider is grey-faced with two days without real sleep. He rein-checks close enough to speak low: 'Friend — the road ahead. Clear? I need it clear.' He is carrying something he will not describe to someone he will not name, and the urgency and the secrecy are both real."
     },
-    "channel": null,
+    "channel": {
+      "en": "Short, low, the questions of a man rationing words — he takes what the road says and goes, at a pace that punishes the horse he already loves."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -22055,7 +22061,7 @@
         "id": "cnt:0bfde741-afc4-46c7-9fdf-1736dcf23764:sit",
         "tags": [],
         "situation": {
-          "en": "The urgency and the secrecy are both real. What he is carrying is important enough to exhaust both horse and rider."
+          "en": "He needs the road ahead clear and cannot say why. What a man kills a horse over is usually worth more than the horse."
         }
       }
     ],
@@ -24675,10 +24681,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A Northman settlement visible from the road — longhouses behind a low palisade, smoke, horses in the paddock."
+      "en": "A working community that keeps its horses well — a community not in crisis, doing its ordinary day."
     },
     "presence": {
-      "en": "A working community going about its ordinary business. The horses are in good condition and the paddock is maintained. A community that keeps its horses well is a community that is not in crisis."
+      "en": "A Northman settlement visible from the road — longhouses behind a low palisade, smoke rising straight in still air, horses fat in a maintained paddock, a dog trotting perimeter like it has a job. Ordinary business going on audibly: a mallet, a child shouting, a churn. Nothing is wrong here, and on this road that is itself worth remarking."
     },
     "channel": null,
     "facts": {
@@ -24689,7 +24695,7 @@
         "id": "cnt:8dfe0b15-f7b5-47ff-819a-3353dd9a9f9b:sit",
         "tags": [],
         "situation": {
-          "en": "Nothing is wrong here. The road through this region is stable."
+          "en": "The paddock is maintained, the smoke is straight, the dog is bored. The road through this region is stable — proof, not rumor."
         }
       }
     ],
@@ -24710,12 +24716,14 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A group of Northmen on the road ahead — four, on foot, moving in the same direction as the traveller but slower."
+      "en": "At ease in their own country — unhurried, unwatchful behind, the mood of men between jobs."
     },
     "presence": {
-      "en": "They are moving between settlements carrying tools and supplies — a work-party, not a patrol. They are talking among themselves and not watching the road behind them."
+      "en": "Four Northmen ahead on the road, going the traveller's direction but slower — a work-party not a patrol: tools on their backs, a hand-cart with supplies, talking among themselves loud enough to be heard at distance. They have not registered the traveller behind them. Whoever catches up to them will learn how this territory treats strangers by how they turn."
     },
-    "channel": null,
+    "channel": {
+      "en": "They talk openly once joined — work-party gossip, the job ahead, the state of the region said casually between them."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -24724,7 +24732,7 @@
         "id": "cnt:44c8e116-6eaf-4fe2-93a6-0e32187387dc:sit",
         "tags": [],
         "situation": {
-          "en": "They have not registered the traveller yet. When they do, their response will indicate how this territory treats strangers."
+          "en": "They have not noticed the traveller yet. How they react to a stranger appearing behind them says how safe this land believes itself."
         }
       }
     ],
@@ -24745,10 +24753,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A Northman encampment off the road — temporary, military in organization, more than a dozen men visible."
+      "en": "An armed gathering the road did not know about — organized, unannounced, and very deliberately not on the road."
     },
     "presence": {
-      "en": "Not a patrol camp — too large, too settled. A gathering point. Men arriving from different directions over the last day or two, judging by the varied state of the horses. Someone called them here."
+      "en": "A Northman encampment visible off the road — too large to be a patrol camp, too settled: a dozen-plus men, horse-lines in varied states of arrival, cook-fires, the organized clutter of men who came from different directions over the last two days. Someone called them here. No banner, no alarm — yet. Whatever gathers armed Northmen quietly off the road has not reached the road's gossip yet."
     },
     "channel": null,
     "facts": {
@@ -24759,7 +24767,7 @@
         "id": "cnt:65ce9399-1a79-403a-b90d-c00579498e1d:sit",
         "tags": [],
         "situation": {
-          "en": "An armed gathering of Northmen that the traveller did not know was here means information has been moving through this region that did not reach the road."
+          "en": "Information has been moving through this region that did not reach travellers. An assembling éored is news before it is anything else."
         }
       }
     ],
@@ -25410,10 +25418,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "Riders visible on the plain ahead — moving parallel to the road, not on it. Too distant to count accurately."
+      "en": "Seen far — men with a purpose keeping pace with the road from off it, distant enough to be nobody's business yet."
     },
     "presence": {
-      "en": "A patrol or a herding-circuit — the pace and spacing suggest purpose rather than leisure. They have not registered the traveller."
+      "en": "Riders on the plain ahead — distant, parallel to the road rather than on it, too far to count accurately. Their pace and spacing are purposeful: patrol or herding-circuit, not leisure. They have not registered the traveller — or have decided not to show it. Riders moving parallel may converge with the road further on."
     },
     "channel": null,
     "facts": {
@@ -25424,7 +25432,7 @@
         "id": "cnt:8109ae88-afbc-46c0-b907-3e41bebc1e26:sit",
         "tags": [],
         "situation": {
-          "en": "Riders moving parallel to the road in this direction may converge with it further on."
+          "en": "If they are a patrol, the traveller will meet them at the next crossing. If they are not, it is worth knowing they are there."
         }
       }
     ],
@@ -25585,10 +25593,10 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Horse-prints and wheel-ruts on the road — a loaded wagon, two riders flanking it, heading south. Made this morning."
+      "en": "Sign only — a trade caravan hours gone, whose escort-configuration says more about the road than the cargo."
     },
     "presence": {
-      "en": "A trade caravan moving with its own escort. The hoofprints of the escort horses are positioned defensively — flanking, not following. Someone is moving goods on this road that are worth protecting."
+      "en": "Horse-prints and wheel-ruts pressed into the road — a loaded wagon moving south this morning with two riders flanking it: the escort prints sit wide of the wheels, defensive spacing, not following behind. Someone is moving goods on this road worth protecting, and paying protection for it."
     },
     "channel": null,
     "facts": {
@@ -25599,7 +25607,7 @@
         "id": "cnt:6805699b-c80f-4a07-adf5-ad2a85cb8dde:sit",
         "tags": [],
         "situation": {
-          "en": "Trade caravans with defensive escorts mean the road is not completely safe. But they are also moving, which means it is not completely unsafe."
+          "en": "Trade moving with defensive escorts means the road is not completely safe. That it is moving anyway means it is not completely unsafe."
         }
       }
     ],
@@ -25725,10 +25733,10 @@
       "felt:watchful"
     ],
     "disposition": {
-      "en": "A Northman farmer at the field-edge who sees the traveller and moves back toward his farmstead without hurry."
+      "en": "A decision made — he withdrew without hurry because caution is cheaper than conversation in uncertain times."
     },
     "presence": {
-      "en": "Not fear — caution. The practiced withdrawal of someone who has learned that travelers on this road are sometimes worth engaging and sometimes worth not engaging, and who has no immediate way to tell which."
+      "en": "A Northman farmer at the field-edge who sees the traveller, straightens from his hoe, and moves back toward his farmstead — not hurriedly, not fearfully: the practiced withdrawal of someone who has learned that travellers on this road are sometimes worth engaging and sometimes not, and who has no immediate way to tell which this is."
     },
     "channel": null,
     "facts": {
@@ -25739,7 +25747,7 @@
         "id": "cnt:6605ceee-a9fb-46ae-a65e-879a991b2a20:sit",
         "tags": [],
         "situation": {
-          "en": "He made a decision. He decided not to interact. The reason is his own."
+          "en": "He decided not to interact, for reasons entirely his own — which is itself a report on what the road has been like lately."
         }
       }
     ],
