@@ -8860,13 +8860,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A pair heading the other direction — loaded for a few days' travel, not more. They nod when they pass."
+      "en": "Road-courtesy, freely given — someone told them the same thing once and it saved time. They are paying the debt forward to the next northbound face."
     },
     "presence": {
-      "en": "They came from the settlement three days south. The road is fine until the river crossing, where one of the bridge stones has shifted and the ford is knee-deep in fast water. They recommend the mill crossing upstream."
+      "en": "A pair coming the other way — a man and a woman, loaded for a few days' travel, walking the easy pace of people nearly home. They nod as they pass, and the man calls the report over his shoulder like a toll paid in kind: 'Bridge stones shifted at the river crossing. Ford's knee-deep and fast. Take the mill crossing, half a mile upstream.' They came from the settlement three days south; the road behind them is fine until the water."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Reports traded on the move — shouted specifics, no ceremony, the useful version only."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -8876,7 +8876,7 @@
         "id": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a:sit",
         "tags": [],
         "situation": {
-          "en": "They are telling the traveller because someone told them the same thing and it saved time. Road courtesy."
+          "en": "They are telling the traveller because someone once told them. The chain of road-courtesy holds only if each link passes it on."
         }
       }
     ],
@@ -8897,13 +8897,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A lone figure on the road, moving the same direction but slower. Lets the traveller catch up."
+      "en": "Sharing and seeking in the same breath — a straight exchange on a road where strangers have reason to help each other and he knows it."
     },
     "presence": {
-      "en": "He is heading for Bree or Tharbad, depending on how the road is. He has heard conflicting things about the northern road — one person said clear, one said watched. He wants a second opinion from someone coming from that direction."
+      "en": "A lone figure on the road moving the same direction but slower — a stout man in a grey coat, a merchant's ledger peeking from his pack — who lets the traveller catch up and falls into step. 'Bree or Tharbad, depending on the road,' he says by way of greeting. 'One man told me the north road's clear. Another said watched. You've just come down it — what's the truth of it?'"
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Brisk, commercial, fair — he offers his southern read first because that is how honest trades open, and takes notes mentally while listening."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -8913,7 +8913,7 @@
         "id": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69:sit",
         "tags": [],
         "situation": {
-          "en": "He is sharing information and looking for information. A straight exchange on a road where strangers have reason to help each other."
+          "en": "He needs a second opinion from someone coming the other way, and the traveller is the first credible source in three days."
         }
       }
     ],
@@ -8971,13 +8971,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A proper merchant's outfit — two wagons, three hired hands, a specific destination. She waves from the wagon seat."
+      "en": "Precise, practical, no wasted words — she has no patience for anything that does not help her get her cloth to market, and the patience she has is for the road's news."
     },
     "presence": {
-      "en": "She is carrying cloth north from Gondor and expects to be back before the autumn rains close the high passes. She knows the roads between here and Tharbad better than anyone on them. She will trade road conditions for road conditions."
+      "en": "Two wagons and three hired hands coming south — a proper merchant's outfit, canvas stencilled, mules groomed — and on the lead wagon's seat a sun-brown woman with the straight back of someone who has made this run for twenty years. 'Cloth north from Gondor,' she calls down by way of introduction. 'Back before the autumn rains close the high passes — if the roads cooperate. What's behind you, friend?'"
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Trades condition for condition like a professional — she gives specifics (the ford, the toll, the washout) and expects specifics back, and can tell a vague report from a real one."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -8987,7 +8987,7 @@
         "id": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1:sit",
         "tags": [],
         "situation": {
-          "en": "Precise, practical, no wasted words. She has been doing this for twenty years and has no patience for anything that does not help her get her cloth to market."
+          "en": "She knows the roads between here and Tharbad better than anyone on them. What she does not know is the last three days behind the traveller."
         }
       }
     ],
@@ -9193,13 +9193,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Grave courtesy on the road. He makes room and nods in the specific way of someone raised to be courteous to strangers on principle."
+      "en": "Courteous and withholding in equal measure — the letter matters to him, and he is not going to say what it contains or who it is for."
     },
     "presence": {
-      "en": "He is carrying a sealed letter north — not Ranger business, personal. He asks whether the traveller has come from the north and whether the roads are open. He asks with the care of someone who cannot afford to have the letter delayed."
+      "en": "A man on the road with grave courtesy — grey, careful, the bearing of someone raised to be courteous to strangers on principle. He makes room and nods, then asks — with the particular care of someone who cannot afford a delay — whether the traveller has come from the north and whether the roads are open. Inside his coat, in wax that has clearly been checked too many times, is a sealed letter. Not Ranger business. Personal, and it shows in how he carries it."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "Asks frankly but carefully — each question weighed for what it reveals about his errand. The care itself is the most visible thing about him."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -9209,7 +9209,7 @@
         "id": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a:sit",
         "tags": [],
         "situation": {
-          "en": "The letter matters to him. He is not going to say what it contains or who it is for. The care is visible."
+          "en": "He needs the northern roads open and cannot afford the letter delayed. The traveller's answer either relieves him or costs him days."
         }
       }
     ],
@@ -9230,13 +9230,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He has been on the road for three weeks and it shows — not in weakness, in a kind of settled, patient weariness."
+      "en": "Not looking for advice — he is saying it out loud to a stranger because strangers on roads are the right audience for things you need to say out loud."
     },
     "presence": {
-      "en": "He is going to see someone he has not seen in a long time, on account of business he has been putting off for years. He says this with the rueful honesty of someone who has had three weeks of walking to think about it."
+      "en": "A man on the road with three weeks of walking in him — settled, patient weariness, not weakness — who falls into pace beside the traveller without asking, the way tired men do. 'I'm going to see someone,' he says, out of nowhere, with the rueful honesty of a man who has had three weeks to think about it. 'Haven't seen her in a long time. Business I been putting off for years.'"
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "Talks in the slow, even way of a man who has worn his thoughts smooth — offers the confession without apology and takes silence for answer without offence."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -9246,7 +9246,7 @@
         "id": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd:sit",
         "tags": [],
         "situation": {
-          "en": "He is not looking for advice. He is saying it out loud to a stranger because strangers on roads are the right audience for things you need to say out loud."
+          "en": "Whatever the business is, three weeks of road has not simplified it. Saying it to a stranger who will be gone by nightfall is the closest he has come to a plan."
         }
       }
     ],
@@ -9304,13 +9304,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Two of them on the road, well-dressed by southern standards, moving north for trade. They are politely formal — experienced with the suspicion their appearance generates in the north."
+      "en": "Politely formal and quietly observant — the suspicion they have learned to manage has made them better watchers than they look."
     },
     "presence": {
-      "en": "They are merchants out of Linhir heading for Bree. They have made this run four times and know the roads well. They will trade information freely because information is the currency of safe travel far from home."
+      "en": "Two men on the road heading north — well-dressed by southern standards: dyed cloaks, silver pins at the throat, packs packed by professionals, the smell of dye-stuff and oiled leather coming off them in the sun. Merchants out of Linhir on their fourth run to Bree. They greet with the polite formality of men who have learned that their clothes generate suspicion this far north and that courtesy is cheaper than bodyguards."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Trade information freely and ask for it the same way — information is the currency of safe travel far from home, and they spend it like merchants: generously, and counting."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -9320,7 +9320,7 @@
         "id": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148:sit",
         "tags": [],
         "situation": {
-          "en": "They are more useful than they appear. The suspicion they have learned to manage has made them observant."
+          "en": "They are more useful than they appear. Four runs north has taught them what the road looks like right before it goes wrong."
         }
       }
     ],
@@ -9341,13 +9341,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A lone southerner at a junction, studying both options. He has been standing there long enough that he has an opinion about the traveller's direction."
+      "en": "Genuinely trying to get home safely — the junction is his decision point and the traveller is the best information-source this road has offered all day."
     },
     "presence": {
-      "en": "He came up the Gondorian coast and has been hearing the same rumour for two weeks — something about the northern road that nobody will say precisely. He wants to know if the traveller has heard the same rumour and what exactly it says."
+      "en": "A lone southerner at the junction — dark cloak gone salt-stiff at the hem, standing so long over the signpost that his feet have worn a small bare patch in the grass. 'You. Coming from the north?' He has been hearing the same rumour for two weeks, up the whole Gondorian coast — something about the northern road that nobody will say precisely. He wants to know what exactly it says."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Will trade everything he knows about the southern road for the northern rumour — and hears it out in full before he speaks, like a man pricing what he cannot return."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -9357,7 +9357,7 @@
         "id": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944:sit",
         "tags": [],
         "situation": {
-          "en": "He will share everything he knows about the southern road in exchange. He is genuinely trying to get home safely and this is the best information-exchange available."
+          "en": "He came up the coast hearing the same shapeless rumour for two weeks. What the traveller says next decides which fork he takes."
         }
       }
     ],
@@ -10299,13 +10299,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A man splitting wood at a farmstead off the road. He stops when the traveller passes and calls out a greeting."
+      "en": "Genuine — he likes the company and the news from outside, and the price is fair because the company is half the payment."
     },
     "presence": {
-      "en": "He has a spare room if the traveller needs to stop — a real bed, a meal, a fire. The price is fair. He has been hosting road-travelers for twenty years and is good at it."
+      "en": "A man splitting wood at a farmstead just off the road — rolled sleeves, forearms like the oak he is working, a dog watching the swing from the shade. He stops mid-stroke when the traveller passes and calls out a greeting, then the offer, plain as price: 'Spare room, if you need to stop. Real bed, a meal, a fire. Fair price.' Twenty years of hosting road-travellers has made the offer a reflex — and made him good at it."
     },
     "channel": {
-      "en": "Have them talk plainly as working folk do: crops, beasts, the turning season, hard times or good."
+      "en": "Talks plainly as working folk do — crops, beasts, the turning season, hard times or good — with the easy pacing of a man whose work lets him talk while he does it."
     },
     "facts": {
       "topic": "harvest_and_weather"
@@ -10315,7 +10315,7 @@
         "id": "cnt:550493da-b300-40de-adce-dcffca05f7d1:sit",
         "tags": [],
         "situation": {
-          "en": "The offer is genuine. He likes the company and the news from outside."
+          "en": "The offer is real. What it costs is a fair coin; what it buys back in road-news is the part he does not mention."
         }
       }
     ],
@@ -10410,13 +10410,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A small group of traders, well-armed, clearly far from home. They are courteous in the specific way of people who have learned courtesy keeps them alive in foreign lands."
+      "en": "Asking in good faith — they know they are viewed with suspicion here and have chosen competence over charm as their approach."
     },
     "presence": {
-      "en": "They are heading north to trade — spices, dyes, things the north does not produce. They have made this run before and know the roads. They want to know if the northern markets are still open; the last news they had was three months old."
+      "en": "A small group of traders at the roadside — four men, well-armed, foreign-looking, pack-mules heavy with bales that smell of spice and hot dye — waiting courteously for the traveller to pass. Except they do not wait: the leader hails him, formal and careful. 'The northern markets — still open? Our last word is three months old.' They are heading north to trade what the north does not produce."
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Courteous and direct in the way of people who learned courtesy keeps them alive in foreign lands — they ask plainly, pay in their own road-news, and do not push."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -10426,7 +10426,7 @@
         "id": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef:sit",
         "tags": [],
         "situation": {
-          "en": "They are asking in good faith. They know they are viewed with suspicion here and have chosen competence over charm as their approach."
+          "en": "The question is genuine. Whether the answer sends them north or turns them around is the point of asking it."
         }
       }
     ],
@@ -10447,13 +10447,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A soldier, not a trader — wrong equipment, wrong posture, too far north for his allegiance to be comfortable."
+      "en": "A man who has crossed a line — geographically or politically — and decided his best option is the official one, which is its own kind of courage."
     },
     "presence": {
-      "en": "He speaks careful Westron and wants to know if there is a Gondorian garrison post within a day's travel. He asks this like a man who needs to turn himself in before someone else finds him."
+      "en": "A man at the roadside whose soldier's posture contradicts his road-worn clothes — dark-haired, southern-built, too far north for his allegiance to be comfortable, hands staying carefully where a traveller's hands would not need to stay. 'Is there a Gondorian garrison post within a day's travel?' Careful Westron, every word measured — asked like a man who needs to turn himself in before someone else finds him."
     },
     "channel": {
-      "en": "Have them ask frankly but carefully who the traveller is, and where they are going, and why."
+      "en": "Speaks in measured, memorized phrases — the Westron of a man who practised the question before he asked it. What he does not explain, he will not explain."
     },
     "facts": {
       "topic": "where_are_you_bound"
@@ -10463,7 +10463,7 @@
         "id": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8:sit",
         "tags": [],
         "situation": {
-          "en": "He has crossed a line — either geographically or politically — and has decided his best option is the official one."
+          "en": "He is not deserting to the north; he is surrendering to it. The garrison post is the end of a decision he has already made — the road question is just logistics."
         }
       }
     ],
@@ -10963,13 +10963,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A lone man sitting at the roadside, not moving."
+      "en": "Spent — not wounded, not sick, just emptied by whatever made a whole settlement leave at once and by two days of not stopping."
     },
     "presence": {
-      "en": "He is resting, or he has stopped being able to go on, and the two look the same from the road. When addressed he says he came from a settlement two days east where something happened that he will describe only as: everyone started leaving at once."
+      "en": "A lone man sitting at the roadside — back against a milestone, pack still strapped, dust unbrushed, eyes on the middle distance. Resting, or stopped being able to go on; from the road the two look the same. He smells of woodsmoke that is not his own fire's. When addressed he answers in a flat voice without looking up: 'Settlement two days east. Everyone started leaving at once.'"
     },
     "channel": {
-      "en": "Have them trade news of the road — war, bandits, strange sights — hungry for word from elsewhere."
+      "en": "Answers questions flatly and offers nothing — the story is too big for him to carry in sentences, so he carries the smallest piece."
     },
     "facts": {
       "topic": "news_and_rumor"
@@ -10979,7 +10979,7 @@
         "id": "cnt:eeef5665-9266-4805-9990-36529c48c2e1:sit",
         "tags": [],
         "situation": {
-          "en": "He does not know what caused the leaving. He left because everyone was leaving."
+          "en": "He does not know what caused the leaving. He left because everyone was leaving — and what a whole settlement fled is now two days east and coming this way."
         }
       }
     ],
@@ -22963,12 +22963,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One of them, separated from a larger group, on the road with the easy manner of someone who has decided that appearing dangerous is more useful than being dangerous right now."
+      "en": "Testing — the offer is bait, or it is commerce, or it is both, and the smile is watching which the traveller takes it for."
     },
     "presence": {
-      "en": "He asks if the traveller needs a boat. He says it like an ordinary commercial offer. He has a boat, the boat is going south, and he has room."
+      "en": "A man leaning against a milestone apart from the larger group down the road — a sailor's rolling stance even standing still, sun-dark, smiling the smile of a man who has decided that appearing dangerous is more useful than being dangerous today. 'Need a boat? Going south. Got room.' An ordinary commercial offer, delivered in the tone of someone who knows exactly how un-ordinary it sounds on an inland road."
     },
-    "channel": null,
+    "channel": {
+      "en": "Casual and open in the way of people who want to be asked questions — every easy answer is an invitation to a longer conversation."
+    },
     "facts": {
       "topic": "aid_or_trade"
     },
@@ -22977,7 +22979,7 @@
         "id": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000:sit",
         "tags": [],
         "situation": {
-          "en": "A Corsair offering a boat to a stranger on a road is offering something, but it may not be transportation."
+          "en": "A Corsair offering a boat to a stranger on a road is offering something — but it may not be transportation."
         }
       }
     ],
@@ -22998,12 +23000,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Two of them at a wayhouse who make room at the fire without being asked and without warmth — the courtesy of people who follow rules about hospitality even when they do not feel them."
+      "en": "Hospitable by rule and watchful by habit — the information was given for a reason they are not stating, and the unstated reason is the real message."
     },
     "presence": {
-      "en": "One of them says, unprompted, that the eastern road is closed three days out. He says it as information, not as a warning. The distinction is deliberate."
+      "en": "Two men at the wayhouse fire — Variags, sharp-faced, dark-dressed, smelling of horse and cold iron — who make room without being asked and without warmth: the courtesy of people who follow the rules of hospitality even when they do not feel them. 'Eastern road is closed three days out,' one of them says, unprompted, looking into the fire. Said as information, not as a warning — and the distinction is deliberate."
     },
-    "channel": null,
+    "channel": {
+      "en": "Speak little and flatly — each fact delivered like a card laid down face-up. What they do not say sits plainly on the table beside what they do."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -23012,7 +23016,7 @@
         "id": "cnt:05125450-86f5-4ed3-8114-bda723ad874f:sit",
         "tags": [],
         "situation": {
-          "en": "Variags do not share information without reason. The reason here is not stated."
+          "en": "Variags do not share information without reason. The reason here is not stated — but a closed road they bothered to mention is a road worth being curious about."
         }
       }
     ],
@@ -23068,12 +23072,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A small Sagath party who intercept the traveller at a ford — not aggressively, using the ford as a natural chokepoint for a conversation."
+      "en": "Confident to the point of openness — they are collecting information about Gondorian movements and are either very sure of themselves or very visible for a reason."
     },
     "presence": {
-      "en": "Their leader asks where the traveller is going and whether they have seen Gondorian military movements on the road. The question is intelligence-gathering and they are not being subtle about it."
+      "en": "A small Sagath party watering their horses at the ford — five riders, long-haired, leather and bronze glinting, spread across the crossing without quite blocking it. Their leader calls across the water, cheerful and completely unsubtle: 'Where are you bound, stranger? And have you seen soldiers — Gondorian soldiers — on the road?' Intelligence-gathering done in the open, the ford used as a natural chokepoint."
     },
-    "channel": null,
+    "channel": {
+      "en": "Cheerful, blunt, transactional — the questions come like small coins tossed across the ford, and the answers get weighed the same way."
+    },
     "facts": {
       "topic": "news_and_rumor"
     },
@@ -23082,7 +23088,7 @@
         "id": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899:sit",
         "tags": [],
         "situation": {
-          "en": "They are collecting information about Gondorian movements. They are doing it in the open, which means they are either very confident or very visible for a reason."
+          "en": "They are doing in daylight what scouts usually do in scrub — which means the information they want is not secret, or they want to be seen wanting it."
         }
       }
     ],
@@ -23103,12 +23109,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One of them on the road inland, out of context — sailors have a way of carrying the sea with them that makes them visible on land roads."
+      "en": "Genuinely lost — but a sailor this far inland is not here for the scenery, and the helplessness may or may not be the whole story."
     },
     "presence": {
-      "en": "He is looking for a specific inn and is comprehensively lost. The combination of competence at sea and helplessness on land is genuine and oddly disarming."
+      "en": "A man on the road inland who carries the sea with him — rolling walk, salt-cracked boots, clothes still holding the smell of tar and brine, squinting at the countryside like a chart he has never read. 'Looking for an inn,' he says when the traveller draws level, and names one three valleys off course. 'Was told to keep the river on my left. The river went somewhere.' The competence at sea and helplessness on land is genuine — and oddly disarming."
     },
-    "channel": null,
+    "channel": {
+      "en": "Talks like a sailor — direct, profane-adjacent, chronically unimpressed by land — and takes directions the way he takes orders: grudgingly and gratefully."
+    },
     "facts": {
       "topic": "where_are_you_bound"
     },
@@ -23117,7 +23125,7 @@
         "id": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6:sit",
         "tags": [],
         "situation": {
-          "en": "A pirate lost on a road is still a pirate. The helplessness may or may not be the whole story."
+          "en": "A pirate lost on a road is still a pirate. Whether the lost part or the pirate part is real is the open question."
         }
       }
     ],
@@ -23210,13 +23218,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A warning chosen, not owed — he selected this traveller for the sign, and from a Wose that selection is itself a form of respect."
+      "en": "The older one chose to warn this traveller — he selected him, watched him read the sign correctly, and that selection from a Wose is nearly everything. The younger one watches only the traveller's hands."
     },
     "presence": {
-      "en": "Two of them appear from the undergrowth at the forest edge — Woses, short, dark, gnarled as the roots they stepped over — and without any attempt at subtlety: they are simply there. One holds up three fingers. Points down the road. Then makes a slow closing gesture with his hand, fingers folding into the palm like something taking hold. Three of something, on the road ahead, waiting. Then they wait — watching what he does with it."
+      "en": "Two Woses step out of the ferns at the forest's edge — the older one broad and grey-bearded, face lined like bark, smelling of leaf-mould and woodsmoke; the younger one slimmer, a boar-spear held loose in one fist, staying half a step behind. No sound announced them — the traveller simply looks up and they are there, close enough to touch. The older one holds up three fingers. Points down the road. Then closes his hand slowly, fingers folding into the palm like something taking hold. Three men, armed, waiting ahead. Behind them the forest is loud with birds they did not disturb."
     },
     "channel": {
-      "en": "Gesture only — arithmetic and shape. Three. Ahead. Closing. The vocabulary is small and exact and worth more than most sentences."
+      "en": "Gesture only — the older one does the signing while the younger stands guard: three fingers, a point, a slow closing fist. Exact, unhurried, and worth more than most sentences."
     },
     "facts": {
       "topic": "suspicion_of_strangers"
@@ -23226,7 +23234,7 @@
         "id": "cnt:200573f0-0102-48cc-aa66-06536f86dc3c:sit",
         "tags": [],
         "situation": {
-          "en": "He chose to warn the traveller. That is not nothing from a Wose — it is, in fact, nearly everything."
+          "en": "Three armed men wait on the road ahead and the Woses bothered to say so. What the traveller does with the warning tells the Woses what kind of person he is."
         }
       }
     ],

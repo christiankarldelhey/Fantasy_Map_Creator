@@ -51805,13 +51805,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Take the mill crossing and pass it on",
+      "es": "Tomar el cruce del molino y pasarlo"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Thanks them. Notes the mill crossing."
+          "en": "He thanks them — calls it back over the widening gap, the way road-debts are paid — and takes the mill crossing upstream when he reaches the river two hours later: knee-deep in cold water, stones underfoot that shift and hold, the drowned bridge visible downstream. The report was worth the detour it cost. He passes it on to the next southbound face, the chain unbroken.",
+          "es": "Les agradece — se lo grita de vuelta a través de la distancia que crece, como se pagan las deudas de la ruta — y toma el cruce del molino río arriba cuando llega al río dos horas después: agua helada a la rodilla, piedras bajo los pies que se mueven y aguantan, el puente ahogado visible río abajo. El informe valió el rodeo que costó. Se lo pasa a la próxima cara que va al sur, la cadena intacta."
         },
         "effects": []
       }
@@ -51829,13 +51833,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Trade the honest read both ways",
+      "es": "Trocar la lectura honesta en ambos sentidos"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives him the honest read of the northern road. Gets his read of the south in return."
+          "en": "He gives the honest read — which stretches were empty, which were empty in a way that felt inhabited, the ford and the watcher on it. The stout man weighs it against 'clear' and 'watched' and lands on a decision: 'Tharbad, then. I wanted Bree, but I want to get there more.' In exchange he gives the south — the causeway toll, the wayhouse that closed, the stretch where the geese are the only law. A fair trade, both of them heavier.",
+          "es": "Da la lectura honesta — qué tramos estaban vacíos, cuáles estaban vacíos de una manera que se sentía habitada, el vado y el que lo vigila. El hombre fornido lo pesa contra 'despejada' y 'vigilada' y llega a una decisión: 'Tharbad, entonces. Quería Bree, pero quiero llegar más.' A cambio le da el sur — el peaje de la calzada, la posada que cerró, el tramo donde los gansos son la única ley. Un trato justo, los dos más cargados."
         },
         "effects": []
       }
@@ -51881,13 +51889,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Trade conditions and take the wool remnant",
+      "es": "Trocar condiciones y llevarse el retazo de lana"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Trades road conditions. Gets a detailed picture of the next three days."
+          "en": "He trades condition for condition — his north for her south, the ford against the causeway, the watched stretch against the washout she saw three days back. She takes it like a professional: repeats the ford detail back to fix it, files it under tomorrow. 'You just saved me four hours,' she says, and throws down something small wrapped in cloth: a wool remnant, good cloth, worth a night by a fire. The wagons roll on; the trade is done.",
+          "es": "Troca condición por condición — su norte por el sur de ella, el vado contra la calzada, el tramo vigilado contra el derrumbe que ella vio hace tres días. Lo toma como una profesional: repite el detalle del vado para fijarlo, lo archiva bajo mañana. 'Me acabás de ahorrar cuatro horas', dice, y le tira algo chico envuelto en tela: un retazo de lana, buena tela, que vale una noche junto a un fuego. Los carros ruedan; el trato está hecho."
         },
         "effects": []
       }
@@ -52037,13 +52049,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give the road and keep the discretion",
+      "es": "Dar la ruta y guardar la discreción"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells him the road condition. Does not ask about the letter."
+          "en": "He tells him the road condition — the honest version, the watched stretches and the quiet ones — and does not ask about the letter. The grey man listens with the stillness of someone measuring how many days the letter can wait, then nods once, deeply. 'You have my thanks, and better than that, my discretion — which I suspect you value more.' They part, and the letter continues north inside a coat that holds it like a heartbeat.",
+          "es": "Le dice el estado de la ruta — la versión honesta, los tramos vigilados y los quietos — y no pregunta por la carta. El hombre gris escucha con la quietud de alguien que mide cuántos días puede esperar la carta, después asiente una vez, profundo. 'Tenés mi agradecimiento, y mejor que eso, mi discreción — que sospecho valorás más.' Se despiden, y la carta continúa al norte dentro de un abrigo que la sostiene como un latido."
         },
         "effects": []
       }
@@ -52061,13 +52077,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Listen the two miles and part unnamed",
+      "es": "Escuchar las dos millas y partir sin nombre"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Listens without offering an opinion. That is what is wanted."
+          "en": "He listens — that is what is wanted — and offers nothing back, because advice to a man three weeks into his confession is just noise. The man talks the business out in pieces: a debt owed, a promise bent, a woman who has probably forgotten or worse, remembered. They walk two miles together in the easy silence that follows a thing said aloud, and part without names — the stranger's work done.",
+          "es": "Escucha — eso es lo que se quiere — y no ofrece nada a cambio, porque el consejo a un hombre con tres semanas de confesión es solo ruido. El hombre habla el asunto en pedazos: una deuda debida, una promesa torcida, una mujer que probablemente olvidó o peor, recordó. Caminan dos millas juntos en el silencio fácil que sigue a una cosa dicha en voz alta, y se despiden sin nombres — el trabajo del extraño hecho."
         },
         "effects": []
       }
@@ -52113,13 +52133,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Trade the north for their southern run",
+      "es": "Trocar el norte por su corrida del sur"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Trades road news. Gets a detailed account of the southern road."
+          "en": "He trades road news — the northern stretches for their southern run — and finds them better than they look: the dye-cloaked merchants have marked every toll, every washout, every unfriendly stretch between Linhir and here, and they recite it back with a merchant's precision. In exchange for his north they give him the south complete. 'We trade because information travels lighter than cloth,' one says. 'And unlike cloth, nobody steals it.'",
+          "es": "Troca noticias de la ruta — los tramos del norte por su corrida del sur — y los encuentra mejores de lo que parecen: los mercaderes de capas teñidas marcaron cada peaje, cada derrumbe, cada tramo hostil entre Linhir y acá, y lo recitan con la precisión del oficio. A cambio de su norte le dan el sur completo. 'Comerciamos porque la información viaja más liviana que la tela', dice uno. 'Y a diferencia de la tela, nadie la roba.'"
         },
         "effects": []
       }
@@ -52137,13 +52161,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give the rumour, take the coast",
+      "es": "Dar el rumor, tomar la costa"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives him the northern rumour as he heard it. Gets the southern picture in return."
+          "en": "He gives the northern rumour as he heard it — the shape of it, the sources, what it does not say — and the southerner listens all the way through without moving, then sighs through his nose. 'Watched, then. Or worse.' He takes the western fork — away from home, around the rumour — and gives the southern picture in payment: the coast road, the garrison rotations, the stretch where a man can still walk without being asked his name. Both of them leave the junction better informed than it found them.",
+          "es": "Da el rumor del norte como lo oyó — la forma, las fuentes, lo que no dice — y el sureño escucha completo sin moverse, después suspira por la nariz. 'Vigilada, entonces. O peor.' Toma el desvío del oeste — lejos de casa, alrededor del rumor — y le da el panorama del sur en pago: la ruta de la costa, las rotaciones de la guarnición, el tramo donde un hombre todavía puede caminar sin que le pregunten el nombre. Los dos dejan el cruce mejor informados de lo que lo encontraron."
         },
         "effects": []
       }
@@ -52957,13 +52985,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:550493da-b300-40de-adce-dcffca05f7d1",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Take the bed and pay in road-news",
+      "es": "Tomar la cama y pagar en noticias"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Considers the offer. Accepts or continues."
+          "en": "He considers the offer — the light is going, the farmstead looks honest, and twenty years of hospitality has a sound to it — and accepts. The bed is real, the meal is stew with actual meat in it, and the fire is what fires should be. He pays the fair price and, in the way of the house, pays the second toll too: the road's news over the fire, north and south, while the dog takes his boots' place at his feet. In the morning there is bread wrapped for the road.",
+          "es": "Considera la oferta — la luz se va, la granja se ve honesta, y veinte años de hospitalidad tienen un sonido — y acepta. La cama es real, la comida es guiso con carne de verdad, y el fuego es lo que los fuegos deberían ser. Paga el precio justo y, a la manera de la casa, paga el segundo peaje también: las noticias de la ruta junto al fuego, norte y sur, mientras el perro ocupa el lugar de las botas a sus pies. A la mañana hay pan envuelto para el camino."
         },
         "effects": []
       }
@@ -53029,13 +53061,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Sell them the northern markets honestly",
+      "es": "Venderles los mercados del norte honestamente"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives them the honest state of the northern markets."
+          "en": "He gives them the honest state of the northern markets — which towns still trade openly, which are too scared to gather, which buy through back doors at worse prices. The leader listens without interrupting, asks two precise follow-ups about the market at the crossroads town, and then decides: 'We go north.' He buys the answer with their own road — three weeks of the southern routes, every toll and garrison, given free. A fair price for a decision that cost them nothing to share.",
+          "es": "Les da el estado honesto de los mercados del norte — qué pueblos siguen comerciando abierto, cuáles están muy asustados para juntarse, cuáles compran por puerta trasera a peores precios. El líder escucha sin interrumpir, hace dos preguntas precisas sobre el mercado del pueblo del cruce, y después decide: 'Vamos al norte.' Paga la respuesta con su propia ruta — tres semanas de caminos sureños, cada peaje y guarnición, dado gratis. Un precio justo por una decisión que no les costó nada compartir."
         },
         "effects": []
       }
@@ -53053,13 +53089,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Point him to the garrison and give him the truth",
+      "es": "Señalarle la guarnición y darle la verdad"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Tells him where the nearest garrison is. Does not ask what he did."
+          "en": "He tells him where the nearest garrison is — the fort town two days southeast, the checkpoint before it, the way to present himself so the surrender reads correctly. The soldier-southerner repeats it back carefully, committing each landmark, then hesitates at the last: 'They will want to know why I left. What do I tell them?' He answers honestly: 'The truth. It is the only story they cannot take apart.' The man nods slowly and walks on toward his own surrender, a little taller.",
+          "es": "Le dice dónde está la guarnición más cercana — el pueblo-fuerte dos días al sudeste, el puesto antes de él, la forma de presentarse para que la rendición se lea correctamente. El soldado-sureño lo repite con cuidado, memorizando cada hito, después vacila al último: 'Van a querer saber por qué me fui. ¿Qué les digo?' Responde honesto: 'La verdad. Es la única historia que no pueden desarmar.' El hombre asiente despacio y sigue hacia su propia rendición, un poco más erguido."
         },
         "effects": []
       }
@@ -53429,13 +53469,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:eeef5665-9266-4805-9990-36529c48c2e1",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Ask which road he came from",
+      "es": "Preguntar de qué ruta vino"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Asks which road he came from. Notes it."
+          "en": "He asks which road the man came from — and gets it: the eastern road, the same one everyone has been avoiding all week. The exhausted man adds, still flat: 'They left at once. Carts, everything. Didn't say why. Didn't need to — you could feel it.' He is describing panic that made a settlement empty itself in a day, and whatever caused it is now between here and there with a two-day head start in the traveller's direction.",
+          "es": "Pregunta de qué ruta vino el hombre — y la recibe: la ruta del este, la misma que todos vienen evitando toda la semana. El hombre exhausto agrega, todavía chato: 'Se fueron todos de golpe. Carros, todo. No dijeron por qué. No hacía falta — se sentía.' Está describiendo el pánico que vació un asentamiento en un día, y lo que sea que lo causó está ahora entre acá y allá con dos días de ventaja en la dirección del viajero."
         },
         "effects": []
       }
@@ -64046,13 +64090,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Decline the boat and read the men",
+      "es": "Declinar el bote y leer a los hombres"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Declines politely. Watches which way he goes to report back."
+          "en": "He declines politely — 'No boats for me, friend. The road and I have an arrangement' — and watches which way the man goes to report back. The smile widens a fraction, like a card player acknowledging a fold: 'Fair enough. The road keeps everyone honest eventually.' He saunters back to his group with the rolling gait the sea gives men, and the traveller marks the direction, the numbers, and the boat offer that was never really about a boat.",
+          "es": "Declina cortésmente — 'Sin botes para mí, amigo. La ruta y yo tenemos un acuerdo' — y mira para qué lado va el hombre a reportar. La sonrisa se agranda una fracción, como un jugador de cartas reconociendo un abandono: 'Justo. La ruta pone a todos honestos eventualmente.' Se aleja hacia su grupo con el vaivén que el mar les da a los hombres, y el viajero marca la dirección, los números, y la oferta de bote que nunca fue sobre un bote."
         },
         "effects": []
       }
@@ -64070,13 +64118,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:05125450-86f5-4ed3-8114-bda723ad874f",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Take the information and the motive together",
+      "es": "Tomar la información y el motivo juntos"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Thanks him. Asks what is on the eastern road."
+          "en": "He thanks him — a nod, the way information is acknowledged among men who trade in it — and asks what is on the eastern road. The Variag who spoke looks at him over the firelight, decides something, and answers flat: 'Men. Waiting for something that isn't you, probably. Probably.' He lets the probably hang and goes back to his cup. He walks on knowing the road is closed by men who wait, and that the Variags wanted him to know, and that wanting him to know is the piece worth watching.",
+          "es": "Le agradece — un gesto, como se reconoce información entre hombres que comercian en ella — y pregunta qué hay en la ruta del este. El Variag que habló lo mira sobre la luz del fuego, decide algo, y responde chato: 'Hombres. Esperando algo que no sos vos, probablemente. Probablemente.' Deja el probablemente colgando y vuelve a su copa. Sigue camino sabiendo que la ruta está cerrada por hombres que esperan, y que los Variags querían que lo supiera, y que querer que lo sepa es la pieza que vale vigilar."
         },
         "effects": []
       }
@@ -64118,13 +64170,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Answer honestly without counting soldiers",
+      "es": "Responder honesto sin contar soldados"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Names the destination. Describes the road honestly without counting soldiers."
+          "en": "He names the destination — the town two days on, real and checkable — and describes the road honestly without counting soldiers: 'Empty where I came from. A patrol at the ford, not yours and not looking for me.' The Sagath leader grins at the evasion — they both know what was not said — and waves him across. 'Careful man. Good. The road eats the other kind.' The horses make way; the ford carries him through, and the questions stay on the bank.",
+          "es": "Nombra el destino — el pueblo a dos días, real y verificable — y describe la ruta honestamente sin contar soldados: 'Vacía de donde vengo. Una patrulla en el vado, no de ustedes y no buscándome.' El líder Sagath sonríe a la evasión — los dos saben lo que no se dijo — y le hace paso. 'Hombre cuidadoso. Bien. La ruta se come al otro tipo.' Los caballos abren paso; el vado lo cruza, y las preguntas se quedan en la orilla."
         },
         "effects": []
       }
@@ -64142,13 +64198,17 @@
     "places_narration_id": null,
     "entities_narration_id": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6",
     "act": "talk",
-    "label": null,
+    "label": {
+      "en": "Give real directions and note the wrong turn",
+      "es": "Dar indicaciones reales y notar el mal giro"
+    },
     "need_tags": [],
     "skill": null,
     "outcomes": {
       "success": {
         "text": {
-          "en": "Gives him directions. Notes which direction he was actually heading before asking."
+          "en": "He gives him directions — the real ones, re-anchored to the inn's actual valley: 'Left at the split oak, follow the stream not the river, two days.' The sailor commits them like chart-corrections, then asks the question that betrays the errand: 'This inn — it gets many sailors?' He answers that it gets everyone, which is true, and watches the man walk off in completely the wrong direction anyway. He does not correct him twice; sailors who take wrong turns on purpose get to keep them.",
+          "es": "Le da las indicaciones — las de verdad, re-ancladas al valle real de la posada: 'A la izquierda en el roble partido, seguí el arroyo no el río, dos días.' El marinero las memoriza como correcciones de carta, después hace la pregunta que delata el mandado: '¿Esta posada — recibe muchos marineros?' Responde que recibe a todos, lo que es cierto, y mira al hombre alejarse en la dirección completamente equivocada igual. No lo corrige dos veces; los marineros que toman malos giros a propósito se los quedan."
         },
         "effects": []
       }
@@ -72713,6 +72773,846 @@
     "payload": {
       "origin": "seed:interactions",
       "situation": "cnt:200573f0-0102-48cc-aa66-06536f86dc3c:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the settlement three days south is like",
+      "es": "Preguntar cómo está el asentamiento tres días al sur"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks about the settlement — and gets the practical version: 'Well's good. There's a widow sells bread at the north end. Dogs are friendly but the geese aren't.' The woman adds, quieter, that the headman there was asking after travellers from the north — the same standing request. He files the bread, the well, and the headman, in that order.",
+          "es": "Pregunta por el asentamiento — y recibe la versión práctica: 'El pozo es bueno. Hay una viuda que vende pan en el extremo norte. Los perros son amigables pero los gansos no.' La mujer agrega, más bajo, que el jefe de ahí andaba preguntando por viajeros del norte — el mismo pedido permanente. Él archiva el pan, el pozo y el jefe, en ese orden."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a",
+    "act": "avoid",
+    "label": {
+      "en": "Nod the thanks and keep the bridge route anyway",
+      "es": "Asentir las gracias y mantener la ruta del puente"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He thanks them but keeps his own line — the ford is faster if the report is stale, and reports are sometimes stale. At the river he finds the bridge stones indeed shifted, the ford indeed fast — but shallow enough on the right line, which he reads off the current and crosses dry-chested. The warning was good. The detour would have cost him a mile. He logs both facts.",
+          "es": "Les agradece pero mantiene su línea — el vado es más rápido si el informe está viejo, y los informes a veces están viejos. En el río encuentra las piedras del puente en efecto corridas, el vado en efecto rápido — pero lo bastante bajo por la línea derecha, que lee de la corriente y cruza seco hasta el pecho. La advertencia era buena. El rodeo le habría costado una milla. Anota ambos datos."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:a22da3bf-f989-4bc9-90c8-7b4e92963d2a:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69",
+    "act": "talk",
+    "label": {
+      "en": "Ask him what he is carrying to market",
+      "es": "Preguntarle qué lleva al mercado"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what the ledger-man carries — 'Contracts, mostly. Grain futures, a wool order, someone's debt I'm to collect in Tharbad.' A paper merchant, then — the road's most honest sort of traveller, since his goods weigh nothing and prove everything. They part with the south fully drawn in his head: who owes whom, and what the road between here and there is actually worth.",
+          "es": "Le pregunta qué lleva el del libro — 'Contratos, mayormente. Futuros de grano, una orden de lana, una deuda de alguien que tengo que cobrar en Tharbad.' Un comerciante de papel, entonces — el tipo más honesto de viajero de la ruta, ya que su mercadería no pesa nada y lo prueba todo. Se despiden con el sur completamente dibujado en su cabeza: quién le debe a quién, y cuánto vale de verdad la ruta de aquí a allá."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69",
+    "act": "avoid",
+    "label": {
+      "en": "Give him the word 'watched' and leave it at that",
+      "es": "Darle la palabra 'vigilada' y dejarlo ahí"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives him the word that matters — 'watched' — and nothing else: no itinerary, no direction, no self. The stout man accepts the economy of it — 'watched is enough, then. Tharbad.' — and they part without names, two cautious men who just did each other a service neither could invoice. Some road-trades are best conducted between strangers who stay strangers.",
+          "es": "Le da la palabra que importa — 'vigilada' — y nada más: sin itinerario, sin dirección, sin identidad. El hombre fornido acepta la economía — 'vigilada alcanza, entonces. Tharbad.' — y se separan sin nombres, dos hombres cautelosos que se hicieron un favor que ninguno podría facturar. Algunos tratos de ruta se hacen mejor entre extraños que siguen extraños."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:30b6f60b-46a0-4b9d-8eea-feb29e4fec69:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the autumn rains close first",
+      "es": "Preguntarle qué cierran primero las lluvias de otoño"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — the sort of question a twenty-year road-veteran answers best — what the rains close first. 'The high passes, always. Then the causeway fords — they go slow. Then the roads stop being roads at all.' She gives him a calendar of the closing north, week by week, the way only a woman who has raced the rain for twenty years can draw it. He keeps the remnant and the calendar both.",
+          "es": "Pregunta — el tipo de pregunta que una veterana de veinte años en la ruta responde mejor — qué cierran primero las lluvias. 'Los pasos altos, siempre. Después los vados de la calzada — van lento. Después las rutas dejan de ser rutas.' Le da un calendario del cierre del norte, semana a semana, como solo puede dibujarlo una mujer que le corrió a la lluvia veinte años. Se queda el retazo y el calendario."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1",
+    "act": "avoid",
+    "label": {
+      "en": "Wave the trade and let the wagons roll",
+      "es": "Declinar el trato y dejar rodar los carros"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He waves off the exchange — a nod, a hand, no stopping — and the wagon-train rolls past in a creak of harness and a smell of dyed wool. He does not need her south and she does not stop for strangers who do not stop for her: the professional's courtesy, mutual and complete. The road's traffic is its own kind of company.",
+          "es": "Declina el intercambio — un gesto, una mano, sin parar — y el tren de carros pasa rodando en un crujido de arneses y un olor a lana teñida. Él no necesita su sur y ella no se detiene por extraños que no se detienen por ella: la cortesía del profesional, mutua y completa. El tránsito de la ruta es su propia clase de compañía."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:b48a66d5-cdd0-49f0-8d56-fd2bc2adf8d1:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a",
+    "act": "talk",
+    "label": {
+      "en": "Ask if the letter can wait a day",
+      "es": "Preguntarle si la carta puede esperar un día"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because the road ahead has a stretch that needs two days' caution — whether the letter can wait a day. The grey man's face does the math openly: 'It has waited eleven years,' he says, 'it can wait a day.' And then, because the care has been noticed honestly: 'It is a proposal of marriage, if you must know. I am carrying it slowly because slow is the only way I have left to carry it.' He takes the safer route gladly.",
+          "es": "Pregunta — porque la ruta adelante tiene un tramo que necesita dos días de cautela — si la carta puede esperar un día. La cara del hombre gris hace la cuenta abiertamente: 'Esperó once años', dice, 'puede esperar un día.' Y después, porque el cuidado fue notado honestamente: 'Es una propuesta de matrimonio, si querés saber. La llevo despacio porque despacio es la única forma que me queda de llevarla.' Toma la ruta más segura con gusto."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a",
+    "act": "avoid",
+    "label": {
+      "en": "Say the roads are passable and say no more",
+      "es": "Decir que las rutas son transitables y nada más"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives the minimum the courtesy requires — 'Passable, with care' — and nothing else. The grey man takes it with the same grace: 'Then they shall be passed with care.' No names exchanged, no errand revealed, two cautious strangers parting in the precise symmetry of men who both understand what a letter in a coat is worth.",
+          "es": "Da el mínimo que la cortesía requiere — 'Transitables, con cuidado' — y nada más. El hombre gris lo toma con la misma gracia: 'Entonces serán transitadas con cuidado.' Sin nombres intercambiados, sin mandado revelado, dos extraños cautelosos despidiéndose en la simetría precisa de hombres que ambos entienden lo que vale una carta en un abrigo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0f7027fb-37cf-4768-af4e-19e3d581d30a:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd",
+    "act": "talk",
+    "label": {
+      "en": "Ask what he's going to say when he gets there",
+      "es": "Preguntarle qué va a decir cuando llegue"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — the only question the confession invited — what the man is going to say when he gets there. The man thinks about it for a hundred yards. 'Probably I'm going to say I'm sorry. Then I'm going to find out whether sorry still works after fifteen years.' A beat. 'I rehearsed better answers all the way here. They're all worse than that one.' They part, and the man walks on a little straighter for having been asked.",
+          "es": "Pregunta — la única pregunta que la confesión invitaba — qué va a decir el hombre cuando llegue. El hombre lo piensa durante cien yardas. 'Probablemente voy a decir que lo siento. Después voy a averiguar si lo siento todavía funciona después de quince años.' Un compás. 'Ensayé mejores respuestas todo el camino hasta acá. Son todas peores que esa.' Se despiden, y el hombre camina un poco más erguido por haber sido preguntado."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd",
+    "act": "avoid",
+    "label": {
+      "en": "Keep his pace and let the man find another listener",
+      "es": "Mantener el paso y dejar que encuentre otro oyente"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He keeps his own pace — a nod, no slackening — and the man, reading it correctly, drifts back to his solitary walking without offence taken. Confessions need the right stranger and this one was not him. Behind him the man keeps talking anyway, quietly, to nobody — three weeks of unsaid things have their own momentum, and the road is patient.",
+          "es": "Mantiene su propio paso — un gesto, sin aflojar — y el hombre, leyéndolo correctamente, vuelve a su caminata solitaria sin ofensa tomada. Las confesiones necesitan al extraño correcto y este no era él. A su espalda el hombre sigue hablando igual, bajito, a nadie — tres semanas de cosas no dichas tienen su propio impulso, y la ruta es paciente."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:c33e7256-ab71-46c2-bb73-abfc3e9322bd:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148",
+    "act": "talk",
+    "label": {
+      "en": "Ask what four runs north taught them",
+      "es": "Preguntarles qué les enseñaron cuatro corridas al norte"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what four runs taught them — and the quieter one answers: 'That the north doesn't distrust southerners. It distrusts anyone whose clothes say money.' The clothes are deliberate, it turns out — they look rich enough to be worth robbing, which means they have learned every ambush-point on the road the hard way. 'We are,' he says with dry pride, 'the best-informed bait on the northern road.'",
+          "es": "Pregunta qué les enseñaron cuatro corridas — y el más callado responde: 'Que el norte no desconfía de los sureños. Desconfía de cualquiera cuya ropa diga dinero.' La ropa es deliberada, resulta — parecen lo bastante ricos para valer un robo, lo que significa que aprendieron cada punto de emboscada de la ruta por las malas. 'Somos', dice con orgullo seco, 'el cebo mejor informado de la ruta norte.'"
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148",
+    "act": "avoid",
+    "label": {
+      "en": "Pass with a trader's nod and no trade",
+      "es": "Pasar con un gesto de comerciante y sin trato"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives them the nod — the brief acknowledgment one careful traveller gives another — and keeps his information where it is. They accept it without offence, southern formality intact: a trade declined is just a trade not yet made. The road carries them apart, each side a little more suspicious and a little more correct to be.",
+          "es": "Les da el gesto — el breve reconocimiento que un viajero cauteloso le da a otro — y mantiene su información donde está. Lo aceptan sin ofensa, la formalidad sureña intacta: un trato declinado es solo un trato no hecho todavía. La ruta los separa, cada lado un poco más sospechoso y un poco más en lo correcto por serlo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:5e3eac8e-a282-41ef-afe6-7b5ed3688148:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the rumour says in the south",
+      "es": "Preguntarle qué dice el rumor en el sur"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — before giving his own — what the rumour says down south, and the man's version is worse in the details: 'That the north road is watched by men who answer to no garrison. That travellers who went up it came back different, or did not come back.' The southern version and his own northern facts overlap like two halves of one shape. 'So it's true,' the southerner says flatly, and takes the western fork without another word.",
+          "es": "Pregunta — antes de dar el suyo — qué dice el rumor allá abajo, y la versión del hombre es peor en los detalles: 'Que la ruta norte está vigilada por hombres que no responden a ninguna guarnición. Que los viajeros que subieron volvieron cambiados, o no volvieron.' La versión sureña y sus propios hechos del norte se superponen como dos mitades de una misma forma. 'Entonces es verdad', dice el sureño seco, y toma el desvío del oeste sin otra palabra."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944",
+    "act": "avoid",
+    "label": {
+      "en": "Wish him well and leave him to the junction",
+      "es": "Desearle suerte y dejarlo en el cruce"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He has no southern news to trade, so he pays in the only coin the moment offers — honesty about having none — and wishes the man the safer fork. The southerner nods, goes back to staring at the signpost, still undecided, the bare patch of grass growing under his feet. Some junctions take a man all day; this one took two weeks of coastline to reach and will take the rest of the afternoon to leave.",
+          "es": "No tiene noticias del sur para trocar, así que paga en la única moneda que el momento ofrece — honestidad sobre no tener — y le desea al hombre el desvío más seguro. El sureño asiente, vuelve a mirar el poste, todavía indeciso, el parche pelado de pasto creciendo bajo sus pies. Algunos cruces le llevan a un hombre el día entero; este le llevó dos semanas de costa llegar y le va a llevar el resto de la tarde irse."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:1e67e79a-f67d-4fbd-a4c7-97c75c86d944:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:550493da-b300-40de-adce-dcffca05f7d1:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:550493da-b300-40de-adce-dcffca05f7d1",
+    "act": "talk",
+    "label": {
+      "en": "Decline the bed but trade news at the fence",
+      "es": "Declinar la cama pero trocar noticias en la cerca"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not take the bed — he has ground to cover — but he stops at the fence and trades the news standing up: his north for the man's gossip of the district, which turns out to be excellent. 'Woman at the mill will feed you if you say I sent you,' the wood-splitter says, and goes back to his swing having made two people's roads better. The dog watches him go as far as the gate.",
+          "es": "No toma la cama — tiene terreno que cubrir — pero se para en la cerca y troca las noticias de pie: su norte por el chismorreo del distrito del hombre, que resulta ser excelente. 'La mujer del molino te da de comer si decís que te mandé yo', dice el leñador, y vuelve a su hacha habiendo mejorado el camino de dos personas. El perro lo mira irse hasta el portón."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:550493da-b300-40de-adce-dcffca05f7d1:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:550493da-b300-40de-adce-dcffca05f7d1:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:550493da-b300-40de-adce-dcffca05f7d1",
+    "act": "avoid",
+    "label": {
+      "en": "Wave the thanks and keep the road",
+      "es": "Agradecer de lejos y seguir la ruta"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He waves the thanks — 'Another night, friend' — and keeps the road. The man calls after him that the offer stands, which is the thing about a twenty-year innkeeper: it always stands. He walks on into the dark carrying the knowledge of a bed refused, which is its own small kind of wealth on a cold road.",
+          "es": "Agradece de lejos — 'Otra noche, amigo' — y sigue la ruta. El hombre le grita que la oferta queda en pie, que es lo que tienen los posaderos de veinte años: siempre queda en pie. Sigue caminando hacia la oscuridad cargando el conocimiento de una cama rechazada, que es su propia pequeña riqueza en una ruta fría."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:550493da-b300-40de-adce-dcffca05f7d1:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef",
+    "act": "talk",
+    "label": {
+      "en": "Ask what the north lacks that they carry",
+      "es": "Preguntarles qué le falta al norte que ellos cargan"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks what they carry that the north lacks — and the answer comes with a trader's pride: 'Pepper. Dye-madder. Indigo — real indigo, not the lichen they fake up here. Needle-pins from the far south.' He smells the pepper on the mules before he sees the bales. The north's hunger for southern goods is its own market report, and he files the smell of it with the rest.",
+          "es": "Pregunta qué cargan que al norte le falta — y la respuesta viene con orgullo de comerciante: 'Pimienta. Rubia. Índigo — índigo de verdad, no el liquen que falsifican acá arriba. Alfileres del sur profundo.' Huele la pimienta en los mulos antes de ver los fardos. El hambre del norte por bienes sureños es su propio informe de mercado, y archiva el olor con el resto."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef",
+    "act": "avoid",
+    "label": {
+      "en": "Say the markets are thin and keep walking",
+      "es": "Decir que los mercados están flojos y seguir"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives them the cheap answer — 'Thin. The north is scared to gather.' — true enough and free, and keeps walking before the negotiation can widen. Behind him the four traders stand a moment doing the arithmetic of 'thin,' and he hears the mules start up again, headed north anyway. Hope and inventory argue louder than a stranger's caution.",
+          "es": "Les da la respuesta barata — 'Flojos. El norte tiene miedo de juntarse.' — suficientemente cierta y gratis, y sigue caminando antes de que la negociación se agrande. A su espalda los cuatro comerciantes se quedan un momento haciendo la aritmética de 'flojo', y oye a los mulos arrancar de nuevo, hacia el norte de todas formas. La esperanza y el inventario discuten más fuerte que la cautela de un extraño."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:53160f4d-4202-4ec5-845d-b1aacd176eef:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8",
+    "act": "talk",
+    "label": {
+      "en": "Ask what he is deserting from",
+      "es": "Preguntarle de qué está desertando"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — not prying, but a man surrendering needs to have said it once — what he is deserting from. The southerner looks at him a long moment, then: 'Orders I would not carry out. A road I would not walk them down.' No more than that, and it is enough: he has said it to a stranger, which makes it real. He thanks him with a soldier's nod and goes to turn himself in, one conscience lighter.",
+          "es": "Pregunta — no por fisgonear, sino porque un hombre que se rinde necesita haberlo dicho una vez — de qué está desertando. El sureño lo mira un largo momento, después: 'Órdenes que no iba a cumplir. Una ruta por la que no las iba a llevar.' Nada más, y alcanza: se lo dijo a un extraño, lo que lo hace real. Le agradece con un gesto de soldado y va a entregarse, una conciencia más liviana."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8",
+    "act": "avoid",
+    "label": {
+      "en": "Give the distance and none of the counsel",
+      "es": "Dar la distancia y ninguno de los consejos"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He gives the bare answer — 'Two days southeast, the fort town' — and withholds the counsel, because a deserter's business is his own and advice is a debt. The soldier repeats the direction under his breath like a prayer, thanks him with a hand to the chest, and walks on alone into whatever the garrison will make of him.",
+          "es": "Da la respuesta desnuda — 'Dos días al sudeste, el pueblo-fuerte' — y retiene el consejo, porque el asunto de un desertor es suyo y el consejo es una deuda. El soldado repite la dirección en voz baja como una oración, le agradece con una mano al pecho, y sigue solo hacia lo que sea que la guarnición haga de él."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:9e4c107e-051c-4e07-9125-178e38e2b8d8:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:eeef5665-9266-4805-9990-36529c48c2e1:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:eeef5665-9266-4805-9990-36529c48c2e1",
+    "act": "talk",
+    "label": {
+      "en": "Ask what 'everyone leaving' looked like",
+      "es": "Preguntarle cómo se veía 'todos yéndose'"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — gently, because the man is spent — what everyone leaving looked like. The man finally looks up, and his eyes are doing the remembering for him: 'Like when the wasps come out of the thatch. Nobody running, just — everybody going. Doors open. Pots on fires left burning.' He has been walking two days with that picture. He shares it like it is a load he can split, and it is not, quite.",
+          "es": "Pregunta — suave, porque el hombre está vacío — cómo se veía que todos se fueran. El hombre finalmente levanta la vista, y sus ojos están haciendo el recordar por él: 'Como cuando salen las avispas del techo. Nadie corriendo, solo — todos yéndose. Puertas abiertas. Ollas en el fuego dejadas ardiendo.' Lleva dos días caminando con esa imagen. La comparte como si fuera una carga que se puede repartir, y no lo es, del todo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:eeef5665-9266-4805-9990-36529c48c2e1:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:eeef5665-9266-4805-9990-36529c48c2e1:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:eeef5665-9266-4805-9990-36529c48c2e1",
+    "act": "avoid",
+    "label": {
+      "en": "Leave him food and the road's silence",
+      "es": "Dejarle comida y el silencio de la ruta"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not press — sets a strip of dried meat and the water-skin beside the milestone, says 'East road's the wrong direction, friend. Whatever emptied your town is ahead of you, not behind,' and walks on. The man does not thank him — he is too far past thanks — but the meat is gone when he looks back from the bend, which is the only word either of them needed.",
+          "es": "No insiste — deja un tajo de carne seca y el cantar junto al mojón, dice 'La ruta del este es la dirección equivocada, amigo. Lo que sea que vació tu pueblo está adelante tuyo, no atrás', y sigue caminando. El hombre no le agradece — está demasiado lejos del agradecimiento — pero la carne ya no está cuando mira atrás desde la curva, que es la única palabra que cualquiera de los dos necesitaba."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:eeef5665-9266-4805-9990-36529c48c2e1:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000",
+    "act": "talk",
+    "label": {
+      "en": "Ask what cargo the boat carries",
+      "es": "Preguntarle qué carga lleva el bote"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — innocently, like a man considering passage — what cargo the boat carries. 'Passengers, mostly. Like yourself. Curious what the south looks like.' The answer is smooth and wrong in a way he cannot name precisely: a boat offering passage to curious strangers on an inland road is either recruiting, collecting, or scouting — and he declines with the suspicion logged, not the offer.",
+          "es": "Pregunta — inocentemente, como un hombre considerando pasaje — qué carga lleva el bote. 'Pasajeros, mayormente. Como vos. Curiosos de ver cómo se ve el sur.' La respuesta es suave y errada de una manera que no puede nombrar con precisión: un bote ofreciendo pasaje a extraños curiosos en una ruta de tierra adentro o está reclutando, o está colectando, o está explorando — y declina con la sospecha archivada, no con la oferta."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000",
+    "act": "avoid",
+    "label": {
+      "en": "Walk on without answering the offer",
+      "es": "Seguir sin responder la oferta"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not answer at all — walks past the milestone like the man is a mile-marker, which gets a low laugh and a called-out 'Wise man' as he goes. He does not turn. A boat offered on an inland road by a sailor with sea still in his walk is bait with a smell, and the smart move is the one the gulls take: circle high, note where the boat is anchored, do not land.",
+          "es": "No responde en absoluto — pasa junto al mojón como si el hombre fuera un marcador de milla, lo que recibe una risa baja y un 'Hombre sabio' gritado mientras pasa. No se da vuelta. Un bote ofrecido en una ruta de tierra adentro por un marinero con mar todavía en la caminata es carnada con olor, y la jugada inteligente es la de las gaviotas: dar vueltas alto, anotar dónde está anclado el bote, no aterrizar."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:0964152f-5fac-4f17-9706-3197fcf1f000:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:05125450-86f5-4ed3-8114-bda723ad874f:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:05125450-86f5-4ed3-8114-bda723ad874f",
+    "act": "talk",
+    "label": {
+      "en": "Ask why they told him",
+      "es": "Preguntarles por qué se lo dijeron"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — plainly, since they gave plainly — why they told him. The older Variag holds the question a moment, then: 'Because a man who knows the road is closed takes the north road. And we would rather the north road carry cautious men than desperate ones.' It is almost honest. They have an interest in which road the traffic takes, and telling him was cheaper than redirecting him. He files the interest with the information, and the firelight keeps its other secrets.",
+          "es": "Pregunta — claramente, ya que ellos dieron claramente — por qué se lo dijeron. El Variag mayor sostiene la pregunta un momento, después: 'Porque un hombre que sabe que la ruta está cerrada toma la ruta del norte. Y preferimos que la ruta del norte lleve hombres cautelosos y no desesperados.' Es casi honesto. Tienen un interés en qué ruta toma el tránsito, y decírselo era más barato que redirigirlo. Archiva el interés con la información, y la luz del fuego guarda sus otros secretos."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:05125450-86f5-4ed3-8114-bda723ad874f:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:05125450-86f5-4ed3-8114-bda723ad874f:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:05125450-86f5-4ed3-8114-bda723ad874f",
+    "act": "avoid",
+    "label": {
+      "en": "Take the closed road anyway, off the road",
+      "es": "Tomar la ruta cerrada igual, fuera de la ruta"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He takes the warning for the map it is — not 'do not go east' but 'the east road itself is held' — and goes east anyway, off the road, through the country beside it. Three days later he sees what the Variags traded him: a line of men holding the crossing, watching the road they expected the traffic to take. He watches them from the treeline, unseen, and understands the gift correctly: they told him so he would walk beside the road, not on it — and report, if asked, what the watching was for.",
+          "es": "Toma la advertencia por el mapa que es — no 'no vayas al este' sino 'la ruta del este en sí está tomada' — y va al este igual, fuera de la ruta, por el campo al costado. Tres días después ve lo que los Variags le trocaron: una línea de hombres sosteniendo el cruce, vigilando la ruta por donde esperaban que fuera el tránsito. Los mira desde el bosque, sin ser visto, y entiende el regalo correctamente: le dijeron para que caminara al costado de la ruta, no sobre ella — y reportara, si le preguntaban, para qué era la vigilia."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:05125450-86f5-4ed3-8114-bda723ad874f:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899",
+    "act": "talk",
+    "label": {
+      "en": "Ask what they want with Gondorian movements",
+      "es": "Preguntarles qué quieren con los movimientos gondorianos"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — mid-ford, water to his knees, which makes the question harder to refuse politely — what they want with Gondorian movements. The leader laughs outright. 'To know where not to be, friend. We sell horses, not wars.' Maybe true; horse-traders track armies the way farmers track rain. He finishes the crossing with the answer and the doubt both, and the Sagath go back to their watering like men with nothing to hide and a great deal to show.",
+          "es": "Pregunta — a mitad del vado, agua a las rodillas, lo que hace la pregunta más difícil de rechazar cortésmente — qué quieren con los movimientos gondorianos. El líder se ríe de verdad. 'Para saber dónde no estar, amigo. Vendemos caballos, no guerras.' Quizá cierto; los caballistas rastrean ejércitos como los granjeros rastrean la lluvia. Termina el cruce con la respuesta y la duda a la vez, y los Sagath vuelven a su abrevadero como hombres sin nada que ocultar y mucho que mostrar."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899",
+    "act": "avoid",
+    "label": {
+      "en": "Cross without answering more than the ford requires",
+      "es": "Cruzar sin responder más de lo que el vado exige"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He answers the ford and nothing else — 'Across' — steps into the water, and lets the current carry the rest of the conversation away unanswered. The Sagath watch him cross in the easy silence of men who measure a person by how he handles a ford: dry boots versus wet feet, and he chose wet feet. 'Honest man,' the leader calls after him, which from horse-traders is a compliment filed under 'will not buy his horse but will remember his face.'",
+          "es": "Responde el vado y nada más — 'Al otro lado' — entra al agua, y deja que la corriente se lleve el resto de la conversación sin responder. Los Sagath lo miran cruzar en el silencio fácil de hombres que miden a una persona por cómo maneja un vado: botas secas contra pies mojados, y él eligió pies mojados. 'Hombre honesto', le grita el líder, que viniendo de caballistas es un cumplido archivado en 'no le comprará su caballo pero recordará su cara'."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:18cc1eff-fb8f-4834-87d4-c7a4f32b0899:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6:sit:o2",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6",
+    "act": "talk",
+    "label": {
+      "en": "Ask what a sailor wants at an inland inn",
+      "es": "Preguntarle qué quiere un marinero en una posada de tierra adentro"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He asks — because the question is hanging there anyway — what a sailor wants at an inland inn. The man grins, caught: 'Meeting someone. Who likes inns.' It is not a lie so much as a cargo manifest with items left off. He points him to the inn anyway — meetings are not his business — and watches the sailor walk off toward the wrong valley, whistling. Whatever he is carrying to that meeting, he is carrying it the long way around.",
+          "es": "Pregunta — porque la pregunta está colgada ahí igual — qué quiere un marinero en una posada de tierra adentro. El hombre sonríe, descubierto: 'Reunirme con alguien. A quien le gustan las posadas.' No es una mentira tanto como un manifiesto de carga con ítems omitidos. Lo señala a la posada igual — las reuniones no son asunto suyo — y mira al marinero alejarse hacia el valle equivocado, silbando. Lo que sea que lleva a esa reunión, lo lleva por el camino largo."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6:sit",
+      "mapped_from_form": "brief_exchange",
+      "felt": "settled"
+    }
+  },
+  {
+    "id": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6:sit:o3",
+    "intensity": 2,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6",
+    "act": "avoid",
+    "label": {
+      "en": "Point at the sky and let him navigate",
+      "es": "Señalar el cielo y dejarlo navegar"
+    },
+    "need_tags": [],
+    "skill": null,
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "He does not give directions — he gives the sky. 'Sun's there. Inn's east of here. You sail, you'll manage.' The sailor squints at the sun like it's a star chart, gets it instantly — a man at home again — and marches off east with the renewed confidence of someone who has just remembered which way is up. The sailor will find his inn, or find his way back to his ship; either way the sky was free.",
+          "es": "No da indicaciones — le da el cielo. 'El sol está allá. La posada está al este de acá. Navegás, vas a poder.' El marinero entrecierra los ojos al sol como si fuera una carta estelar, lo capta al instante — un hombre en casa otra vez — y marcha al este con la confianza renovada de alguien que acaba de recordar cuál lado es arriba. El marinero encontrará su posada, o encontrará el camino de vuelta a su barco; de cualquier forma el cielo era gratis."
+        },
+        "effects": []
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:509e2745-6f88-4477-94ee-32f4f078e9d6:sit",
       "mapped_from_form": "brief_exchange",
       "felt": "settled"
     }
