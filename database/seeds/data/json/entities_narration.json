@@ -3117,13 +3117,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "The company stops when they see her. Not in surprise — in recognition. Someone makes a sound that is not quite a word."
+      "en": "Recognition before words — they know her from a song older than the road she is standing on, and the knowing lands like a weight she did not pack."
     },
     "presence": {
-      "en": "One of them knows her name, not from meeting her but from a song about something she did in the First Age that she does not think of as notable. Hearing it described back to her is disorienting."
+      "en": "A company of Elves coming down the road stops when they see her — not in surprise: in recognition. One of them makes a sound that is not quite a word. The eldest steps forward, grey-cloaked, a face that has clearly been waiting somewhere for this exact meeting, and says her name — not from meeting her, but from a song about something she did in the First Age that she does not think of as notable. Hearing it described back is disorienting. 'You are going somewhere,' he says. 'We would know where.' Kin-concern, not challenge."
     },
     "channel": {
-      "en": "Have them bring up an age-old loss — a drowned realm, a kinsman long dead — as though it were last night."
+      "en": "They speak the old tongue's cadence even in Westron — measured, unhurried, grief kept in the grammar."
     },
     "facts": {
       "topic": "old_grief"
@@ -3133,7 +3133,7 @@
         "id": "cnt:2d782a24-f163-40e6-9c99-3ff65ce190eb:sit",
         "tags": [],
         "situation": {
-          "en": "They want to know where she is going. They mean it as kin-concern, not challenge."
+          "en": "They want to know where she is going because kin on the road to endings is kin to be counted. The question is kindness, and it is also a tally."
         }
       }
     ],
@@ -3156,13 +3156,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "The eldest of the group speaks, the others are quiet. Careful with her."
+      "en": "He is not being cruel. He thought she should know — the oldest cruelty in the world is kindness that arrives correctly and still wounds."
     },
     "presence": {
-      "en": "He mentions someone who sailed — someone she knew. He says the name gently, watching her face, offering it as if asking whether she already knew. She did not."
+      "en": "The eldest of the company speaks while the others keep quiet — a tall Elf in sea-grey, careful with her the way people are careful with things that have already broken once. He mentions someone who sailed — someone she knew. He says the name gently, watching her face, offering it as if asking whether she already knew. She did not."
     },
     "channel": {
-      "en": "Have them bring up an age-old loss — a drowned realm, a kinsman long dead — as though it were last night."
+      "en": "Soft-voiced, direct, one sentence at a time — he has delivered this kind of news before and learned not to soften the name."
     },
     "facts": {
       "topic": "old_grief"
@@ -3172,7 +3172,7 @@
         "id": "cnt:fcffc69e-5295-4807-abf5-1367988567b0:sit",
         "tags": [],
         "situation": {
-          "en": "He is not being cruel. He thought she should know. She is not yet certain she is grateful."
+          "en": "She is not yet certain she is grateful. The gift of knowing is also the bill."
         }
       }
     ],
@@ -3195,13 +3195,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One breaks away from the group and comes to her directly. The others continue without stopping."
+      "en": "He is not asking her to reconsider — he is witnessing her choice. The acknowledgment is both comfort and weight."
     },
     "presence": {
-      "en": "He says quietly that this company is the last to use this road for some time. He does not explain why. He looks at her the way you look at someone choosing to stand in a place others are choosing to leave."
+      "en": "One of the company breaks away and comes to her directly — an Elf in weather-softened travel-grey, fine-boned, with a calm worn to the grain — while the others continue without stopping. 'This company is the last to use this road for some time,' he says quietly. He does not explain why. He looks at her the way you look at someone choosing to stand in a place others are choosing to leave."
     },
     "channel": {
-      "en": "Have them speak of the slow fading of the Elves and the lands they must leave, with a sorrow worn smooth by long years."
+      "en": "Quiet, plain, no persuasion — he says the fact and lets it stand in the air between them like a milestone."
     },
     "facts": {
       "topic": "the_fading"
@@ -3211,7 +3211,7 @@
         "id": "cnt:1c312097-a795-495a-9676-98a234ec0ab8:sit",
         "tags": [],
         "situation": {
-          "en": "He is not asking her to reconsider. He is witnessing her choice. The acknowledgment is both comfort and weight."
+          "en": "The last company on a road means the road is ending too. What she does with that is hers; his errand was only to say it."
         }
       }
     ],
@@ -5012,13 +5012,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Three of them at a camp, debating. They stop when she approaches. One stands."
+      "en": "Professionals comparing wounds — courteous, urgent underneath, and already fitting what she says into a pattern they have been building for weeks."
     },
     "presence": {
-      "en": "They are documenting disruptions in the Second Age road-wards on this stretch — places where the wards have been broken deliberately, from below. They are finding the disruptions moving north. They want to know if she has seen anything that maps to the same pattern."
+      "en": "Three Elves at a road-side camp, mid-debate — map unrolled and weighted with a knife — who stop when she approaches. One stands, dark-cloaked, watch-commander's posture: 'You have come the road. Tell us what you saw.' They are documenting disruptions in the Second Age road-wards on this stretch — places where the old wards have been broken deliberately, from below — and the disruptions are moving north."
     },
     "channel": {
-      "en": "Have them ask quietly about the growing shadow, and rumour of orcs, wolves and fouler things abroad."
+      "en": "Debate-quick, precise, the talk of people naming things correctly because naming is half the defence."
     },
     "facts": {
       "topic": "what_stirs_in_the_dark"
@@ -5028,7 +5028,7 @@
         "id": "cnt:e13e24b1-6208-4f3d-8b9c-c7d009e6f53d:sit",
         "tags": [],
         "situation": {
-          "en": "Their pattern and the things she has noticed point to the same source."
+          "en": "Their pattern and the things she has noticed point to the same source — and neither of them likes what the source implies."
         }
       }
     ],
@@ -5051,13 +5051,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One separates from the group and comes to her directly. His expression is not warm."
+      "en": "The unfriendly precision of someone who has decided that kindness would be a disservice — he may be right, which is what makes it land."
     },
     "presence": {
-      "en": "He says without preamble that he knows why she is still in Middle-earth and that he does not think it is entirely her choice. He thinks something is holding her here. He asks if she knows what it is."
+      "en": "One of the company separates and comes to her directly — and his expression is not warm: a hard, fine-featured face, eyes that have audited grief before and found it wanting. 'I know why you are still in Middle-earth,' he says without preamble. 'I do not think it is entirely your choice. I think something is holding you here.' He asks, flat as accounting, if she knows what it is."
     },
     "channel": {
-      "en": "Have them speak of the slow fading of the Elves and the lands they must leave, with a sorrow worn smooth by long years."
+      "en": "Blunt, unsmiling, surgical — he asks the question other people spend years circling."
     },
     "facts": {
       "topic": "the_fading"
@@ -5067,7 +5067,7 @@
         "id": "cnt:085efb03-40b0-4d56-b02b-3f9f6b886f2e:sit",
         "tags": [],
         "situation": {
-          "en": "He may be right. She has never examined the possibility that staying is not fully chosen."
+          "en": "She has never examined the possibility that staying is not fully chosen. The audit has begun whether she sits for it or not."
         }
       }
     ],
@@ -5205,13 +5205,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "He was waiting on the road. He knew she would be here today. He does not explain how."
+      "en": "The patience of a delivery that crossed years — he waited on this road knowing, and the knowing is the part he will not discuss."
     },
     "presence": {
-      "en": "He has a sealed letter from someone at the Havens — someone she has not heard from in years. He will not say the message aloud. He hands her the letter and the seal is one she recognizes."
+      "en": "An Elf waiting on the road — standing where the bend shows the whole approach, travel-grey, patient in the particular way of someone who knew she would be here today and does not explain how. He has a sealed letter from someone at the Havens — someone she has not heard from in years. He will not say the message aloud. He hands her the letter, and the seal is one she recognizes."
     },
     "channel": {
-      "en": "Have them bring up an age-old loss — a drowned realm, a kinsman long dead — as though it were last night."
+      "en": "Few words, all necessary — the letter is the errand entire; he is only the road it took."
     },
     "facts": {
       "topic": "old_grief"
@@ -5221,7 +5221,7 @@
         "id": "cnt:7619b755-3ade-43d4-aa96-95884dba3da7:sit",
         "tags": [],
         "situation": {
-          "en": "She has not received a letter from the Havens in a very long time."
+          "en": "She has not received a letter from the Havens in a very long time. The seal is familiar in the way of old wounds."
         }
       }
     ],
@@ -10042,12 +10042,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Steps out of a tree shadow onto the path. The traveller had no warning."
+      "en": "A professional at the end of her own leads — unusual enough for a forest ranger that the asking itself is the report."
     },
     "presence": {
-      "en": "Something has been crossing into the forest from the road at night for a week. Not orcs — wrong print, wrong smell. She has been watching the crossing-point and has not caught it. She wants to know if the traveller saw anything unusual on the road at night."
+      "en": "A Sindar ranger steps out of a tree-shadow onto the path — leaf-green gone grey at the seams, a bow held low — and the traveller had no warning. 'Something has been crossing into the forest from the road at night, for a week,' she says, voice even as the drawn bowstring she isn't pulling. 'Not orcs — wrong print, wrong smell. I have watched the crossing-point and not caught it.' She wants to know what the traveller has seen on the night-road."
     },
-    "channel": null,
+    "channel": {
+      "en": "Direct, quiet, the economy of a hunter — every question has been asked before, in her head, to the tracks that wouldn't answer."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -10056,7 +10058,7 @@
         "id": "cnt:a2c005ce-870d-4d1b-8d5c-1b654bf002c7:sit",
         "tags": [],
         "situation": {
-          "en": "She is asking because she has run out of her own leads. This is unusual for a forest ranger."
+          "en": "She is asking because she has run out of leads. Whatever crosses at night is smarter than her watch-line, and a stranger's eyes are the last untried sensor."
         }
       }
     ],
@@ -10077,12 +10079,14 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "She has been tracking something and the track ends at the road — which means whatever it is used the road to conceal its prints."
+      "en": "Hunting something that knows how to be hunted — the frustration is professional, the urgency is not."
     },
     "presence": {
-      "en": "She asks directly whether the traveller has seen any other traveller on this road in the last day who seemed wrong — not threatening, just wrong. The way someone seems wrong when they are performing being ordinary."
+      "en": "An Elf steps into the road ahead — Sindar, travel-stained, a tracker's crouch still in her knees — and asks directly: 'Have you seen any other traveller on this road in the last day who seemed wrong? Not threatening. Just wrong — the way someone seems wrong when they are performing being ordinary.' Her own track ends at the road, which means whatever she hunts used the road to conceal its prints."
     },
-    "channel": null,
+    "channel": {
+      "en": "Direct questions, no ceremony — she has been a day behind and the road swallowed the trail, which makes her brisk."
+    },
     "facts": {
       "topic": "suspicion_of_strangers"
     },
@@ -10091,7 +10095,7 @@
         "id": "cnt:651fff04-f169-4d58-8188-9e7b0ebf0c89:sit",
         "tags": [],
         "situation": {
-          "en": "Half-orcs. She is looking for a half-orc who used the road as cover."
+          "en": "She is looking for a half-orc who used the road as cover. The traveller's eyes are her only fresh data."
         }
       }
     ],
@@ -10149,13 +10153,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "One of them addresses the traveller directly while the others continue. He has been waiting for the right person to pass."
+      "en": "A collector of testimony — calm, methodical, the patience of someone who has spent decades learning that fear skips steps."
     },
     "presence": {
-      "en": "He has found something disturbing on this road — a disruption in the old markers, the kind that were laid in the Second Age. He does not have enough context to understand what caused it. He wants to know if the traveller has noticed anything unusual on this stretch."
+      "en": "One of a company addresses the traveller directly while the others continue — an Elf in faded campaign-grey, weathered the way old bronze weathers, who has plainly been waiting for the right person to pass. 'There is a disruption in the old markers on this road — the kind laid in the Second Age. I do not yet understand what caused it.' Not afraid — thorough. 'Tell me what you have seen that was unusual.'"
     },
     "channel": {
-      "en": "Have them ask quietly about the growing shadow, and rumour of orcs, wolves and fouler things abroad."
+      "en": "Measured and courteous — he asks, writes nothing down, remembers everything."
     },
     "facts": {
       "topic": "what_stirs_in_the_dark"
@@ -10165,7 +10169,7 @@
         "id": "cnt:c2f98ed8-3747-4f35-94f9-9e9402e55829:sit",
         "tags": [],
         "situation": {
-          "en": "He is not afraid. He is thorough. Something is wrong here and he is collecting testimony."
+          "en": "The road-wards were laid to last ages and something is failing them from underneath. He is assembling the 'what' from strangers' eyes."
         }
       }
     ],
@@ -16464,13 +16468,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Greets him first, which is unusual, and the greeting is exactly as long as it needs to be."
+      "en": "Courteous measurement — they are deciding, in the space of four sentences, whether he is the sort of traveller this country needs fewer of."
     },
     "presence": {
-      "en": "A remark about the season that turns out to be a warning about the river, and a question about where he slept last night that is not idle."
+      "en": "An Elf greets him first — unusual, and the greeting is exactly as long as it needs to be: tall, grey-green, face like weathered birch, standing where the path shows the approach. 'The season is kind,' the Elf says, which turns out to be a warning about the river. 'And where did you sleep last night?' — which is not idle. Four sentences in, the traveller understands he is being weighed."
     },
     "channel": {
-      "en": "Have them probe courteously, measuring the traveller's purpose and heart before they give any trust."
+      "en": "Remarks that double as warnings, questions that double as tests — the real conversation runs under the spoken one."
     },
     "facts": {
       "topic": "weighing_the_heart"
@@ -16480,7 +16484,7 @@
         "id": "cnt:0e2f0001-0000-4000-8000-0e2f00000001:sit",
         "tags": [],
         "situation": {
-          "en": "They are deciding, in the space of four sentences, whether he is the sort of traveller this country needs fewer of."
+          "en": "The weighing is not hostile — it is border-work. Pass it and the country opens; fail it and the road gets subtly worse."
         }
       }
     ],
@@ -16501,13 +16505,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Appears at the edge of the path without any of the usual noise of arrival, and does not come closer."
+      "en": "They do not like strangers in the wood and they dislike deaths in it more — the help is delivered like a toll paid under protest."
     },
     "presence": {
-      "en": "A short, unfriendly enquiry about his business under these trees, followed by one piece of information he badly needs about the trail ahead."
+      "en": "An Elf appears at the path's edge without any of the usual noise of arrival — green-clad, hard-eyed, close-mouthed — and does not come closer. A short, unfriendly enquiry about his business under these trees. Then, once the answer passes: one piece of information he badly needs about the trail ahead, given grudgingly, and given."
     },
     "channel": {
-      "en": "Have them probe courteously, measuring the traveller's purpose and heart before they give any trust."
+      "en": "Terse to the edge of rudeness — but the information is real, precise, and meant to keep him alive."
     },
     "facts": {
       "topic": "weighing_the_heart"
@@ -16517,7 +16521,7 @@
         "id": "cnt:0e2f0002-0000-4000-8000-0e2f00000002:sit",
         "tags": [],
         "situation": {
-          "en": "They do not like strangers in the wood and they dislike deaths in it more. The help is given grudgingly and given."
+          "en": "Grudging help is still help. In their forest the grudging kind is the kind that counts."
         }
       }
     ],
@@ -16538,13 +16542,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Courteous in an older, heavier fashion, and something in the phrasing belongs to a country that no longer exists."
+      "en": "He has been in these lands since before the first Men walked them and is not entirely living in this century."
     },
     "presence": {
-      "en": "He speaks of the land as it was before the coast changed, then corrects himself to the present, and the correction is the saddest part of the exchange."
+      "en": "An Elf greets him with a courtesy in an older, heavier fashion — tall, sea-pale eyes, a cloak fastened in a style that went out with a kingdom — and speaks of the land as it was before the coast changed. Then he corrects himself to the present, and the correction is the saddest part of the exchange: a man catching himself living in a century that no longer collects taxes."
     },
     "channel": {
-      "en": "Have them bring up an age-old loss — a drowned realm, a kinsman long dead — as though it were last night."
+      "en": "Older courtesies, older place-names — the phrasing belongs to a country that exists now only in his grammar."
     },
     "facts": {
       "topic": "old_grief"
@@ -16554,7 +16558,7 @@
         "id": "cnt:0e2f0003-0000-4000-8000-0e2f00000003:sit",
         "tags": [],
         "situation": {
-          "en": "He has been in these lands since before the first Men walked them and is not entirely living in this century."
+          "en": "He means well and is half-elsewhere. The gift is the glimpse of what the land was; the price is watching it be past tense."
         }
       }
     ],
@@ -16612,13 +16616,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Sea-grey and easy-mannered, with the particular calm of people who measure time in tides rather than years."
+      "en": "The particular calm of people who measure in tides — easy-mannered, unhurried, quietly watching the horizon mid-sentence."
     },
     "presence": {
-      "en": "Talk of the weather turning, of a wreck on the sand two winters back, and of a light kept on a headland further along the shore that is worth walking to."
+      "en": "Sea-grey Elves at a shore-path crossing — salt-air calm, eyes the colour of the water behind them — who talk of the weather turning, of a wreck on the sand two winters back, and of a light kept on a headland further along that is worth the walking to. Nothing is urgent to them; time is measured in tides here, and the information is still exactly what he needs."
     },
     "channel": {
-      "en": "Have them turn the talk to the call of the Sea and the road West: who will take ship, and who will stay and dwindle."
+      "en": "Sea-talk and shore-knowledge — weather, wrecks, lights — offered with the generosity of folk who have already decided to stay."
     },
     "facts": {
       "topic": "the_sea"
@@ -16628,7 +16632,7 @@
         "id": "cnt:0e2f0005-0000-4000-8000-0e2f00000005:sit",
         "tags": [],
         "situation": {
-          "en": "Nothing is urgent to them. The information is still exactly what he needs."
+          "en": "The light on the headland is kept for ships that fewer of each decade. They keep it anyway. That is the whole philosophy."
         }
       }
     ],
@@ -16649,13 +16653,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Speaks from ten paces away, in a Westron worn thin from lack of use, and does not close the distance at all."
+      "en": "They speak to almost nobody — the ten paces is the whole of their diplomacy, and even that is more than most get."
     },
     "presence": {
-      "en": "A warning that the ice on the inlet is a week from breaking and a question about whether he has seen fires in the north."
+      "en": "An Elf speaks from ten paces away — tall, white-haired, wrapped against the wind like a spare sail — in a Westron worn thin from lack of use, and does not close the distance at all. 'The ice on the inlet breaks in a week. Do not be on it.' Then, as an afterthought that is the real question: 'Have you seen fires in the north?' This exchange costs them something. It is being spent on purpose."
     },
     "channel": {
-      "en": "Have them ask quietly about the growing shadow, and rumour of orcs, wolves and fouler things abroad."
+      "en": "Sparse, worn, each word carried like weight — the warning is free; the question is what they came out for."
     },
     "facts": {
       "topic": "what_stirs_in_the_dark"
@@ -16665,7 +16669,7 @@
         "id": "cnt:0e2f0006-0000-4000-8000-0e2f00000006:sit",
         "tags": [],
         "situation": {
-          "en": "They speak to almost nobody and this exchange costs them something. It is being spent on purpose."
+          "en": "The ice-warning is the kindness. The fires-question is the fear. Both are real, and the second is the reason they broke silence."
         }
       }
     ],
@@ -16686,13 +16690,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Easier to talk to than most of their kin, and quicker to ask the sort of question a mortal would ask."
+      "en": "Quicker to ask mortal questions — and this one was asked by someone who has had to choose about mortality, or will have to."
     },
     "presence": {
-      "en": "Ordinary road-talk conducted with unusual attention, and one question about how long he means to keep walking roads like this one."
+      "en": "An Elf falls into step beside the traveller — easier to talk to than most of their kin, grey-eyed, with the quicker cadence of someone who spends time among mortals — and conducts ordinary road-talk with unusual attention. Then, lightly as if asking the hour: 'How long do you mean to keep walking roads like this one?' The question lands harder than intended."
     },
     "channel": {
-      "en": "Have them probe courteously, measuring the traveller's purpose and heart before they give any trust."
+      "en": "Easy road-talk with one seam of genuine depth — the question slips out between the weather and the distance."
     },
     "facts": {
       "topic": "weighing_the_heart"
@@ -16702,7 +16706,7 @@
         "id": "cnt:0e2f0007-0000-4000-8000-0e2f00000007:sit",
         "tags": [],
         "situation": {
-          "en": "The question is asked by someone who has had to make a choice about mortality, or will have to, and it lands harder than intended."
+          "en": "The question is not rhetorical for them. How the traveller answers tells them something they need for their own choosing."
         }
       }
     ],
@@ -16723,13 +16727,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Charming in a way that does not fit the place or the hour, and the charm does not reach the eyes at all."
+      "en": "Something in this one broke a long time ago — the errors are not ignorance and the courtesy is bait."
     },
     "presence": {
-      "en": "He offers an easy road, a shorter way and pleasant company for it, and every detail he gives about the country is subtly wrong."
+      "en": "An Elf offers an easy road, a shorter way and pleasant company for it — charming in a way that does not fit the place or the hour, fine-featured, well-dressed, smiling — and the charm does not reach the eyes at all. Every detail he gives about the country is subtly wrong: a ford that doesn't exist, a hall-name misremembered, a direction that would take the traveller off the known road entirely."
     },
     "channel": {
-      "en": "Have them probe courteously, measuring the traveller's purpose and heart before they give any trust."
+      "en": "Warm, fluent, wrong — the talk of someone performing kindness from a script whose author hated the audience."
     },
     "facts": {
       "topic": "weighing_the_heart"
@@ -16739,7 +16743,7 @@
         "id": "cnt:0e2f0008-0000-4000-8000-0e2f00000008:sit",
         "tags": [],
         "situation": {
-          "en": "Something in this one broke a long time ago. The errors are not ignorance and the courtesy is bait."
+          "en": "Declining pleasantly is the skill; not turning his back on the parting is the survival."
         }
       }
     ],
@@ -16760,13 +16764,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Two of them, already knowing his name from somewhere, and unwilling to say from where."
+      "en": "Border-wardens doing their work — courteous, complete, and asking because the answer matters to the map they maintain."
     },
     "presence": {
-      "en": "They tell him what is on the road two days ahead and ask him to describe, exactly, what he passed at the ruin behind him."
+      "en": "Two Elves hold the road where it narrows — grey-cloaked, unhurried, already knowing his name from somewhere and unwilling to say from where. 'Two days ahead there is a company moving that you should not meet. What did you pass at the ruin behind you — precisely.' The trade of information is not optional so much as obvious: they are running a border, and he has walked through part of it."
     },
     "channel": {
-      "en": "Have them ask quietly about the growing shadow, and rumour of orcs, wolves and fouler things abroad."
+      "en": "They ask the ruin-question like surgeons — they want position, state, tracks, smell. Vague answers get asked again."
     },
     "facts": {
       "topic": "what_stirs_in_the_dark"
@@ -16776,7 +16780,7 @@
         "id": "cnt:0e2f0009-0000-4000-8000-0e2f00000009:sit",
         "tags": [],
         "situation": {
-          "en": "They are running a border and he has walked through part of it. The trade of information is not optional so much as obvious."
+          "en": "The ruin is their border-marker. What he passed there updates whether the border holds — and they will not say how they knew his name."
         }
       }
     ],
@@ -16797,13 +16801,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "A patrol on old business, armoured, correct, and in no mood for a long conversation with anyone."
+      "en": "The last remnant, holding their ground — not hostile, simply in no mood for conversation with anyone."
     },
     "presence": {
-      "en": "A brisk warning that the northern shore of the lake is not to be walked this month, delivered as an order and not a suggestion."
+      "en": "A patrol of high-elven wardens on the lake-road — armoured, correct, small enough in number to be the last remnant of something — who stop the traveller with a brisk order rather than a suggestion: 'The northern shore of the lake is not to be walked this month. Take the southern.' The captain's voice has the flat certainty of people holding a small piece of country absolutely."
     },
     "channel": {
-      "en": "Have him speak of loyalty to king and folk, and the binding weight of a word once given."
+      "en": "Formal, clipped, correct — the order is the courtesy; explanation is above their rank and below their patience."
     },
     "facts": {
       "topic": "oath_and_kin"
@@ -16813,7 +16817,7 @@
         "id": "cnt:0e2f0010-0000-4000-8000-0e2f00000010:sit",
         "tags": [],
         "situation": {
-          "en": "They are the last remnant of something and they hold their small piece of country absolutely. He is not being asked."
+          "en": "They are not being asked. Whatever is on the northern shore this month is theirs to contain, and the order is the traveller's protection."
         }
       }
     ],
@@ -16834,13 +16838,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Walking west alone and glad enough of a word on the road, in the manner of someone who has already left everything else behind."
+      "en": "A man who has already left everything else behind — the lightness is real because the weight is already set down."
     },
     "presence": {
-      "en": "Where the road runs from here to the sea, which houses on it are still keeping their doors, and how few of them there are now compared with the last time this journey was made."
+      "en": "An Elf walking west alone, glad enough of a word on the road — tall, light-stepped, carrying everything he owns without it looking like a burden — who falls easily into talk: where the road runs from here to the sea, which houses on it still keep their doors, and how few of them there are now compared with the last time this journey was made. He is going to the harbour and will not be coming back. Nothing about the conversation is heavy and everything in it is final."
     },
     "channel": {
-      "en": "Have them turn the talk to the call of the Sea and the road West: who will take ship, and who will stay and dwindle."
+      "en": "Warm, plain, unhurried — the talk of someone at peace with the arithmetic of leaving."
     },
     "facts": {
       "topic": "the_sea"
@@ -16850,7 +16854,7 @@
         "id": "cnt:0e2f0011-0000-4000-8000-0e2f00000011:sit",
         "tags": [],
         "situation": {
-          "en": "He is going to the harbour and will not be coming back. Nothing about the conversation is heavy and everything in it is final."
+          "en": "He is walking to a ship and a horizon. The houses he counts are the ones being closed behind people like him."
         }
       }
     ],
@@ -16871,13 +16875,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Immaculate courtesy that manages to make the traveller aware of every stain on his cloak without a word being said about it."
+      "en": "The condescension is unconscious and the information is excellent — taking offence would cost the second thing."
     },
     "presence": {
-      "en": "Formal questions about his road and his errand, and an answer about the state of the country that is more useful than the manner suggests."
+      "en": "A high Elf greets him with formal questions about his road and his errand — immaculate courtesy that manages to make the traveller aware of every stain on his cloak without a word being said about it. Beneath the manner, the answer about the state of the country is more useful than the courtesy suggests."
     },
     "channel": {
-      "en": "Have them probe courteously, measuring the traveller's purpose and heart before they give any trust."
+      "en": "Court-precise phrasing, questions shaped like diplomacy — he means the scrutiny kindly, which somehow makes it worse."
     },
     "facts": {
       "topic": "weighing_the_heart"
@@ -16887,7 +16891,7 @@
         "id": "cnt:0e2f0012-0000-4000-8000-0e2f00000012:sit",
         "tags": [],
         "situation": {
-          "en": "The condescension is unconscious and the information is excellent. Taking offence would cost him the second thing."
+          "en": "Answer formally, take the information, let the manner pass. Pride is a poor trade for a map of the country's real state."
         }
       }
     ],
@@ -16908,13 +16912,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Grave and welcoming at once, and clearly used to Men — the greeting is pitched for a mortal ear."
+      "en": "The last of their kin who live beside Men — friendliness that is genuine and elegiac at the same time."
     },
     "presence": {
-      "en": "News of the havens, the state of the coast road, and a mention that fewer ships come to their quay each decade and none of them are new."
+      "en": "Sea-elves at a haven-side waypost — grave and welcoming at once, clearly used to Men, the greeting pitched for a mortal ear. They give news of the havens, the state of the coast road, and mention, as if in passing, that fewer ships come to their quay each decade and none of them are new."
     },
     "channel": {
-      "en": "Have them speak of the slow fading of the Elves and the lands they must leave, with a sorrow worn smooth by long years."
+      "en": "Easy, warm, harbour-talk — ships, roads, weather — with the quiet arithmetic of dwindling underneath."
     },
     "facts": {
       "topic": "the_fading"
@@ -16924,7 +16928,7 @@
         "id": "cnt:0e2f0013-0000-4000-8000-0e2f00000013:sit",
         "tags": [],
         "situation": {
-          "en": "They have lived beside Men for an age and are the last of their kin who do. The friendliness is genuine and elegiac."
+          "en": "The quay still stands because they still stand by it. When they go, the door closes — and every exchange like this is one fewer."
         }
       }
     ],
@@ -16945,13 +16949,13 @@
       "felt:settled"
     ],
     "disposition": {
-      "en": "Green-clad and half-invisible until they speak; the voice arrives before the shape resolves."
+      "en": "The oldest kind of woodland folk — they measure a forest's sickness in centuries, and this year is worse than last."
     },
     "presence": {
-      "en": "A statement that the wood is not what it was, given as a fact about the trees rather than a complaint, and a route that avoids the worst of it."
+      "en": "A voice arrives before the shape resolves — green-clad, half-invisible until they speak, a silvan forester who materializes at the path's edge: 'The wood is not what it was.' Said as a fact about the trees, not a complaint — and then a route that avoids the worst of it, given as freely as the diagnosis."
     },
     "channel": {
-      "en": "Have them turn the talk to beasts, trees and growing things, and the keeping of them."
+      "en": "Sparse, arboreal, unhurried — they talk about trees the way healers talk about patients: without drama and with complete attention."
     },
     "facts": {
       "topic": "care_of_living_things"
@@ -16961,7 +16965,7 @@
         "id": "cnt:0e2f0014-0000-4000-8000-0e2f00000014:sit",
         "tags": [],
         "situation": {
-          "en": "They are the oldest kind of woodland folk and they measure the sickness of a forest in centuries. This year is worse than last."
+          "en": "The route is the kindness. The diagnosis is the warning. Both are worth more than the season's map."
         }
       }
     ],
