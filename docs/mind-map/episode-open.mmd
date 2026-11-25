@@ -1,0 +1,31 @@
+%% Episode open — POST /episodes
+flowchart LR
+    s0["Mind<br/><i>get_or_create_mind</i>"]
+    s1["Character<br/><i>get_or_create_character</i>"]
+    s2["Detector<br/><i>body_projection</i>"]
+    s3["Detector<br/><i>project_body</i>"]
+    s4["Perceived day<br/><i>perceive_events</i>"]
+    s5["Evocation<br/><i>retrieve</i>"]
+    s6["Evocation<br/><i>dialogue_recall</i>"]
+    s7["Need<br/><i>needs_pass</i>"]
+    s8["Need<br/><i>resolve_break_items</i>"]
+    s9["Mood<br/><i>episode_mood</i>"]
+    s10["Pull<br/><i>update_mind_mood</i>"]
+    s11["Belief<br/><i>active_convictions</i>"]
+    s12["Lens<br/><i>build_brief</i>"]
+    s13["Evocation<br/><i>voice_memories</i>"]
+    s14["Lens<br/><i>render_lens</i>"]
+    s0 --> s1
+    s1 --> s2
+    s2 --> s3
+    s3 --> s4
+    s4 --> s5
+    s5 --> s6
+    s6 --> s7
+    s7 --> s8
+    s8 --> s9
+    s9 --> s10
+    s10 --> s11
+    s11 --> s12
+    s12 --> s13
+    s13 --> s14

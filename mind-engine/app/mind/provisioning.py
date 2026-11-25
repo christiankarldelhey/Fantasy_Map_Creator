@@ -12,6 +12,7 @@
 # ============================================================================
 from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.relations import seed_relations
+from app.mind.steps import step
 from app.mind.tables import (
     Memory, Mind, MindPreset, Character, Musing,
 )
@@ -323,6 +324,7 @@ def seed_memories(session, game_id, character_id, preset):
     return seeds
 
 
+@step('Mind')
 def get_or_create_mind(session, game_id, character_id, hint_slug=None):
     """The character's living mind, cloning its preset on first contact.
 
@@ -364,6 +366,7 @@ def get_or_create_mind(session, game_id, character_id, hint_slug=None):
     return mind
 
 
+@step('Character')
 def get_or_create_character(session, game_id, card):
     """The Mind-owned card for this character (ADR 0001). Adopted from
     the Host's first payload — from then on the Mind's copy is

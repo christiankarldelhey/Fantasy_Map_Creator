@@ -1,0 +1,3268 @@
+{
+ "label": "Aranath to Sarn Athrad \u2014 day 1",
+ "open_request": {
+  "arc": "Aranath to Sarn Athrad",
+  "fate": "living",
+  "events": [
+   {
+    "type": "climate",
+    "when": {
+     "phase": "morning"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "a cool air, sun and moving cloud and a passing shower"
+   },
+   {
+    "tags": [
+     "weather:wet",
+     "weather:windy"
+    ],
+    "type": "climate",
+    "when": {
+     "phase": "afternoon"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "the sun quits the plain early, and the dark comes with the wind, cool and grey, partly cloudy, a wind that does not rest and soft rain"
+   },
+   {
+    "tags": [
+     "weather:wet",
+     "weather:overcast"
+    ],
+    "type": "climate",
+    "when": {
+     "light": "night",
+     "phase": "night"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "a chill that does not lift, heavy cloud cover and a steady rain"
+   },
+   {
+    "act": "walk",
+    "data": {
+     "subtype": "terrain",
+     "terrain_phrases": [
+      "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.",
+      "Heather-paths between the pools and the tors; in August the moor goes purple and the bees cloud the walking."
+     ]
+    },
+    "type": "land",
+    "when": {},
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring."
+   },
+   {
+    "act": "walk",
+    "data": {
+     "subtype": "terrain"
+    },
+    "type": "land",
+    "when": {
+     "phase": "morning"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "open country, cross-country, Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring."
+   },
+   {
+    "act": "talk",
+    "data": {
+     "form": "harvest_shelter",
+     "topic": "care_of_living_things",
+     "danger": 0,
+     "entity": "herb_lands",
+     "substance": {
+      "content": "The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.",
+      "tension": "Taking a modest amount costs nothing. Leaving the plants rooted means they will be here for the next traveller.",
+      "attitude": "A stand of medicinal herbs beside a spring \u2014 athelas among them, unmistakeable to those who know it."
+     },
+     "entity_name": "Herb-lands",
+     "entity_type": "resources"
+    },
+    "type": "encounter",
+    "when": {
+     "hour": 2.5,
+     "light": "night",
+     "phase": "night"
+    },
+    "check": {
+     "skill": "tracking",
+     "difficulty": 3
+    },
+    "where": {
+     "region": "M\u00e4noriand"
+    },
+    "reading": "Herb-lands \u2014 The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.",
+    "intensity": 1
+   },
+   {
+    "act": "watch",
+    "data": {
+     "form": "glimpsed_far",
+     "topic": "care_of_living_things",
+     "danger": 0,
+     "entity": "owls",
+     "family": "owls",
+     "substance": {
+      "stance": "Notes the sky is calm. Continues.",
+      "content": "They are going about their own business. Their business does not include the road.",
+      "tension": "A calm sky is information too.",
+      "attitude": "Wings on the far side of the sky \u2014 a flock moving with the wind, too far for names."
+     },
+     "entity_name": "Owls",
+     "entity_type": "flying_animals"
+    },
+    "type": "encounter",
+    "when": {
+     "hour": 10,
+     "light": "day",
+     "phase": "morning"
+    },
+    "check": {
+     "skill": "tracking",
+     "difficulty": 7
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "Owls \u2014 They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues.",
+    "intensity": 0
+   },
+   {
+    "act": "watch",
+    "data": {
+     "form": "observed_activity",
+     "topic": "care_of_living_things",
+     "danger": 0,
+     "entity": "deer",
+     "family": "deer",
+     "substance": {
+      "stance": "Notes the calm. Continues.",
+      "content": "It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far.",
+      "tension": "Nothing alarmed it before the traveller arrived. The forest behind it was quiet.",
+      "attitude": "A stag at the water's edge, drinking. It looks up when the traveller approaches, holds for a long moment, then retreats into the trees without urgency."
+     },
+     "entity_name": "Deer",
+     "entity_type": "herbivores"
+    },
+    "type": "encounter",
+    "when": {
+     "hour": 16,
+     "light": "dusk",
+     "phase": "afternoon"
+    },
+    "check": {
+     "skill": "tracking",
+     "difficulty": 5
+    },
+    "where": {
+     "region": "M\u00e4noriand"
+    },
+    "reading": "Deer \u2014 It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm. Continues.",
+    "intensity": 1
+   },
+   {
+    "act": "eat",
+    "data": {
+     "food": "a_ration_of_road_bread_and_dried_fruit",
+     "drink": "waterskin"
+    },
+    "type": "meal",
+    "when": {
+     "phase": "afternoon"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "A pause at the height of the day: a ration of road-bread and dried fruit; water from the skin."
+   },
+   {
+    "act": "eat",
+    "data": {
+     "food": "a_ration_of_road_bread_and_dried_fruit",
+     "drink": "waterskin"
+    },
+    "type": "meal",
+    "when": {
+     "light": "night",
+     "phase": "night"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "Food at camp, once the packs are down: a ration of road-bread and dried fruit; water from the skin. The fire allows what is eaten to be warmed, if it is worth warming."
+   },
+   {
+    "act": "walk",
+    "data": {
+     "kind": "crossroads",
+     "name": "The ford of the voice",
+     "subtype": "place"
+    },
+    "tags": [
+     "visited",
+     "felt:uneasy"
+    ],
+    "type": "land",
+    "when": {
+     "hour": 14.19,
+     "light": "dusk",
+     "phase": "afternoon"
+    },
+    "where": {
+     "place": "the_ford_of_the_voice",
+     "region": "Sandariand"
+    },
+    "reading": "The ford of the voice (crossroads): passes through, as the light failed \u2014 Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses it as he crossed twenty fords before.\nAnd in the middle, standing with the water running past his legs, something happens to him. It lasts a second. It is not a thought and it does not come from anything he was thinking.\nHe comes out the other side and stands a while with wet boots.\n**This happens only once.** If he crosses again, it is a ford.",
+    "intensity": 1
+   },
+   {
+    "act": "watch",
+    "data": {
+     "kind": "city",
+     "name": "Vinyathrad",
+     "subtype": "place"
+    },
+    "tags": [
+     "settlement",
+     "sighted"
+    ],
+    "type": "land",
+    "when": {
+     "hour": 13.23,
+     "light": "day",
+     "phase": "afternoon"
+    },
+    "where": {
+     "place": "vinyathrad",
+     "region": "Sandariand"
+    },
+    "reading": "a city: sighted far off to the southwest, in the early afternoon \u2014 passed at some distance \u2014 a way over the water",
+    "intensity": 0
+   },
+   {
+    "act": "walk",
+    "data": {
+     "name": "Sandariand",
+     "subtype": "region",
+     "description": "The most settled sub-region of Forlindon, mild and green thanks to the Gulf of Lh\u00fbn. Oak forests and clover meadows, the oldest and best-preserved Elvish settlements in northern Lindon and the road to the port of Forlond."
+    },
+    "tags": [
+     "region_entered"
+    ],
+    "type": "land",
+    "when": {
+     "hour": 7.5,
+     "light": "dawn",
+     "phase": "morning"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "crossed into Sandariand"
+   },
+   {
+    "act": "walk",
+    "data": {
+     "name": "M\u00e4noriand",
+     "subtype": "region",
+     "description": "Inner Forlindon along the Linduin, a land of constant drizzle and moss-green on every surface. Damp heather hills, pool-fed waterfalls in side valleys and Elvish homes built to face the sound of water. The quiet, rainy heart of Lindon."
+    },
+    "tags": [
+     "region_entered"
+    ],
+    "type": "land",
+    "when": {
+     "hour": 14,
+     "light": "dusk",
+     "phase": "afternoon"
+    },
+    "where": {
+     "region": "M\u00e4noriand"
+    },
+    "reading": "crossed into M\u00e4noriand"
+   },
+   {
+    "act": "walk",
+    "data": {
+     "kind": "river",
+     "name": "River",
+     "subtype": "water"
+    },
+    "type": "land",
+    "when": {
+     "hour": 14.35,
+     "light": "dusk",
+     "phase": "afternoon"
+    },
+    "where": {
+     "place": "river",
+     "region": "Sandariand"
+    },
+    "reading": "- A river is crossed by a stone bridge as the light failed."
+   },
+   {
+    "act": "walk",
+    "data": {
+     "kind": "river",
+     "name": "River",
+     "subtype": "water"
+    },
+    "type": "land",
+    "when": {
+     "hour": 14.35,
+     "light": "dusk",
+     "phase": "afternoon"
+    },
+    "where": {
+     "place": "river",
+     "region": "Sandariand"
+    },
+    "reading": "- A river is crossed by a stone bridge as the light failed."
+   },
+   {
+    "id": "d1:sit:cnt:c26e0006-0000-4000-8000-000000000006:sit:sole",
+    "act": "avoid",
+    "data": {
+     "after": {
+      "energy": 100,
+      "shadow": 0
+     },
+     "danger": 0,
+     "entity": "owls",
+     "outcome": "success",
+     "provenance": {
+      "situation_id": "cnt:c26e0006-0000-4000-8000-000000000006:sit",
+      "interaction_id": "cnt:c26e0006-0000-4000-8000-000000000006:sit:sole"
+     },
+     "entity_name": "Owls"
+    },
+    "tags": [
+     "felt:watchful"
+    ],
+    "type": "interaction",
+    "when": {
+     "hour": 10,
+     "light": "day",
+     "phase": "morning"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "Notes the sky is calm. Continues.",
+    "intensity": 1
+   },
+   {
+    "id": "d1:sit:cnt:12f38939-860f-4bc5-b00f-aeeb7adeaee6:sit:sole",
+    "act": "avoid",
+    "data": {
+     "after": {
+      "energy": 100,
+      "shadow": 0
+     },
+     "danger": 0,
+     "entity": "deer",
+     "outcome": "success",
+     "provenance": {
+      "situation_id": "cnt:12f38939-860f-4bc5-b00f-aeeb7adeaee6:sit",
+      "interaction_id": "cnt:12f38939-860f-4bc5-b00f-aeeb7adeaee6:sit:sole"
+     },
+     "entity_name": "Deer"
+    },
+    "tags": [
+     "felt:calm"
+    ],
+    "type": "interaction",
+    "when": {
+     "hour": 16,
+     "light": "dusk",
+     "phase": "afternoon"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "Notes the calm. Continues.",
+    "intensity": 1
+   },
+   {
+    "id": "d1:sit:ovn:41:rest",
+    "act": "rest",
+    "data": {
+     "after": {
+      "energy": 100,
+      "shadow": 0
+     },
+     "outcome": "success",
+     "provenance": {
+      "situation_id": "ovn:41",
+      "interaction_id": "ovn:41_night:rest"
+     },
+     "shadow_delta": -1
+    },
+    "tags": [
+     "mind:fatigue"
+    ],
+    "type": "interaction",
+    "when": {
+     "hour": 24,
+     "light": "night",
+     "phase": "night"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is calm and clean.",
+    "intensity": 0
+   },
+   {
+    "act": "rest",
+    "data": {
+     "shadow_delta": -1
+    },
+    "tags": [
+     "rest:open_sky"
+    ],
+    "type": "rest",
+    "when": {
+     "light": "night",
+     "phase": "night"
+    },
+    "where": {
+     "region": "Sandariand"
+    },
+    "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is calm and clean. A faint drizzle brushes the camp near dawn. The night air moves constantly, carrying the smell of rain or pine through the camp. The night is cold enough that the traveller curls closer to the embers."
+   }
+  ],
+  "episode": {
+   "at": "1950-11-21",
+   "index": 1
+  },
+  "game_id": "middle_earth",
+  "language": "spanish",
+  "character": {
+   "id": "142",
+   "name": "Aranath",
+   "preset": "aranath",
+   "skills": {
+    "lore": 3,
+    "melee": 6,
+    "ranged": 5,
+    "insight": 5,
+    "stealth": 7,
+    "tracking": 7,
+    "deception": 3,
+    "endurance": 6,
+    "persuasion": 3,
+    "intimidation": 5
+   },
+   "description": "Tall and silent, one of those who count the days by the stars and not by the calendar. He has spent years walking the borders of old Arnor, and this time he walks alone. He seeks an ancient road that few still speak of.",
+   "entity_name": null,
+   "portrait_url": "/portraits/Aranath.png",
+   "system_prompt": "NARRATOR'S LENS: Filter each scene through a tracker's attention \u2014 read the land by its signs: spoor, worn stone, the turn of the wind, the trace of those gone before. Old ruins and lost roads carry the weight of ages. Show what he notices, not what he feels.",
+   "introduction_instructions": "This is the first day and the introduction of the entire journey.\nIn this chapter, please describe the traveller's departure, their motivation, and their strong intention to reach their destination. Let the prose feel like a beginning, with hope or gravity as fits their personality."
+  },
+  "condition": {
+   "sick": false,
+   "coins": 100,
+   "energy": 88,
+   "shadow": 0,
+   "rations": 7,
+   "wounded": "none",
+   "coldShift": 3,
+   "waterHeld": 2.25,
+   "turnedAway": false,
+   "distance_km": 48.06,
+   "flaskFrozen": false,
+   "recentNotes": [],
+   "notableItems": [],
+   "walking_hours": 12,
+   "waterCapacity": 3,
+   "daysWithoutFood": 0,
+   "meanTemperature": 6.672035335110372,
+   "daysWithoutWater": 0,
+   "days_without_food": 0,
+   "days_without_water": 0
+  },
+  "episode_ref": "trip:2c3716fc-8194-436c-90e3-fb3b765690fe:day:1"
+ },
+ "outcome": {
+  "fate": "living",
+  "meals": [
+   {
+    "food": "a ration of road-bread and dried fruit",
+    "slot": "midday",
+    "slug": "trail_rations",
+    "drink": "waterskin",
+    "itemId": 3845,
+    "energyBonus": 4,
+    "waterLitres": 0.375
+   },
+   {
+    "food": "a ration of road-bread and dried fruit",
+    "slot": "evening",
+    "slug": "trail_rations",
+    "drink": "waterskin",
+    "itemId": 3845,
+    "energyBonus": 4,
+    "waterLitres": 0.375
+   }
+  ],
+  "trip_id": "2c3716fc-8194-436c-90e3-fb3b765690fe",
+  "day_events": [
+   {
+    "food": "a ration of road-bread and dried fruit",
+    "slot": "midday",
+    "type": "meal",
+    "drink": "waterskin",
+    "eaten": true,
+    "itemId": 3845,
+    "source": "rations"
+   },
+   {
+    "food": "a ration of road-bread and dried fruit",
+    "slot": "evening",
+    "type": "meal",
+    "drink": "waterskin",
+    "eaten": true,
+    "itemId": 3845,
+    "source": "rations"
+   },
+   {
+    "type": "water",
+    "drank": 0.75,
+    "refilled": true
+   }
+  ],
+  "day_number": 1,
+  "energy_delta": -12,
+  "shadow_delta": 0,
+  "encountered_entity_ids": [
+   "8120e7df-a6ef-4fc4-8f57-b7d357d07eff",
+   "dbf4184f-60a3-405d-ae3b-390388402931",
+   "8c749264-2039-43e5-b6be-6b7e18d3d587"
+  ]
+ },
+ "seed": {
+  "mind_presets": [
+   {
+    "id": 419,
+    "game_id": "middle_earth",
+    "slug": "aranath",
+    "name": "Aranath mind",
+    "description": "Ranger of the old north; walks the borders of fallen Arnor and reads the land by its signs.",
+    "created_at": "2026-09-30 11:10:40.739052+02:00",
+    "temperament": {
+     "arousal": 0.2,
+     "valence": 0.05,
+     "dominance": 0.15
+    },
+    "personality": {
+     "moodiness": 0.25,
+     "resistance": 0.45,
+     "reflectiveness": 0.6
+    }
+   }
+  ],
+  "preset_wiring": [
+   {
+    "id": 339,
+    "preset_id": 419,
+    "key": "w_attention",
+    "value": 0.15
+   },
+   {
+    "id": 333,
+    "preset_id": 419,
+    "key": "decay",
+    "value": 0.85
+   },
+   {
+    "id": 334,
+    "preset_id": 419,
+    "key": "forget_threshold",
+    "value": 0.2
+   },
+   {
+    "id": 335,
+    "preset_id": 419,
+    "key": "fixed_threshold",
+    "value": 0.8
+   },
+   {
+    "id": 336,
+    "preset_id": 419,
+    "key": "w_severity",
+    "value": 0.35
+   },
+   {
+    "id": 337,
+    "preset_id": 419,
+    "key": "w_novelty",
+    "value": 0.25
+   },
+   {
+    "id": 338,
+    "preset_id": 419,
+    "key": "w_emotional",
+    "value": 0.15
+   },
+   {
+    "id": 340,
+    "preset_id": 419,
+    "key": "w_perception",
+    "value": 0.1
+   },
+   {
+    "id": 341,
+    "preset_id": 419,
+    "key": "alpha",
+    "value": 0.4
+   },
+   {
+    "id": 342,
+    "preset_id": 419,
+    "key": "beta",
+    "value": 0.4
+   },
+   {
+    "id": 343,
+    "preset_id": 419,
+    "key": "gamma",
+    "value": 0.2
+   },
+   {
+    "id": 344,
+    "preset_id": 419,
+    "key": "lambda_recency",
+    "value": 0.3
+   },
+   {
+    "id": 345,
+    "preset_id": 419,
+    "key": "retrieval_top_k",
+    "value": 5.0
+   },
+   {
+    "id": 346,
+    "preset_id": 419,
+    "key": "evocations_to_fix",
+    "value": 3.0
+   },
+   {
+    "id": 422,
+    "preset_id": 419,
+    "key": "retrieval_semantic_min",
+    "value": 0.45
+   }
+  ],
+  "preset_starter_beliefs": [
+   {
+    "id": 1000,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "A dog never asks who your grandfather was before it shares your fire.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:dogs"
+    ],
+    "stance": 0.6,
+    "source": "lived"
+   },
+   {
+    "id": 1001,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "When the Eagles keep the road, I sleep with both eyes shut for once.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:eagles"
+    ],
+    "stance": 0.6,
+    "source": "lived"
+   },
+   {
+    "id": 1002,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "Anything that lives by wit instead of teeth has my respect; the fox and I practice the same trade.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:foxes"
+    ],
+    "stance": 0.5,
+    "source": "lived"
+   },
+   {
+    "id": 1003,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "Birdsong at dawn means the night watch held; I learned to trust it before I learned maps.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:birds",
+     "tag:family:owls"
+    ],
+    "stance": 0.3,
+    "source": "lived"
+   },
+   {
+    "id": 1004,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "Crebain flew for the Enemy once; I still count crows the way I count sentries.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:crows"
+    ],
+    "stance": -0.4,
+    "source": "lived"
+   },
+   {
+    "id": 1005,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "A pack reads a road better than most garrisons; I respect the craft and distrust the wolves.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:wolves"
+    ],
+    "stance": -0.5,
+    "source": "lived"
+   },
+   {
+    "id": 1006,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "A warg is a wolf that took the Enemy's coin; there is no parleying with it.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:wargs"
+    ],
+    "stance": -0.8,
+    "source": "lived"
+   },
+   {
+    "id": 1007,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "I stopped counting the orcs I have buried; the day I start again is the day this becomes about me.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:orcs"
+    ],
+    "stance": -0.8,
+    "source": "lived"
+   },
+   {
+    "id": 1008,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "I have trusted horses with my life and been let down less often than by men.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:horses"
+    ],
+    "stance": 0.5,
+    "source": "lived"
+   },
+   {
+    "id": 1009,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "They do not know my name and never will; they are still why I walk.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:common_men"
+    ],
+    "stance": 0.4,
+    "source": "lived"
+   },
+   {
+    "id": 1010,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "The last of my people walk the same roads I do; we nod once, and that is enough.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:dnedain"
+    ],
+    "stance": 0.7,
+    "source": "lived"
+   },
+   {
+    "id": 1011,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "They carry no swords and need none guarding them; the day that changes, I have failed.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:hobbits"
+    ],
+    "stance": 0.4,
+    "source": "lived"
+   },
+   {
+    "id": 1012,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "They kept their watch longer than we kept ours; a ranger does not lecture patience to an Ent.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:ents",
+     "tag:entity_type:living_trees"
+    ],
+    "stance": 0.4,
+    "source": "lived"
+   },
+   {
+    "id": 1013,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "The dead of the barrows earned their rest; whatever wears them now earns none of mine.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:undead"
+    ],
+    "stance": -0.7,
+    "source": "lived"
+   },
+   {
+    "id": 1014,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "You do not fight a troll; you survive it, and you count yourself lucky to have seen it coming.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:trolls"
+    ],
+    "stance": -0.5,
+    "source": "lived"
+   },
+   {
+    "id": 1015,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "Webs across the road mean leave the road; I have never once regretted listening.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:family:spiders",
+     "tag:entity_type:giant_spiders"
+    ],
+    "stance": -0.5,
+    "source": "lived"
+   },
+   {
+    "id": 1016,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "Men who march for the Enemy are still men; I pity them at a distance and fight them up close.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:haradrim",
+     "tag:entity_type:easterlings",
+     "tag:entity_type:corsairs"
+    ],
+    "stance": -0.4,
+    "source": "lived"
+   },
+   {
+    "id": 1017,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "They never forgave us for kings we no longer are; I understand them better than they would like.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:dunlendings"
+    ],
+    "stance": -0.2,
+    "source": "lived"
+   },
+   {
+    "id": 1055,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "Fell stock, bred under the Enemy's eye \u2014 a ranger does not turn his back on a horse that remembers the whip.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "entity:horses_of_mordor"
+    ],
+    "stance": -0.5,
+    "source": "lived"
+   },
+   {
+    "id": 1056,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "A drake does not forget a hoard and does not forgive a wound; two friends of mine are part of one now.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:drakes"
+    ],
+    "stance": -0.75,
+    "source": "lived"
+   },
+   {
+    "id": 1057,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "Whatever fire lit the deep places was never meant to walk under our sky; I owe it no quarter.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:demons"
+    ],
+    "stance": -0.7,
+    "source": "lived"
+   },
+   {
+    "id": 1058,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "A giant does not hate you; it is simply too large to notice what it breaks. That is worse.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:giants"
+    ],
+    "stance": -0.35,
+    "source": "lived"
+   },
+   {
+    "id": 1059,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "The Firstborn gave me words for what I had only felt; when the last of them sails, the north will be poorer and never know it.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:elves"
+    ],
+    "stance": 0.55,
+    "source": "lived"
+   },
+   {
+    "id": 1060,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "They count too well and feel too slowly; but I have been wrong about a people before, and I keep one hand open for the day they prove me so again.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:dwarves"
+    ],
+    "stance": -0.15,
+    "source": "lived"
+   },
+   {
+    "id": 1061,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "The Grey Pilgrim fights the same long war I do, on higher ground and less sleep; when he asks, I go.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "entity:gandalf"
+    ],
+    "stance": 0.55,
+    "source": "lived"
+   },
+   {
+    "id": 1062,
+    "preset_id": 419,
+    "kind": "other",
+    "statement": "The horse-lords are proud the way the young are proud \u2014 of the wrong things. I keep a hand open anyway; the walk tells, not the name.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "family:northmen"
+    ],
+    "stance": -0.1,
+    "source": "lived"
+   },
+   {
+    "id": 1063,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "A cat asks nothing it cannot take; honest predators are easy neighbours.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "family:cats"
+    ],
+    "stance": 0.2,
+    "source": "lived"
+   },
+   {
+    "id": 1064,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "Whatever grazes and bolts has never once lied to me; the wild's honesty is in its fleeing.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "tag:entity_type:herbivores"
+    ],
+    "stance": 0.15,
+    "source": "lived"
+   },
+   {
+    "id": 1065,
+    "preset_id": 419,
+    "kind": "world",
+    "statement": "A snake strikes to eat, not to make a point; cleaner reasons than most men give me.",
+    "strength": 3.0,
+    "tags": [],
+    "boosts": {},
+    "subject": [
+     "family:serpents",
+     "tag:entity_type:reptiles"
+    ],
+    "stance": 0.1,
+    "source": "lived"
+   }
+  ],
+  "preset_leans": [
+   {
+    "id": 28,
+    "preset_id": 419,
+    "subject": "entity:gandalf",
+    "affection": 0.4,
+    "trust": 0.5,
+    "fear": 0.0,
+    "familiarity": 0.3
+   },
+   {
+    "id": 20,
+    "preset_id": 419,
+    "subject": "region:Bree",
+    "affection": 0.3,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.5
+   },
+   {
+    "id": 18,
+    "preset_id": 419,
+    "subject": "region:Fornost",
+    "affection": 0.15,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.5
+   },
+   {
+    "id": 21,
+    "preset_id": 419,
+    "subject": "region:Lone-lands",
+    "affection": 0.0,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.5
+   },
+   {
+    "id": 17,
+    "preset_id": 419,
+    "subject": "region:South Arthedain",
+    "affection": 0.5,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.7
+   },
+   {
+    "id": 19,
+    "preset_id": 419,
+    "subject": "region:The Shire",
+    "affection": 0.5,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.4
+   },
+   {
+    "id": 22,
+    "preset_id": 419,
+    "subject": "region:Weather Hills",
+    "affection": 0.0,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.4
+   },
+   {
+    "id": 26,
+    "preset_id": 419,
+    "subject": "tag:entity_type:drakes",
+    "affection": -0.6,
+    "trust": 0.0,
+    "fear": 0.35,
+    "familiarity": 0.0
+   },
+   {
+    "id": 27,
+    "preset_id": 419,
+    "subject": "tag:entity_type:dwarves",
+    "affection": -0.15,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.3
+   },
+   {
+    "id": 23,
+    "preset_id": 419,
+    "subject": "tag:entity_type:elves",
+    "affection": 0.5,
+    "trust": 0.35,
+    "fear": 0.0,
+    "familiarity": 0.4
+   },
+   {
+    "id": 24,
+    "preset_id": 419,
+    "subject": "tag:entity_type:hobbits",
+    "affection": 0.5,
+    "trust": 0.0,
+    "fear": 0.0,
+    "familiarity": 0.4
+   },
+   {
+    "id": 25,
+    "preset_id": 419,
+    "subject": "tag:entity_type:orcs",
+    "affection": -0.7,
+    "trust": 0.0,
+    "fear": 0.1,
+    "familiarity": 0.5
+   }
+  ],
+  "preset_musings": [
+   {
+    "id": 6,
+    "preset_id": 419,
+    "statement": "I have spent years walking the borders of fallen Arnor; this time I walk alone.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 7,
+    "preset_id": 419,
+    "statement": "An old road does not die \u2014 it waits for the one who still remembers it.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 8,
+    "preset_id": 419,
+    "statement": "Walls have their place and fires their use; I am always more honest on the road.",
+    "tags": [
+     "tag:settlement"
+    ]
+   },
+   {
+    "id": 9,
+    "preset_id": 419,
+    "statement": "Let them sleep; someone has to keep the dawn honest.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "type:rest"
+    ]
+   },
+   {
+    "id": 10,
+    "preset_id": 419,
+    "statement": "Bloodlines matter less than footsteps; I judge the walk, not the name.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 11,
+    "preset_id": 419,
+    "statement": "Even the hills can hate you here; respect is cheaper than courage.",
+    "tags": [
+     "tag:entity_type:trolls",
+     "tag:entity_type:giants",
+     "tag:entity_type:hazards"
+    ]
+   },
+   {
+    "id": 12,
+    "preset_id": 419,
+    "statement": "Mercy is a choice you make before the sword leaves its sheath; after that, it is only luck.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 13,
+    "preset_id": 419,
+    "statement": "My knee tells the weather before the sky does; the body keeps the map too.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 14,
+    "preset_id": 419,
+    "statement": "After danger passes, gratitude is the sharpest feeling.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 112,
+    "preset_id": 419,
+    "statement": "I do not need to be seen; it is enough to know the road is still safe.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 113,
+    "preset_id": 419,
+    "statement": "I trust a friend's silence more than a king's shouting.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 114,
+    "preset_id": 419,
+    "statement": "Fear is no cowardice; cowardice is letting fear decide for you.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 115,
+    "preset_id": 419,
+    "statement": "I have learned that listening saves more lives than speaking.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 116,
+    "preset_id": 419,
+    "statement": "I do not seek glory, only that tomorrow something remains worth protecting.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 117,
+    "preset_id": 419,
+    "statement": "Carrying another's burden does not make me weak; it reminds me why I keep walking.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 118,
+    "preset_id": 419,
+    "statement": "Being reserved does not mean I do not feel; it means I guard what I carry inside.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 119,
+    "preset_id": 419,
+    "statement": "There are days when I do not understand the world, yet still choose to stand on its side.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 120,
+    "preset_id": 419,
+    "statement": "No heart is so hardened that it does not soften when it sees someone caring for another.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 163,
+    "preset_id": 419,
+    "statement": "Victory without mercy is only another kind of loss.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 121,
+    "preset_id": 419,
+    "statement": "A simple bowl of shared soup can forge loyalties stronger than solemn oaths.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "type:meal"
+    ]
+   },
+   {
+    "id": 122,
+    "preset_id": 419,
+    "statement": "True leadership is walking one step behind others, not one step ahead.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 123,
+    "preset_id": 419,
+    "statement": "It is not my task to save everyone, but it is my duty not to abandon the one who walks at my side.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 124,
+    "preset_id": 419,
+    "statement": "Those wise enough to speak little tend to remember every word they say.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 125,
+    "preset_id": 419,
+    "statement": "The darker the road, the more important how we treat those who stumble.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 126,
+    "preset_id": 419,
+    "statement": "When I do not know what to do, I watch: the answer is almost always in what others need, not in what I want.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 127,
+    "preset_id": 419,
+    "statement": "I do not need perfect hope, only enough to take one more step.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 128,
+    "preset_id": 419,
+    "statement": "Their innocence is fragile, but the world needs that kind of light.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "tag:entity_type:hobbits"
+    ]
+   },
+   {
+    "id": 129,
+    "preset_id": 419,
+    "statement": "I will not take their illusions from them; time will temper them soon enough.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 130,
+    "preset_id": 419,
+    "statement": "With the right company, even a hard journey feels like a shared vow.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 131,
+    "preset_id": 419,
+    "statement": "Sometimes the kindest thing I can offer is quiet understanding and an open fire.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "type:rest"
+    ]
+   },
+   {
+    "id": 132,
+    "preset_id": 419,
+    "statement": "I am not here to decide everyone's fate, only to do what is right when it is my turn to choose.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 133,
+    "preset_id": 419,
+    "statement": "Sometimes the best answer is a silence that invites the other to listen to themselves.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 134,
+    "preset_id": 419,
+    "statement": "No path is useless if, at the end, you know yourself better.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 135,
+    "preset_id": 419,
+    "statement": "Time does not heal every wound, but it teaches how to carry them without turning them into chains.",
+    "tags": [
+     "context:solitude",
+     "tag:outcome:wounded",
+     "tag:outcome:badly wounded"
+    ]
+   },
+   {
+    "id": 136,
+    "preset_id": 419,
+    "statement": "I do not need to be followed, only to know my steps are honest.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 137,
+    "preset_id": 419,
+    "statement": "Solitude is not emptiness; it is space to remember who I am.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 138,
+    "preset_id": 419,
+    "statement": "My doubts are old companions; we walk together, but they no longer lead.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 139,
+    "preset_id": 419,
+    "statement": "No one truly walks alone; memories travel at our side.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 140,
+    "preset_id": 419,
+    "statement": "The weight of my choices is lighter when I admit my own limits.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 141,
+    "preset_id": 419,
+    "statement": "I find peace in knowing I cannot fix everything; I can still mend something.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 142,
+    "preset_id": 419,
+    "statement": "The night on the road has taught me to listen to the quiet between my thoughts.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 143,
+    "preset_id": 419,
+    "statement": "A long silence can be a bridge, not a wall.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 144,
+    "preset_id": 419,
+    "statement": "I measure my life not in victories, but in moments when I did not turn away.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 145,
+    "preset_id": 419,
+    "statement": "Every scar is a line in the map of where I have been and what I have learned.",
+    "tags": [
+     "context:solitude",
+     "tag:outcome:wounded",
+     "tag:outcome:badly wounded"
+    ]
+   },
+   {
+    "id": 146,
+    "preset_id": 419,
+    "statement": "I am not afraid of being forgotten; I am afraid of forgetting why I walked at all.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 147,
+    "preset_id": 419,
+    "statement": "Solitude on the trail is harsh, but it sharpens the heart as much as the mind.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 148,
+    "preset_id": 419,
+    "statement": "I have argued with myself enough to know when I must simply rest instead.",
+    "tags": [
+     "context:solitude",
+     "type:rest"
+    ]
+   },
+   {
+    "id": 149,
+    "preset_id": 419,
+    "statement": "If I listen closely, even my fears tell me what I value most.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 150,
+    "preset_id": 419,
+    "statement": "I would rather walk slowly and true than run blindly and arrive nowhere.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 151,
+    "preset_id": 419,
+    "statement": "When no one is watching, I can admit how much I still have to learn.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 152,
+    "preset_id": 419,
+    "statement": "The battlefield is honest: here no one pretends life is fair.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 153,
+    "preset_id": 419,
+    "statement": "The smell of iron and damp earth reminds me how fragile we are.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 154,
+    "preset_id": 419,
+    "statement": "I do not rejoice when an enemy falls; I mourn the path that led us there.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 155,
+    "preset_id": 419,
+    "statement": "Survival is not proof of strength, only of persistence.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 156,
+    "preset_id": 419,
+    "statement": "I have seen fury consume good hearts; that is why I hold my own anger in check.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 157,
+    "preset_id": 419,
+    "statement": "Sometimes the bravest choice is to stop fighting when you could keep striking.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 158,
+    "preset_id": 419,
+    "statement": "Steel and claw are clear; it is hatred that truly wounds.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 159,
+    "preset_id": 419,
+    "statement": "I leave no battle unchanged, even when I walk away without a scratch.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 160,
+    "preset_id": 419,
+    "statement": "Each fallen foe reminds me how thin the line is between us and them.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage",
+     "tag:entity_type:orcs"
+    ]
+   },
+   {
+    "id": 161,
+    "preset_id": 419,
+    "statement": "I have learned to thank fear when it sharpens my senses rather than my cruelty.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 162,
+    "preset_id": 419,
+    "statement": "When the clash of blades ends, the real work begins: tending the living and the land.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 164,
+    "preset_id": 419,
+    "statement": "Every hostile encounter tests not just my skill, but my humanity.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 165,
+    "preset_id": 419,
+    "statement": "It is easy to swing a sword; it is harder to decide when to lower it.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 166,
+    "preset_id": 419,
+    "statement": "The echo of battle lingers longer than the wounds.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage",
+     "tag:outcome:wounded",
+     "tag:outcome:badly wounded"
+    ]
+   },
+   {
+    "id": 167,
+    "preset_id": 419,
+    "statement": "I would rather win by wisdom than by force, but the world does not always offer that choice.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 168,
+    "preset_id": 419,
+    "statement": "Even monsters teach us something: what happens when we abandon ourselves.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage",
+     "tag:entity_type:orcs",
+     "tag:entity_type:trolls",
+     "tag:entity_type:demons",
+     "tag:entity_type:undead"
+    ]
+   },
+   {
+    "id": 169,
+    "preset_id": 419,
+    "statement": "When danger fades, I count not the dead, but those I still can protect.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 170,
+    "preset_id": 419,
+    "statement": "Walking away alive is a gift; walking away still kind is a victory.",
+    "tags": [
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ]
+   },
+   {
+    "id": 171,
+    "preset_id": 419,
+    "statement": "A flower growing in a crack inspires me more than any speech.",
+    "tags": [
+     "tag:entity_type:plants"
+    ]
+   },
+   {
+    "id": 172,
+    "preset_id": 419,
+    "statement": "As long as birds keep singing at dawn, not everything is lost.",
+    "tags": [
+     "tag:entity_type:flying_animals"
+    ]
+   },
+   {
+    "id": 173,
+    "preset_id": 419,
+    "statement": "The small fire of a campfire is worth more than a thousand torches lit out of fear.",
+    "tags": [
+     "type:rest"
+    ]
+   },
+   {
+    "id": 174,
+    "preset_id": 419,
+    "statement": "Rain washes more than soil; it also rinses stubborn thoughts.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 175,
+    "preset_id": 419,
+    "statement": "A quiet stream has taught me more about patience than many teachers.",
+    "tags": [
+     "type:water"
+    ]
+   },
+   {
+    "id": 176,
+    "preset_id": 419,
+    "statement": "Night is no enemy; it simply protects what daylight does not know how to see.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 177,
+    "preset_id": 419,
+    "statement": "Narrow forest paths force us to walk close; that is why friendship is so often born there.",
+    "tags": [
+     "tag:entity_type:trees",
+     "tag:entity_type:living_trees"
+    ]
+   },
+   {
+    "id": 178,
+    "preset_id": 419,
+    "statement": "The smell of wet earth always reminds me we can still begin again.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 179,
+    "preset_id": 419,
+    "statement": "As long as there is a single ember glowing in the ashes, some stories are not over.",
+    "tags": [
+     "type:rest"
+    ]
+   },
+   {
+    "id": 180,
+    "preset_id": 419,
+    "statement": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.",
+    "tags": [
+     "tag:entity_type:flying_animals"
+    ]
+   },
+   {
+    "id": 181,
+    "preset_id": 419,
+    "statement": "A tired horse that still moves forward teaches me more about loyalty than words ever could.",
+    "tags": [
+     "tag:entity_type:riding_animals"
+    ]
+   },
+   {
+    "id": 182,
+    "preset_id": 419,
+    "statement": "The way trees bend in the wind is a lesson in strength without rigidity.",
+    "tags": [
+     "tag:entity_type:trees",
+     "tag:entity_type:living_trees"
+    ]
+   },
+   {
+    "id": 183,
+    "preset_id": 419,
+    "statement": "Stars above the camp remind me how small we are and how precious each step becomes.",
+    "tags": [
+     "type:rest"
+    ]
+   },
+   {
+    "id": 184,
+    "preset_id": 419,
+    "statement": "Even the smallest animal fighting for its life shows me courage in its purest form.",
+    "tags": [
+     "tag:entity_type:carnivores",
+     "tag:entity_type:herbivores",
+     "tag:entity_type:flying_animals",
+     "tag:entity_type:other_animals",
+     "tag:entity_type:amphibians",
+     "tag:entity_type:reptiles",
+     "tag:entity_type:insects",
+     "tag:entity_type:riding_animals",
+     "tag:entity_type:water_animals",
+     "tag:entity_type:water_creatures"
+    ]
+   },
+   {
+    "id": 185,
+    "preset_id": 419,
+    "statement": "The rhythm of hooves, paws, and bare feet on the road is the true music of travel.",
+    "tags": [
+     "tag:entity_type:riding_animals",
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 186,
+    "preset_id": 419,
+    "statement": "Watching a fox disappear into the undergrowth teaches me the art of quiet retreat.",
+    "tags": [
+     "tag:entity_type:carnivores"
+    ]
+   },
+   {
+    "id": 187,
+    "preset_id": 419,
+    "statement": "When the mountains turn purple at dusk, I remember beauty can exist even after hard days.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 188,
+    "preset_id": 419,
+    "statement": "A dog that guards the fire does so without asking why; I try to protect others with the same simplicity.",
+    "tags": [
+     "tag:entity_type:other_animals",
+     "type:rest"
+    ]
+   },
+   {
+    "id": 189,
+    "preset_id": 419,
+    "statement": "Listening to owls at night reminds me wisdom often hides in the dark.",
+    "tags": [
+     "tag:entity_type:flying_animals",
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 190,
+    "preset_id": 419,
+    "statement": "Even a broken branch points the way; nature is full of signs for those who look.",
+    "tags": [
+     "tag:entity_type:trees",
+     "tag:entity_type:living_trees"
+    ]
+   },
+   {
+    "id": 191,
+    "preset_id": 419,
+    "statement": "Orcs in these lands mean someone's home is next; that is a debt the watch intends to pay.",
+    "tags": [
+     "tag:entity_type:orcs",
+     "tag:form:sign_only",
+     "tag:form:sound_only",
+     "tag:form:stalks",
+     "tag:form:watches",
+     "tag:form:glimpsed_far",
+     "tag:form:presence_felt"
+    ]
+   },
+   {
+    "id": 192,
+    "preset_id": 419,
+    "statement": "The Enemy does not sleep; neither can the watch.",
+    "tags": [
+     "tag:entity_type:orcs",
+     "tag:entity_type:undead",
+     "tag:entity_type:trolls"
+    ]
+   },
+   {
+    "id": 193,
+    "preset_id": 419,
+    "statement": "The Shire-folk do not know what stands between them and the dark; that is the point of the watch.",
+    "tags": [
+     "tag:entity_type:hobbits"
+    ]
+   },
+   {
+    "id": 194,
+    "preset_id": 419,
+    "statement": "Their peace is not luck; it is paid for quietly, by folk they will never meet.",
+    "tags": [
+     "tag:entity_type:hobbits",
+     "tag:entity_type:humans"
+    ]
+   },
+   {
+    "id": 195,
+    "preset_id": 419,
+    "statement": "The wild speaks before it strikes \u2014 bent grass, a wrong silence, crows gone quiet; the land asks, and a ranger answers.",
+    "tags": [
+     "tag:form:sign_only",
+     "tag:form:sound_only",
+     "tag:form:stalks",
+     "tag:form:watches",
+     "tag:form:glimpsed_far",
+     "tag:form:presence_felt"
+    ]
+   },
+   {
+    "id": 196,
+    "preset_id": 419,
+    "statement": "Our names are forgotten and our keeps are dust; the road remembers us anyway.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 197,
+    "preset_id": 419,
+    "statement": "I have seen crowns change nothing and a kept promise change everything.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 228,
+    "preset_id": 419,
+    "statement": "A ruined homestead is not scenery to me; it is a roll of names nobody wrote down, and I read them anyway.",
+    "tags": [
+     "tag:kind:ruin",
+     "tag:dead_place"
+    ]
+   },
+   {
+    "id": 229,
+    "preset_id": 419,
+    "statement": "Hard bread and cold water: after all these years the arithmetic still tastes honest.",
+    "tags": [
+     "context:solitude",
+     "type:meal"
+    ]
+   },
+   {
+    "id": 230,
+    "preset_id": 419,
+    "statement": "I carry the silence like a pack; when a friend finds the fire, it puts itself down.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 231,
+    "preset_id": 419,
+    "statement": "Dwarves count every coin twice; I have been wrong about people before, so I keep a hand open for the day one proves me so.",
+    "tags": [
+     "tag:entity_type:dwarves"
+    ]
+   },
+   {
+    "id": 232,
+    "preset_id": 419,
+    "statement": "They mistake my silence for humility; it is only arithmetic \u2014 grand words spend faster than they earn.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ]
+   },
+   {
+    "id": 233,
+    "preset_id": 419,
+    "statement": "I have no prayers; I have debts, and the road is how I pay them.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 234,
+    "preset_id": 419,
+    "statement": "The Enemy's creatures get no second chances from me; mercy is for those who can still choose.",
+    "tags": [
+     "tag:entity_type:orcs",
+     "tag:entity_type:trolls",
+     "tag:entity_type:demons",
+     "tag:entity_type:undead",
+     "tag:entity_type:drakes"
+    ]
+   },
+   {
+    "id": 235,
+    "preset_id": 419,
+    "statement": "A drake is not a beast; it is a debt unpaid since the north froze, and I will not leave it to the next watch.",
+    "tags": [
+     "tag:entity_type:drakes"
+    ]
+   },
+   {
+    "id": 236,
+    "preset_id": 419,
+    "statement": "When orc sign crosses a farm track, someone has already lost; the only question left is whether the list grows.",
+    "tags": [
+     "tag:entity_type:orcs",
+     "tag:form:sign_only",
+     "tag:form:sound_only",
+     "tag:form:stalks",
+     "tag:form:watches",
+     "tag:form:glimpsed_far",
+     "tag:form:presence_felt"
+    ]
+   },
+   {
+    "id": 237,
+    "preset_id": 419,
+    "statement": "The elves gave me words for what I had only felt; a people's gift worth more than gold.",
+    "tags": [
+     "tag:entity_type:elves"
+    ]
+   },
+   {
+    "id": 238,
+    "preset_id": 419,
+    "statement": "A name nobody speaks is still a name; the village that bore me earned its silence, and I carry it.",
+    "tags": [
+     "context:solitude"
+    ]
+   },
+   {
+    "id": 239,
+    "preset_id": 419,
+    "statement": "Small things first. That is the whole of my doctrine, and it has never once failed me.",
+    "tags": [
+     "tag:entity_type:carnivores",
+     "tag:entity_type:herbivores",
+     "tag:entity_type:flying_animals",
+     "tag:entity_type:other_animals",
+     "tag:entity_type:amphibians",
+     "tag:entity_type:reptiles",
+     "tag:entity_type:insects",
+     "tag:entity_type:riding_animals",
+     "tag:entity_type:water_animals",
+     "tag:entity_type:water_creatures",
+     "tag:entity_type:hobbits"
+    ]
+   },
+   {
+    "id": 240,
+    "preset_id": 419,
+    "statement": "I do not ask whether a creature is dangerous; I ask what it is protecting. Everything guards something.",
+    "tags": [
+     "tag:entity_type:carnivores",
+     "tag:entity_type:herbivores",
+     "tag:entity_type:flying_animals",
+     "tag:entity_type:other_animals",
+     "tag:entity_type:amphibians",
+     "tag:entity_type:reptiles",
+     "tag:entity_type:insects",
+     "tag:entity_type:riding_animals",
+     "tag:entity_type:water_animals",
+     "tag:entity_type:water_creatures"
+    ]
+   },
+   {
+    "id": 241,
+    "preset_id": 419,
+    "statement": "A title is a debt the bearer never intends to pay; the watch is the only office I recognise.",
+    "tags": [
+     "tag:settlement"
+    ]
+   },
+   {
+    "id": 242,
+    "preset_id": 419,
+    "statement": "I take what is offered and count it enough; want is a heavier pack than hunger.",
+    "tags": [
+     "type:meal",
+     "type:rest"
+    ]
+   },
+   {
+    "id": 243,
+    "preset_id": 419,
+    "statement": "The keeps of the South stand taller than our ruins ever did; stone is not the part that failed.",
+    "tags": [
+     "tag:settlement",
+     "tag:entity_type:humans"
+    ]
+   }
+  ],
+  "preset_memories": [
+   {
+    "id": 43,
+    "preset_id": 419,
+    "desc": "I was born in the last lit house of a village that had no name left to give me. The road gave me the rest.",
+    "tags": [
+     "region:South Arthedain",
+     "tag:entity_type:humans"
+    ],
+    "subjects": [
+     "region:South Arthedain"
+    ],
+    "valence": -0.15,
+    "importance": 0.75,
+    "imprint": {
+     "affection": 0.4,
+     "familiarity": 0.7
+    },
+    "region": "South Arthedain",
+    "entity_id": null,
+    "lived_date": "1750-04-03"
+   },
+   {
+    "id": 44,
+    "preset_id": 419,
+    "desc": "My father measured winters by how many doors still had smoke above them. I learned to count the same way.",
+    "tags": [
+     "region:South Arthedain",
+     "tag:entity_type:humans"
+    ],
+    "subjects": [
+     "tag:entity_type:humans"
+    ],
+    "valence": 0.2,
+    "importance": 0.6,
+    "imprint": {
+     "affection": 0.5,
+     "familiarity": 0.6
+    },
+    "region": "South Arthedain",
+    "entity_id": null,
+    "lived_date": "1762-12-14"
+   },
+   {
+    "id": 45,
+    "preset_id": 419,
+    "desc": "The last roof fell in a wet spring, in a village nobody had named for a hundred years. I was on patrol. The stone knew; nobody had to write it down.",
+    "tags": [
+     "region:South Arthedain",
+     "tag:dead_place"
+    ],
+    "subjects": [
+     "region:South Arthedain"
+    ],
+    "valence": -0.5,
+    "importance": 0.7,
+    "imprint": {
+     "affection": -0.3
+    },
+    "region": "South Arthedain",
+    "entity_id": null,
+    "lived_date": "1910-03-22"
+   },
+   {
+    "id": 46,
+    "preset_id": 419,
+    "desc": "The old ranger who taught me the craft never gave me his true name. In the North a name is a thing you keep sheathed.",
+    "tags": [
+     "family:dnedain"
+    ],
+    "subjects": [
+     "family:dnedain"
+    ],
+    "valence": 0.35,
+    "importance": 0.65,
+    "imprint": {
+     "trust": 0.5,
+     "affection": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1768-05-09"
+   },
+   {
+    "id": 47,
+    "preset_id": 419,
+    "desc": "He told me: read the land before you read men, it lies less. Two hundred years on, I am still checking.",
+    "tags": [
+     "family:dnedain",
+     "tag:entity_type:trees",
+     "tag:entity_type:living_trees"
+    ],
+    "subjects": [
+     "family:dnedain"
+    ],
+    "valence": 0.3,
+    "importance": 0.55,
+    "imprint": {
+     "trust": 0.5,
+     "familiarity": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1770-08-17"
+   },
+   {
+    "id": 48,
+    "preset_id": 419,
+    "desc": "I tracked a wolf in circles for a day before I understood it was tracking me in wider ones. We parted professionals.",
+    "tags": [
+     "tag:entity_type:carnivores"
+    ],
+    "subjects": [
+     "tag:entity_type:carnivores"
+    ],
+    "valence": 0.3,
+    "importance": 0.5,
+    "imprint": {
+     "familiarity": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1916-11-05"
+   },
+   {
+    "id": 49,
+    "preset_id": 419,
+    "desc": "I buried Haeron at dawn and finished his watch by dusk. The road does not wait for grief; the watch does not either.",
+    "tags": [
+     "family:dnedain",
+     "tag:entity_type:orcs",
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ],
+    "subjects": [
+     "family:dnedain",
+     "tag:entity_type:orcs"
+    ],
+    "valence": -0.7,
+    "importance": 0.8,
+    "imprint": {
+     "affection": -0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1908-10-02"
+   },
+   {
+    "id": 50,
+    "preset_id": 419,
+    "desc": "Three of the five who rode out with me through the Ettenmoors came back on one horse. I still walk faster when the mist drops.",
+    "tags": [
+     "region:Ettenmoors",
+     "tag:entity_type:orcs",
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage",
+     "tag:outcome:wounded",
+     "tag:outcome:badly wounded"
+    ],
+    "subjects": [
+     "tag:entity_type:orcs",
+     "region:Ettenmoors"
+    ],
+    "valence": -0.75,
+    "importance": 0.85,
+    "imprint": {
+     "fear": 0.3,
+     "affection": -0.5
+    },
+    "region": "Ettenmoors",
+    "entity_id": null,
+    "lived_date": "1921-02-19"
+   },
+   {
+    "id": 51,
+    "preset_id": 419,
+    "desc": "Orc sign reads the same in every forest: blades filed to points, mercy filed away with them. I stopped being surprised by it a hundred years ago.",
+    "tags": [
+     "tag:entity_type:orcs",
+     "tag:form:sign_only",
+     "tag:form:sound_only",
+     "tag:form:stalks",
+     "tag:form:watches",
+     "tag:form:glimpsed_far",
+     "tag:form:presence_felt"
+    ],
+    "subjects": [
+     "tag:entity_type:orcs"
+    ],
+    "valence": -0.5,
+    "importance": 0.6,
+    "imprint": {
+     "affection": -0.6,
+     "familiarity": 0.6
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1905-07-12"
+   },
+   {
+    "id": 52,
+    "preset_id": 419,
+    "desc": "The cold-drake under the Coldfells took four spears and two good men before it slept again. Drakes do not keep count; rangers do.",
+    "tags": [
+     "region:Coldfells",
+     "tag:entity_type:drakes",
+     "tag:form:attacks",
+     "tag:form:confronts",
+     "tag:form:sudden_peril",
+     "tag:form:hinders_passage"
+    ],
+    "subjects": [
+     "tag:entity_type:drakes",
+     "region:Coldfells"
+    ],
+    "valence": -0.8,
+    "importance": 0.85,
+    "imprint": {
+     "fear": 0.35,
+     "affection": -0.6
+    },
+    "region": "Coldfells",
+    "entity_id": null,
+    "lived_date": "1931-09-28"
+   },
+   {
+    "id": 53,
+    "preset_id": 419,
+    "desc": "Coron's boy followed us into the hills because he wanted the cloak. I sent him home twice. The third time I failed to, and the list got a name.",
+    "tags": [
+     "family:dnedain",
+     "tag:entity_type:orcs"
+    ],
+    "subjects": [
+     "family:dnedain",
+     "tag:entity_type:orcs"
+    ],
+    "valence": -0.65,
+    "importance": 0.7,
+    "imprint": {
+     "affection": -0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1939-06-07"
+   },
+   {
+    "id": 54,
+    "preset_id": 419,
+    "desc": "An elf of the Trollshaws traded me a verse of Sindarin for a brace of rabbits. I overpaid gladly; the verse is still with me.",
+    "tags": [
+     "region:Trollshaws",
+     "tag:entity_type:elves",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ],
+    "subjects": [
+     "region:Trollshaws",
+     "tag:entity_type:elves"
+    ],
+    "valence": 0.5,
+    "importance": 0.6,
+    "imprint": {
+     "affection": 0.5,
+     "familiarity": 0.4
+    },
+    "region": "Trollshaws",
+    "entity_id": null,
+    "lived_date": "1902-06-24"
+   },
+   {
+    "id": 55,
+    "preset_id": 419,
+    "desc": "When the elves sing to the ford I understand every third word, and it is still the best listening I own.",
+    "tags": [
+     "tag:entity_type:elves",
+     "type:water"
+    ],
+    "subjects": [
+     "tag:entity_type:elves"
+    ],
+    "valence": 0.4,
+    "importance": 0.5,
+    "imprint": {
+     "affection": 0.4
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1918-08-15"
+   },
+   {
+    "id": 56,
+    "preset_id": 419,
+    "desc": "Gilmar teaches me old words for things no one names anymore \u2014 the moss that only grows on south stone, the word for a friend met by accident twice.",
+    "tags": [
+     "tag:entity_type:elves",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ],
+    "subjects": [
+     "tag:entity_type:elves"
+    ],
+    "valence": 0.45,
+    "importance": 0.55,
+    "imprint": {
+     "affection": 0.5,
+     "familiarity": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1929-05-30"
+   },
+   {
+    "id": 57,
+    "preset_id": 419,
+    "desc": "Elenv\u00eb calls me the quiet one and talks enough for four. Every second spring our roads cross, and the day always ends too early.",
+    "tags": [
+     "tag:entity_type:elves",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ],
+    "subjects": [
+     "tag:entity_type:elves"
+    ],
+    "valence": 0.55,
+    "importance": 0.55,
+    "imprint": {
+     "affection": 0.6,
+     "familiarity": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1946-04-11"
+   },
+   {
+    "id": 58,
+    "preset_id": 419,
+    "desc": "A hobbit near Waymeet apologised for the quality of his mushrooms and then fed me until I could not stand. I patrol the bounds more than I need to now.",
+    "tags": [
+     "region:The Shire",
+     "tag:entity_type:hobbits",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "type:meal"
+    ],
+    "subjects": [
+     "region:The Shire",
+     "tag:entity_type:hobbits"
+    ],
+    "valence": 0.55,
+    "importance": 0.6,
+    "imprint": {
+     "affection": 0.6,
+     "familiarity": 0.4
+    },
+    "region": "The Shire",
+    "entity_id": null,
+    "lived_date": "1925-09-03"
+   },
+   {
+    "id": 59,
+    "preset_id": 419,
+    "desc": "They plant trees they will never sit beneath and mend roofs for grandchildren not yet born. I have decided that is the bravest thing anyone does.",
+    "tags": [
+     "tag:entity_type:hobbits",
+     "tag:entity_type:trees",
+     "tag:entity_type:living_trees"
+    ],
+    "subjects": [
+     "tag:entity_type:hobbits"
+    ],
+    "valence": 0.4,
+    "importance": 0.55,
+    "imprint": {
+     "affection": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1930-05-18"
+   },
+   {
+    "id": 60,
+    "preset_id": 419,
+    "desc": "Mithrandir borrowed my pipe-weed and left behind a better trail plan. I have trusted the old man since.",
+    "tags": [
+     "entity:gandalf",
+     "tag:entity_type:maiar",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ],
+    "subjects": [
+     "entity:gandalf",
+     "tag:entity_type:maiar"
+    ],
+    "valence": 0.5,
+    "importance": 0.65,
+    "imprint": {
+     "trust": 0.5,
+     "affection": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1915-07-21"
+   },
+   {
+    "id": 61,
+    "preset_id": 419,
+    "desc": "He asked me once what the watch wants at the end. I said: to not be needed. He nodded like a man filing a report.",
+    "tags": [
+     "entity:gandalf",
+     "tag:entity_type:maiar"
+    ],
+    "subjects": [
+     "entity:gandalf",
+     "tag:entity_type:maiar"
+    ],
+    "valence": 0.35,
+    "importance": 0.5,
+    "imprint": {
+     "trust": 0.5,
+     "familiarity": 0.4
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1919-03-08"
+   },
+   {
+    "id": 62,
+    "preset_id": 419,
+    "desc": "A lordling of Ann\u00faminas mistook my silence for deference once. I let him keep the mistake; it cost me nothing and instructed me plenty.",
+    "tags": [
+     "tag:entity_type:humans"
+    ],
+    "subjects": [
+     "tag:entity_type:humans"
+    ],
+    "valence": -0.2,
+    "importance": 0.5,
+    "imprint": {
+     "trust": -0.3
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1907-10-26"
+   },
+   {
+    "id": 63,
+    "preset_id": 419,
+    "desc": "A captain from the South spent a village's winter stores buying himself a title. I counted the hungry doors and filed the name.",
+    "tags": [
+     "tag:entity_type:humans",
+     "tag:settlement"
+    ],
+    "subjects": [
+     "tag:entity_type:humans"
+    ],
+    "valence": -0.35,
+    "importance": 0.55,
+    "imprint": {
+     "trust": -0.3,
+     "affection": -0.3
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1938-01-30"
+   },
+   {
+    "id": 64,
+    "preset_id": 419,
+    "desc": "I followed a doe's trail three days to cut her fawn out of a poacher's snare. The arithmetic of this work is mostly mercy.",
+    "tags": [
+     "family:deer",
+     "tag:form:sign_only",
+     "tag:form:sound_only",
+     "tag:form:stalks",
+     "tag:form:watches",
+     "tag:form:glimpsed_far",
+     "tag:form:presence_felt"
+    ],
+    "subjects": [
+     "family:deer"
+    ],
+    "valence": 0.4,
+    "importance": 0.55,
+    "imprint": {
+     "affection": 0.4
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1927-06-09"
+   },
+   {
+    "id": 65,
+    "preset_id": 419,
+    "desc": "A shepherd's daughter walked me to the ford and back twice so I would not cross alone. The small folk guard the rangers too; they simply never say so.",
+    "tags": [
+     "family:common_men",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ],
+    "subjects": [
+     "family:common_men"
+    ],
+    "valence": 0.45,
+    "importance": 0.55,
+    "imprint": {
+     "affection": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1912-08-24"
+   },
+   {
+    "id": 66,
+    "preset_id": 419,
+    "desc": "A farmer offered me the last of his salt and apologised it was not more. I have eaten in halls; I know which table was richer.",
+    "tags": [
+     "family:common_men",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "type:meal"
+    ],
+    "subjects": [
+     "family:common_men"
+    ],
+    "valence": 0.5,
+    "importance": 0.5,
+    "imprint": {
+     "trust": 0.3,
+     "affection": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1933-11-15"
+   },
+   {
+    "id": 67,
+    "preset_id": 419,
+    "desc": "Fornost is not beautiful to me. Every stone is a name nobody wrote down, and I count them anyway.",
+    "tags": [
+     "region:Fornost",
+     "tag:kind:ruin",
+     "tag:dead_place"
+    ],
+    "subjects": [
+     "region:Fornost"
+    ],
+    "valence": -0.35,
+    "importance": 0.6,
+    "imprint": {
+     "affection": -0.2,
+     "familiarity": 0.5
+    },
+    "region": "Fornost",
+    "entity_id": null,
+    "lived_date": "1909-04-19"
+   },
+   {
+    "id": 68,
+    "preset_id": 419,
+    "desc": "I keep a list of farmsteads that died empty. It is not duty. It is because nobody else was counting.",
+    "tags": [
+     "tag:dead_place",
+     "context:solitude"
+    ],
+    "subjects": null,
+    "valence": -0.3,
+    "importance": 0.55,
+    "imprint": {
+     "affection": -0.2
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1940-02-07"
+   },
+   {
+    "id": 69,
+    "preset_id": 419,
+    "desc": "Torgan laughed so hard at a joke of mine that the crows scattered off the ridge. I had been saving it for three weeks.",
+    "tags": [
+     "family:dnedain",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "family:crows"
+    ],
+    "subjects": [
+     "family:dnedain",
+     "family:crows"
+    ],
+    "valence": 0.6,
+    "importance": 0.55,
+    "imprint": {
+     "affection": 0.6
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1944-07-13"
+   },
+   {
+    "id": 70,
+    "preset_id": 419,
+    "desc": "When a friend finds my fire, the silence I have been carrying puts itself down like a heavy pack. Then I laugh more in one evening than a season.",
+    "tags": [
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws",
+     "type:rest"
+    ],
+    "subjects": null,
+    "valence": 0.55,
+    "importance": 0.5,
+    "imprint": {
+     "affection": 0.5
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1937-12-05"
+   },
+   {
+    "id": 71,
+    "preset_id": 419,
+    "desc": "A man at a Bree table asked what I would die for. The truthful answer was longer than the road behind me, so I said: the next farmstead.",
+    "tags": [
+     "region:Bree",
+     "tag:entity_type:humans",
+     "tag:form:brief_exchange",
+     "tag:form:aid_or_trade",
+     "tag:form:harvest_shelter",
+     "tag:form:drifts_closer",
+     "tag:form:reacts_withdraws"
+    ],
+    "subjects": [
+     "tag:entity_type:humans"
+    ],
+    "valence": 0.3,
+    "importance": 0.6,
+    "imprint": {
+     "trust": 0.3,
+     "familiarity": 0.4
+    },
+    "region": "Bree",
+    "entity_id": null,
+    "lived_date": "1941-10-16"
+   },
+   {
+    "id": 72,
+    "preset_id": 419,
+    "desc": "Whatever is small and unarmed and far from help is my business. It is the only oath I ever made out loud.",
+    "tags": [
+     "context:solitude",
+     "tag:entity_type:carnivores",
+     "tag:entity_type:herbivores",
+     "tag:entity_type:flying_animals",
+     "tag:entity_type:other_animals",
+     "tag:entity_type:amphibians",
+     "tag:entity_type:reptiles",
+     "tag:entity_type:insects",
+     "tag:entity_type:riding_animals",
+     "tag:entity_type:water_animals",
+     "tag:entity_type:water_creatures",
+     "tag:entity_type:hobbits",
+     "family:common_men"
+    ],
+    "subjects": null,
+    "valence": 0.4,
+    "importance": 0.65,
+    "imprint": {
+     "affection": 0.4
+    },
+    "region": null,
+    "entity_id": null,
+    "lived_date": "1943-04-25"
+   }
+  ],
+  "pack_versions": [],
+  "pack_entries": [],
+  "semantics": [],
+  "detectors": [
+   {
+    "id": 11,
+    "game_id": "middle_earth",
+    "kind": "altered",
+    "key": "shadow_altered",
+    "field": "shadow",
+    "op": ">=",
+    "value": 0.25,
+    "scale": 100.0,
+    "group_key": null,
+    "ordinal": 0,
+    "mod": null,
+    "urgency_base": null,
+    "urgency_per": null,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 6,
+    "game_id": "middle_earth",
+    "kind": "check_mod",
+    "key": "energy_spent",
+    "field": "energy",
+    "op": "<",
+    "value": 0.35,
+    "scale": 100.0,
+    "group_key": "energy",
+    "ordinal": 0,
+    "mod": -2.0,
+    "urgency_base": null,
+    "urgency_per": null,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 7,
+    "game_id": "middle_earth",
+    "kind": "check_mod",
+    "key": "energy_worn",
+    "field": "energy",
+    "op": "<",
+    "value": 0.6,
+    "scale": 100.0,
+    "group_key": "energy",
+    "ordinal": 1,
+    "mod": -1.0,
+    "urgency_base": null,
+    "urgency_per": null,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 8,
+    "game_id": "middle_earth",
+    "kind": "check_mod",
+    "key": "shadow_burdened",
+    "field": "shadow",
+    "op": ">=",
+    "value": 0.5,
+    "scale": 100.0,
+    "group_key": "shadow",
+    "ordinal": 0,
+    "mod": -2.0,
+    "urgency_base": null,
+    "urgency_per": null,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 9,
+    "game_id": "middle_earth",
+    "kind": "check_mod",
+    "key": "shadow_shadowed",
+    "field": "shadow",
+    "op": ">=",
+    "value": 0.25,
+    "scale": 100.0,
+    "group_key": "shadow",
+    "ordinal": 1,
+    "mod": -1.0,
+    "urgency_base": null,
+    "urgency_per": null,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 10,
+    "game_id": "middle_earth",
+    "kind": "check_mod",
+    "key": "wounded",
+    "field": "conditions",
+    "op": "contains",
+    "value": "wounded",
+    "scale": null,
+    "group_key": "wounded",
+    "ordinal": 0,
+    "mod": -1.0,
+    "urgency_base": null,
+    "urgency_per": null,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 3,
+    "game_id": "middle_earth",
+    "kind": "need",
+    "key": "exhaustion",
+    "field": "energy",
+    "op": "<=",
+    "value": 0.4,
+    "scale": 100.0,
+    "group_key": null,
+    "ordinal": 0,
+    "mod": null,
+    "urgency_base": 0.5,
+    "urgency_per": 1.0,
+    "urgency_from": "distance",
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 1,
+    "game_id": "middle_earth",
+    "kind": "need",
+    "key": "hunger",
+    "field": "days_without_food",
+    "op": ">=",
+    "value": 1.0,
+    "scale": null,
+    "group_key": null,
+    "ordinal": 0,
+    "mod": null,
+    "urgency_base": 0.3,
+    "urgency_per": 0.2,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 2,
+    "game_id": "middle_earth",
+    "kind": "need",
+    "key": "thirst",
+    "field": "days_without_water",
+    "op": ">=",
+    "value": 1.0,
+    "scale": null,
+    "group_key": null,
+    "ordinal": 0,
+    "mod": null,
+    "urgency_base": 0.5,
+    "urgency_per": 0.25,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 4,
+    "game_id": "middle_earth",
+    "kind": "need",
+    "key": "unrest",
+    "field": "shadow",
+    "op": ">=",
+    "value": 0.25,
+    "scale": 100.0,
+    "group_key": null,
+    "ordinal": 0,
+    "mod": null,
+    "urgency_base": 0.3,
+    "urgency_per": 0.5,
+    "urgency_from": null,
+    "urgency_map": null,
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   },
+   {
+    "id": 5,
+    "game_id": "middle_earth",
+    "kind": "need",
+    "key": "wound",
+    "field": "wounded",
+    "op": "in",
+    "value": [
+     "wounded",
+     "badly_wounded"
+    ],
+    "scale": null,
+    "group_key": null,
+    "ordinal": 0,
+    "mod": null,
+    "urgency_base": null,
+    "urgency_per": null,
+    "urgency_from": null,
+    "urgency_map": {
+     "wounded": 0.35,
+     "badly_wounded": 0.65
+    },
+    "need_type": "physiological",
+    "description": null,
+    "enabled": true
+   }
+  ],
+  "composite_rules": [],
+  "characters": [],
+  "minds": [],
+  "episodes": [],
+  "memories": [],
+  "needs": [],
+  "relations": [],
+  "musings": []
+ }
+}

@@ -1,0 +1,16 @@
+%% Episode lifecycle — the wire a Host speaks
+sequenceDiagram
+    participant H as Host
+    participant M as Mind Engine
+    participant DB as mind.*
+    H->>M: POST /mind/minds/{id}/choose (situations pool)
+    M-->>H: interaction_id per situation
+    H->>M: POST /mind/minds/{id}/perceive (outcome events, optional)
+    H->>M: POST /episodes (OpenEpisodeRequest)
+    M->>DB: episode row + perceive + evoke + needs + mood + brief + lens
+    M-->>H: {episode_id}
+    H->>M: POST /episodes/{id}/narrate
+    M-->>H: prompt + generation + perceived_day + mood + lens_block
+    H->>M: POST /episodes/{id}/close {outcome}
+    M->>DB: encode → patterns → decay → beliefs fade → regress → relations decay → reflect?
+    M-->>H: CloseEpisodeResponse (counts + reflection)

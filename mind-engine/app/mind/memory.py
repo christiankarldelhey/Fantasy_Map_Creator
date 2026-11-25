@@ -17,6 +17,7 @@ from app.mind.engine import derive_feeling, feeling_lexicon
 from app.mind.kinds import kind_of
 from app.mind.voice import humanize, phrases, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.steps import step
 from app.mind.tables import Episode, ForgottenMemory, Memory, Need
 from app.mind.tags import pattern_tag
 
@@ -25,6 +26,7 @@ def _wiring(mind):
     return {**DEFAULT_WIRING, **(mind.wiring or {})}
 
 
+@step('Forgotten')
 def forget(session, mem, episode_idx):
     """Lose a memory but keep its trace (C33): the live row dies, so it
     can never be evoked again; a ForgottenMemory records what it was and
@@ -126,6 +128,7 @@ def _describe(session, game_id, item, mind=None):
     return desc
 
 
+@step('Memory')
 def encode_episode(session, mind, episode):
     """Turn this episode's perceived_day into memories. Idempotent: items
     already encoded for this episode are refreshed, never duplicated."""
@@ -311,6 +314,7 @@ def _exempt_this_episode(mem, current_episode_index):
     )
 
 
+@step('Forgotten')
 def decay_pass(session, mind, current_episode_index):
     """One forgetting pass over the character's memories (C16 tiers).
 
@@ -463,6 +467,7 @@ def _compact_duplicates(session, mind):
     return merged
 
 
+@step('Belief')
 def belief_fade_pass(session, mind, current_episode_index):
     """C14: transient beliefs fade with time, not just reflection —
     'this ford is dangerous these days' stops being true when the days
@@ -512,6 +517,7 @@ def _pattern_eligible(tag):
     return pattern_tag(tag)
 
 
+@step('Past')
 def detect_patterns(session, mind, episode, idx, w):
     """Second path to permanence (spec §7.3): a theme-eligible tag
     perceived in >= pattern_min_episodes of the last pattern_window
@@ -617,6 +623,7 @@ def detect_patterns(session, mind, episode, idx, w):
     return {'formed': formed, 'faded': faded}
 
 
+@step('Past')
 def close_episode_memory(session, mind, episode):
     """Full consolidation pass for one close: encode, detect the recurring
     themes, then decay the volatiles. Degraded minds (B10: NPCs) only

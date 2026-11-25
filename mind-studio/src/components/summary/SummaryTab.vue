@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
-import { CONDITION, label, moodLabel, NEEDS } from '../../lib/labels'
-import { moodWord } from '../../lib/moodSpace'
-import { assetSrc } from '../../lib/urls'
+import { locale, t } from '../../lib/i18n'
+import { portraitSrc } from '../../lib/urls'
 import type { MindDetail } from '../../types'
 import PanelCard from '../ui/PanelCard.vue'
 import CardEditForm from './CardEditForm.vue'
@@ -14,46 +13,27 @@ const editing = shallowRef(false)
 
 const character = computed(() => props.mind.character)
 const editable = computed(() => character.value.kind !== 'original' && character.value.adopted)
-const lastEpisode = computed(() => props.mind.episodes.at(-1) ?? null)
+
+// Convention-guessed portraits can 404 for names without a file — the
+// placeholder initial is the fallback, not a broken icon.
+const brokenSrc = shallowRef<string | null>(null)
+const portrait = computed(() => {
+  const src = portraitSrc(character.value.portrait_url, character.value.name)
+  return src && src !== brokenSrc.value ? src : null
+})
+
+const description = computed(() =>
+  locale.value === 'es'
+    ? character.value.description_es || character.value.description
+    : character.value.description || character.value.description_es)
 
 const lineage = computed(() =>
   character.value.kind === 'original'
-    ? 'Personaje original'
+    ? t('sum.original')
     : character.value.original
-      ? `Copia de ${character.value.original}`
-      : 'Copia',
+      ? t('sum.copyOf', { name: character.value.original })
+      : t('sum.copy'),
 )
-
-const stats = computed(() => {
-  const m = props.mind
-  return [
-    { label: 'Episodios vividos', value: m.episodes.length },
-    { label: 'Recuerdos activos', value: m.memories.filter((x) => x.state === 'alive').length },
-    { label: 'Recuerdos olvidados', value: m.memories.filter((x) => x.state !== 'alive').length },
-    { label: 'Creencias', value: m.beliefs.length },
-    { label: 'Frases de voz interior', value: m.musings.length },
-  ]
-})
-
-const condition = computed(() =>
-  Object.entries(props.mind.condition ?? {})
-    .filter(([, v]) => v !== null && v !== '' && !(Array.isArray(v) && !v.length))
-    .map(([key, v]) => ({
-      key,
-      label: label(CONDITION, key),
-      value: Array.isArray(v) ? v.join(', ') : v === 'none' ? 'ninguna' : String(v),
-    })),
-)
-
-const needs = computed(() => lastEpisode.value?.needs_active ?? [])
-
-const valence = computed(() => props.mind.mood.valence ?? 0)
-const moodText = computed(() => {
-  const v = valence.value
-  if (v <= -0.25) return 'Arrastra un ánimo negativo.'
-  if (v >= 0.25) return 'Viene de buen ánimo.'
-  return 'Su ánimo está en equilibrio.'
-})
 
 function onSaved() {
   editing.value = false
@@ -63,9 +43,9 @@ function onSaved() {
 
 <template>
   <div class="grid">
-    <PanelCard title="Quién es" class="span-2">
+    <PanelCard :title="t('sum.who')" class="span-2">
       <template #actions>
-        <button v-if="editable && !editing" class="btn" @click="editing = true">Editar ficha</button>
+        <button v-if="editable && !editing" class="btn" @click="editing = true">{{ t('sum.edit') }}</button>
       </template>
 
       <CardEditForm
@@ -77,80 +57,35 @@ function onSaved() {
       />
 
       <div v-else class="identity">
-        <img v-if="character.portrait_url" :src="assetSrc(character.portrait_url) ?? ''" alt="" class="portrait" />
+        <img
+          v-if="portrait" :src="portrait" alt="" class="portrait"
+          @error="brokenSrc = portrait"
+        />
         <div v-else class="portrait placeholder" aria-hidden="true">
           {{ (character.name ?? '?').charAt(0).toUpperCase() }}
         </div>
         <div class="who">
-          <h2 class="char-name">{{ character.name ?? 'Sin nombre' }}</h2>
+          <h2 class="char-name">{{ character.name ?? '—' }}</h2>
           <div class="tags">
             <span v-if="character.entity_name" class="badge">{{ character.entity_name }}</span>
-            <span class="badge badge-accent" title="Configuración de mente de la que partió">Preset: {{ mind.preset }}</span>
+            <span class="badge badge-accent" :title="t('sum.preset', { name: '' }).trim()">{{ t('sum.preset', { name: mind.preset }) }}</span>
             <span class="badge">{{ lineage }}</span>
           </div>
-          <p v-if="character.description" class="description">{{ character.description }}</p>
+          <p v-if="description" class="description">{{ description }}</p>
           <p v-if="!editable" class="muted small">
-            {{ character.kind === 'original'
-              ? 'Los personajes originales no se editan desde acá.'
-              : 'Esta ficha todavía no se puede editar: se habilita después del primer episodio.' }}
+            {{ character.kind === 'original' ? t('sum.noedit.original') : t('sum.noedit.pending') }}
           </p>
         </div>
       </div>
     </PanelCard>
 
     <PanelCard
-      title="Cómo está ahora"
-      description="El ánimo actual de la mente y el estado físico que informa el juego."
-    >
-      <dl class="rows">
-        <div>
-          <dt>Ánimo</dt>
-          <dd><span class="badge badge-accent">{{ moodLabel(moodWord(mind.mood)) }}</span> <span class="muted">{{ moodText }}</span></dd>
-        </div>
-        <div v-for="c in condition" :key="c.key">
-          <dt>{{ c.label }}</dt>
-          <dd>{{ c.value }}</dd>
-        </div>
-        <div>
-          <dt>Necesidades</dt>
-          <dd>
-            <template v-if="needs.length">
-              <span v-for="n in needs" :key="n.key" class="badge need">{{ label(NEEDS, n.key) }}</span>
-            </template>
-            <span v-else class="muted">Ninguna en el último episodio</span>
-          </dd>
-        </div>
-      </dl>
-    </PanelCard>
-
-    <PanelCard title="En números">
-      <dl class="stats">
-        <div v-for="s in stats" :key="s.label">
-          <dd>{{ s.value }}</dd>
-          <dt>{{ s.label }}</dt>
-        </div>
-      </dl>
-      <p v-if="lastEpisode" class="muted small last">
-        Último episodio: #{{ lastEpisode.idx }} · {{ lastEpisode.date ?? 'sin fecha' }}
-      </p>
-    </PanelCard>
-
-    <PanelCard
       v-if="character.foundational_phrase"
-      title="Frase fundacional"
-      description="El texto base que define la identidad del personaje para el narrador."
+      :title="t('sum.lens')"
+      :description="t('sum.lens.desc')"
       class="span-2"
     >
       <blockquote class="phrase">{{ character.foundational_phrase }}</blockquote>
-    </PanelCard>
-
-    <PanelCard
-      v-if="character.voice_instructions"
-      title="Cómo habla"
-      description="Instrucciones de voz que recibe el narrador."
-      class="span-2"
-    >
-      <p class="prose">{{ character.voice_instructions }}</p>
     </PanelCard>
   </div>
 </template>
@@ -159,10 +94,10 @@ function onSaved() {
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .span-2 { grid-column: span 2; }
 
-.identity { display: flex; gap: 20px; align-items: flex-start; }
+.identity { display: flex; gap: 24px; align-items: flex-start; }
 .portrait {
-  width: 96px;
-  height: 96px;
+  width: 128px;
+  height: 128px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -172,7 +107,7 @@ function onSaved() {
   display: grid;
   place-items: center;
   background: var(--surface-2);
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 600;
   color: var(--text-dim);
 }
@@ -181,17 +116,6 @@ function onSaved() {
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .description { margin: 0; color: var(--text); max-width: 75ch; }
 .small { font-size: 13px; margin: 0; }
-
-.rows { display: grid; gap: 12px; margin: 0; }
-.rows div { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: baseline; }
-.rows dt { color: var(--text-dim); font-size: 13px; }
-.rows dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
-.need { color: var(--danger); border-color: rgba(224, 112, 124, 0.35); }
-
-.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; margin: 0; }
-.stats dd { margin: 0; font-size: 26px; font-weight: 600; font-family: var(--mono); }
-.stats dt { font-size: 13px; color: var(--text-dim); }
-.last { margin-top: 16px; }
 
 .phrase {
   margin: 0;
@@ -203,7 +127,6 @@ function onSaved() {
   white-space: pre-line;
   max-width: 75ch;
 }
-.prose { margin: 0; white-space: pre-line; max-width: 75ch; }
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr; }

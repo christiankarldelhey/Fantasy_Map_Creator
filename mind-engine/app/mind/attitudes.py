@@ -12,6 +12,8 @@
 # not that.
 # ============================================================================
 # Narrowest first: a match on an entity outranks a family, a family a type.
+from app.mind.steps import step
+
 _LEVELS = (('entity:', 3), ('family:', 2), ('tag:entity_type:', 1))
 
 # The people ladder (#86): 'dunlendings' is the same folk whether the
@@ -72,6 +74,7 @@ def is_attitude(belief):
     )
 
 
+@step('Belief')
 def active_convictions(session, character_id):
     """The 'loud' beliefs: conviction-tier memories whose facet status is
     active (#168). Status is JSONB-filtered in Python — a mind's

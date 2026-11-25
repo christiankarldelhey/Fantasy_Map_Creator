@@ -27,6 +27,7 @@ from app.mind.kinds import ROLE_FRAME, ROLE_VOICE, kinds
 from app.mind.retrieval import felt_proximity
 from app.mind.voice import FELT_ALIAS, mood_name, phrases
 from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.steps import step
 from app.mind.tags import (
     contact_tags as _contact_tags,
     tag_facet,
@@ -183,6 +184,7 @@ def _evocation_via(memory_tags, item_tags):
                        t))[0]
 
 
+@step('Lens')
 def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 wiring=None, anchors=None, need_origins=None,
                 session=None, game_id=None, mind=None, episode_idx=None,

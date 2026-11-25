@@ -18,6 +18,9 @@ export const fetchMinds = (signal?: AbortSignal) =>
 export const fetchMind = (characterId: string, signal?: AbortSignal) =>
   getJson<MindDetail>(`/minds/${encodeURIComponent(characterId)}`, signal)
 
+export const fetchMindMap = (signal?: AbortSignal) =>
+  getJson<import('./types').MindMapGraph>('/mind-map', signal)
+
 export async function patchCard(
   characterId: string,
   patch: Partial<import('./types').CharacterCard>,

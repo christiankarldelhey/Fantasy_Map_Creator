@@ -23,7 +23,8 @@
 import math
 import random
 
-from app.mind.relations import attention_weights
+from app.mind.relations import watch_weights
+from app.mind.steps import step
 from app.mind.tables import Need, Relation
 
 # Acts that reach *toward* the source — a warm Relation invites them, a cold
@@ -113,6 +114,7 @@ def _weighted_draw(scored, weights, rng):
     return len(scored) - 1
 
 
+@step('Decision')
 def choose(session, mind, game_id, character_id, choices, rng=None):
     """Pick one Interaction per Situation. `choices` is the wire list:
     [{situation_id, subject, options:[{interaction_id, act, need_tags,
@@ -135,7 +137,7 @@ def choose(session, mind, game_id, character_id, choices, rng=None):
             .filter(Relation.subject.in_(subjects))
             .all()
         }
-    attention = attention_weights(session, mind) if mind else {}
+    attention = watch_weights(session, mind) if mind else {}
     temperature = _temperature(mind)
 
     results = []

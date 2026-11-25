@@ -25,7 +25,7 @@ from app.mind.checks import (
     character_state,
     is_asleep,
     misread_reading,
-    resolve_check,
+    perception_check,
 )
 from app.mind.engine import (
     acute_hit, mood_delta, mood_position, project_body,
@@ -34,16 +34,17 @@ from app.mind.engine import (
 from app.mind.events import flat_data
 from app.mind.kinds import SOURCE_MIND, is_mind_item, kind_of
 from app.mind.relations import (
-    attention_weights, feed, feed_event, standing, standing_relation,
+    feed, feed_event, standing, standing_relation, watch_weights,
 )
 from app.mind.semantics import (
-    field_severity, load_semantics, salience_floor, semantic_delta,
+    declared_severity, load_semantics, meaning_of, salience_floor,
 )
 from app.mind.voice import (
     felt_word, mood_point, phrases, resolve_event_reading,
     streak_subjects,
 )
 from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.steps import step
 from app.mind.tables import Episode
 from app.mind.tags import UNTAGGED_FIELDS, subject_tags, tag_is
 from app.mind.util import best_tag_weight, num, tag_matches
@@ -63,6 +64,7 @@ def _is_content(value):
     return isinstance(value, str) and value.strip().lower() not in EMPTY_MARKERS
 
 
+@step('Tag')
 def derive_tags(event):
     """Weight-space tags for an event (see module docstring convention).
     The envelope's universal keys fold into the data view — act reads
@@ -111,7 +113,7 @@ def derive_tags(event):
     return tags
 
 
-def attention_weight(tags, weights):
+def watch_weight(tags, weights):
     """Max matching attention weight across the event's tags; wildcards
     'prefix:*' match any tag with that prefix. 0 = this mind is
     indifferent."""
@@ -295,10 +297,10 @@ def _recurrence_items(session, game_id, mind, perceived, w):
             if vec is not None:
                 return max(-1.0, min(
                     1.0, vec['affection'] - vec['fear']))
-        world, _, _ = semantic_delta([tag], {}, semantics)
+        meaning, _, _ = meaning_of([tag], {}, semantics)
         return max(-1.0, min(
             1.0,
-            world.get('affection', 0.0) - world.get('fear', 0.0)))
+            meaning.get('affection', 0.0) - meaning.get('fear', 0.0)))
 
     def _item(kind, tag, streak, valence, salience, phrase_key,
               extra_data=None, tags=None, pull_word=None):
@@ -412,6 +414,7 @@ def _recurrence_items(session, game_id, mind, perceived, w):
     return items
 
 
+@step('Need')
 def resolve_break_items(session, game_id, mind, perceived, needs, w):
     """A streak that died because the world took something is not relief
     (C12). 'No bread today' while hunger is open is warning, not good
@@ -496,6 +499,7 @@ def _subject_displays(event):
     return out
 
 
+@step('Perceived day')
 def perceive_events(session, game_id, mind, events, character=None,
                     episode_idx=None, felt_ids=None, episode_date=None):
     """Annotate each event: perception + reading + salience + tags, and the
@@ -517,7 +521,7 @@ def perceive_events(session, game_id, mind, events, character=None,
     # Two channels of attention (ADR 0017): the semantic pack declares
     # objective weight (charge + floors below); the Relations supply the
     # personal bias — what this mind loves, hates or fears stays watched.
-    weights = attention_weights(
+    weights = watch_weights(
         session, mind, w.get('relation_attention_gain', 0.3))
     state = character_state(character)
     semantics = load_semantics(session, game_id)
@@ -541,7 +545,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             check_result = asleep_check_result(event, index)
             perception = 'unnoticed'
         else:
-            check_result, perception = resolve_check(
+            check_result, perception = perception_check(
                 session, game_id, character, event, index, state, w,
                 mind=mind, episode_date=episode_date,
             )
@@ -563,23 +567,23 @@ def perceive_events(session, game_id, mind, events, character=None,
                 check_result['difficulty']
                 / w.get('check_difficulty_scale', 10.0),
             )
-        severity = min(1.0, field_severity(data, semantics))
+        severity = min(1.0, declared_severity(data, semantics))
 
         # The event's objective reading (ADR 0017): what the semantic
         # pack declares this kind of contact meant. Only registered
         # events carry meaning — a favour slept through never happened.
         if perception == 'unnoticed':
-            world_delta, contact_w, body_hit = {}, 0.0, {}
+            meaning, contact_w, body_hit = {}, 0.0, {}
         else:
-            world_delta, contact_w, body_hit = semantic_delta(
+            meaning, contact_w, body_hit = meaning_of(
                 tags, data, semantics
             )
-        charge = min(1.0, sum(abs(v) for v in world_delta.values()))
+        charge = min(1.0, sum(abs(v) for v in meaning.values()))
         salience = min(1.0, (
             w.get('w_severity', 0) * severity
             + w.get('w_novelty', 0) * novelty
             + w.get('w_emotional', 0) * charge
-            + w.get('w_attention', 0) * attention_weight(tags, weights)
+            + w.get('w_attention', 0) * watch_weight(tags, weights)
             + w.get('w_perception', 0) * (bonus or 0.0)
         ))
         if perception == 'unnoticed':
@@ -615,7 +619,7 @@ def perceive_events(session, game_id, mind, events, character=None,
             # prior_standing = the bond that already existed (refracto);
             # post-sediment standing = what the source now means (hold).
             primary, prior_standing = feed_event(
-                session, mind, subjects, world_delta,
+                session, mind, subjects, meaning,
                 episode_idx=episode_idx,
                 displays=_subject_displays(event),
             )
@@ -659,7 +663,7 @@ def perceive_events(session, game_id, mind, events, character=None,
                 p['target']['valence'] * p['gain'] for p in pulls
             ) / total
         else:
-            valence = mood_delta(world_delta).get('valence', 0.0)
+            valence = mood_delta(meaning).get('valence', 0.0)
         kind = kind_of(session, game_id, event.get('type'))
         item = {
             **event,
@@ -669,14 +673,14 @@ def perceive_events(session, game_id, mind, events, character=None,
             'salience': round(salience, 3),
             'valence': round(valence, 3),
             'world_valence': round(
-                mood_delta(world_delta).get('valence', 0.0), 3
+                mood_delta(meaning).get('valence', 0.0), 3
             ),
             'severity': round(severity, 3),
             'tags': tags,
             'subjects': subjects,
             # What the event left on the Relation — the objective
             # sediment, not a mind-bent delta.
-            'imprint': world_delta,
+            'imprint': meaning,
             'mood_pull': pulls,
         }
         if primary:

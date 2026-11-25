@@ -36,6 +36,7 @@ from app.mind.engine import (
 from app.mind.memory import episode_date, episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.relations import feed
+from app.mind.steps import step
 from app.mind.tables import Memory
 from app.mind.tags import (
     contact_tags as _contact_tags,
@@ -104,6 +105,7 @@ def felt_proximity(mem_felt, day_targets):
     return best
 
 
+@step('Evocation')
 def retrieve(session, mind, episode, perceived_day):
     """Score the character's memories against this episode's context and
     evoke the top-K. Returns the evoked Memory rows (highest score first).
@@ -233,6 +235,7 @@ def retrieve(session, mind, episode, perceived_day):
     return evoked
 
 
+@step('Evocation')
 def voice_memories(session, mind, memories, idx):
     """The voiced consolidation (ADR 0017, #184): only a memory the Lens
     carried into the brief bleeds back into the mind — it strengthens,
@@ -284,6 +287,7 @@ def voice_memories(session, mind, memories, idx):
         }
 
 
+@step('Evocation')
 def dialogue_recall(session, mind, item, idx, exclude_ids=()):
     """Focused recall for a spoken encounter (C23): embed what was
     actually asked/said and return the memory that best answers it —

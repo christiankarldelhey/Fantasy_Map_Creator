@@ -10,6 +10,7 @@
 from app.mind.engine import (
     CATEGORY_SPLASH, decay, derive_feeling, feeling_lexicon, sediment,
 )
+from app.mind.steps import step
 from app.mind.tables import Relation
 from app.mind.tags import tag_family
 
@@ -98,7 +99,8 @@ def feed(session, game_id, character_id, subject, delta, *,
     return row
 
 
-def feed_event(session, mind, subjects, world_delta, episode_idx=None,
+@step('Relation')
+def feed_event(session, mind, subjects, meaning, episode_idx=None,
                displays=None):
     """One perceived event's sediment pass over its subject tags: the
     narrowest subject takes the whole delta, broader ones the splash.
@@ -137,7 +139,7 @@ def feed_event(session, mind, subjects, world_delta, episode_idx=None,
         scale = 1.0 if subject == primary else CATEGORY_SPLASH
         feed(
             session, mind.game_id, mind.character_id, subject,
-            {d: v * scale for d, v in (world_delta or {}).items()},
+            {d: v * scale for d, v in (meaning or {}).items()},
             resistance=resistance, episode_idx=episode_idx,
             display_name=displays.get(subject),
         )
@@ -195,7 +197,7 @@ def seed_relations(session, game_id, character_id, preset):
     return made
 
 
-def attention_weights(session, mind, gain=0.3):
+def watch_weights(session, mind, gain=0.3):
     """{subject_tag: added salience weight} — a Relation, loved or hated,
     keeps its subject watched: max|dim| * gain. This is the Relations'
     form of what attitudes used to add to theme_weights."""
@@ -210,6 +212,7 @@ def attention_weights(session, mind, gain=0.3):
     return out
 
 
+@step('Relation')
 def decay_all(session, mind, rate=0.98):
     """The quiet-episode tick: every Relation cools toward indifference —
     dims shrink, never crossing their sign. The fear lets go; the love

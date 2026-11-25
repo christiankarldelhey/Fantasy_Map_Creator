@@ -90,6 +90,37 @@ export function pullVec(e: PerceivedEvent, from: MoodPoint): { dv: number; da: n
   return null
 }
 
+/** Invert one event's pull: where the mood stood *before* the event,
+ *  given where it stood after. pullVec applies
+ *  new = from·(1−Σgain) + Σ(target·gain), so the inverse reads
+ *  from = (new − Σtarget·gain) / (1−Σgain). A total gain near 1 snaps
+ *  the mood to the target — the "before" is unrecoverable and the
+ *  after position stands. */
+export function unPull(e: PerceivedEvent, after: MoodPoint): MoodPoint {
+  const pulls = e.mood_pull?.filter((p) => p.gain > 0) ?? []
+  if (pulls.length) {
+    let g = 0, tv = 0, ta = 0
+    for (const p of pulls) {
+      g += p.gain
+      tv += p.target.valence * p.gain
+      ta += p.target.arousal * p.gain
+    }
+    const k = 1 - g
+    if (k < 0.05) return after
+    return {
+      valence: (after.valence - tv) / k,
+      arousal: (after.arousal - ta) / k,
+    }
+  }
+  if (e.mood_delta) {
+    return {
+      valence: after.valence - (e.mood_delta.valence ?? 0),
+      arousal: after.arousal - (e.mood_delta.arousal ?? 0),
+    }
+  }
+  return after
+}
+
 /** Space → pixel: valence right, arousal up, both −1..+1 over `radius`. */
 export function toPx(p: MoodPoint, center: number, radius: number) {
   return { x: center + p.valence * radius, y: center - p.arousal * radius }

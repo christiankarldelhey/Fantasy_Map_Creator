@@ -42,5 +42,16 @@
         }
       ]
     }
+  ],
+  "Stop": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": ".devin/hooks/mind-map-check.sh",
+          "timeout": 30
+        }
+      ]
+    }
   ]
 }

@@ -4,7 +4,7 @@
 # ADR 0017 leaves exactly two things bending what stands out: the
 # semantic pack's objective weight (charge + floors) and the mind's
 # Relations — a loved or feared subject stays watched via
-# attention_weights. The theme_weights dict and the belief-boost fold
+# watch_weights. The theme_weights dict and the belief-boost fold
 # are gone; a strong belief no longer bends salience on its own.
 # ============================================================================
 import uuid
@@ -14,7 +14,7 @@ from fastapi.testclient import TestClient
 
 import app.main as main_module
 from app.db import SessionLocal
-from app.mind.relations import attention_weights
+from app.mind.relations import watch_weights
 from app.mind.tables import Memory, Mind, Relation
 from conftest import open_state
 
@@ -59,7 +59,7 @@ def _open(client, char, events, ref='d1'):
 
 
 def test_relation_attention_is_the_only_personal_channel():
-    """attention_weights maps each Relation subject to max|dim| * gain —
+    """watch_weights maps each Relation subject to max|dim| * gain —
     loved or feared things stay watched; nothing else contributes."""
     session = SessionLocal()
     char = _uid('watcher')
@@ -84,7 +84,7 @@ def test_relation_attention_is_the_only_personal_channel():
                     'status': 'active', 'strength': 4, 'evidence': []},
     ))
     session.flush()
-    weights = attention_weights(session, mind, 0.3)
+    weights = watch_weights(session, mind, 0.3)
     session.rollback()
     session.close()
     assert weights['tag:entity_type:orcs'] == pytest.approx(0.18)

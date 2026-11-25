@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends string">
-defineProps<{ tabs: readonly { id: T; label: string; count?: number }[] }>()
+defineProps<{ tabs: readonly { id: T; label: string; count?: number; dim?: boolean }[] }>()
 
 const active = defineModel<T>({ required: true })
 </script>
@@ -11,7 +11,7 @@ const active = defineModel<T>({ required: true })
       :key="t.id"
       role="tab"
       :aria-selected="active === t.id"
-      :class="['tab', { on: active === t.id }]"
+      :class="['tab', { on: active === t.id, dim: t.dim }]"
       @click="active = t.id"
     >
       {{ t.label }}
@@ -37,6 +37,8 @@ const active = defineModel<T>({ required: true })
 }
 .tab:hover { color: var(--text); }
 .tab.on { color: var(--text); border-bottom-color: var(--accent); }
+.tab.dim { color: var(--text-faint); }
+.tab.dim:hover, .tab.dim.on { color: var(--text-dim); }
 .count {
   font-size: 11px;
   font-family: var(--mono);

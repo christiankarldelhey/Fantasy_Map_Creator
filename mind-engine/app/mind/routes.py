@@ -89,7 +89,7 @@ from app.mind.perceive import (
 from app.mind.relations import decay_all, feed_event
 from app.mind.detectors import body_projection
 from app.mind.semantics import (
-    load_semantics, semantic_delta,
+    load_semantics, meaning_of,
 )
 from app.mind.tags import subject_tags
 from app.mind.checks import character_state
@@ -1088,13 +1088,13 @@ def perceive_interim(
                 continue
             tags = derive_tags(event)
             data = flat_data(event)
-            world_delta, _contact_w, body_hit = semantic_delta(
+            meaning, _contact_w, body_hit = meaning_of(
                 tags, data, semantics
             )
             subjects = sorted(subject_tags(tags))
             if subjects:
                 feed_event(
-                    db, mind, subjects, world_delta,
+                    db, mind, subjects, meaning,
                     displays={
                         s: (data.get('entity_name')
                             or data.get('name') or s)

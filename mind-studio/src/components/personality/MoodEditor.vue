@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { patchMood } from '../../api'
+import { t } from '../../lib/i18n'
 import { moodLabel } from '../../lib/labels'
 import { moodWord } from '../../lib/moodSpace'
 import type { MindDetail } from '../../types'
 import SliderField from '../ui/SliderField.vue'
 
-const props = defineProps<{ mind: MindDetail }>()
+const props = withDefaults(defineProps<{ mind: MindDetail; disabled?: boolean }>(), { disabled: false })
 const emit = defineEmits<{ saved: []; error: [message: string] }>()
 
 const mood = reactive({
@@ -28,25 +29,27 @@ async function save() {
 
 <template>
   <div class="mood">
-    <p class="now">Hoy se siente: <span class="badge badge-accent">{{ moodLabel(moodWord(mood)) }}</span></p>
+    <p class="now">{{ t('per.mood.feels') }} <span class="badge badge-accent">{{ moodLabel(moodWord(mood)) }}</span></p>
     <div class="fields">
       <SliderField
         v-model="mood.valence"
-        label="Estado de ánimo"
-        help="De negativo a positivo."
-        low="Muy mal"
-        high="Muy bien"
+        :label="t('per.mood.valence')"
+        :help="t('per.mood.valence.help')"
+        :low="t('per.mood.valence.low')"
+        :high="t('per.mood.valence.high')"
         :min="-1"
         :format="signed"
+        :disabled="disabled"
         @commit="save"
       />
       <SliderField
         v-model="mood.arousal"
-        label="Agitación"
-        help="Qué tan revuelto o calmo está."
-        low="En calma"
-        high="Muy agitado"
+        :label="t('per.mood.arousal')"
+        :help="t('per.mood.arousal.help')"
+        :low="t('per.mood.arousal.low')"
+        :high="t('per.mood.arousal.high')"
         :min="-1"
+        :disabled="disabled"
         @commit="save"
       />
     </div>

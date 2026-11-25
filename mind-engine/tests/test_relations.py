@@ -274,8 +274,8 @@ def test_the_sediment_watches_its_subject(client):
 
     session = SessionLocal()
     mind = session.query(Mind).filter_by(character_id=char).one()
-    from app.mind.relations import attention_weights
-    weights = attention_weights(session, mind)
+    from app.mind.relations import watch_weights
+    weights = watch_weights(session, mind)
     session.close()
     # trust .15 -> the foxes' tags gain attention from the relation.
     assert weights.get('entity:red_foxes', 0) > 0

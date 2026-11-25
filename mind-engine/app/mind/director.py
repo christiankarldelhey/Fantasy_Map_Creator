@@ -21,6 +21,7 @@ import os
 
 from app.ai import complete_json
 from app.mind.focus import LINE_CAP
+from app.mind.steps import step
 
 log = logging.getLogger(__name__)
 
@@ -125,6 +126,7 @@ def apply_decision(brief, candidates, decision):
     }
 
 
+@step('Focus')
 def direct(brief, candidates, character_name, foundational_phrase=None):
     """The director's brief, or None to keep the rules' (logged reason)."""
     prompt = build_prompt(

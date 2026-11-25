@@ -28,6 +28,7 @@ from app.mind.focus import _touches, brief_lines
 from app.mind.kinds import is_mind_item
 from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.steps import step
 from app.mind.tables import Episode, Memory
 
 log = logging.getLogger(__name__)
@@ -417,6 +418,7 @@ def _f(v, default):
         return default
 
 
+@step('Reflection')
 def maybe_reflect(session, mind, episode, character_name=None):
     """Run one reflection if the trigger fires. Returns a summary dict or
     None when no trigger. Never raises on LLM failure — a skipped

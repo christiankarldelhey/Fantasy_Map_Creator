@@ -46,7 +46,8 @@ if studio_router is not None:
 
 # Mind Studio (ADR 0002): the built Vue app, when present. The data lives
 # behind /studio/api; the static shell itself carries nothing private.
-_STUDIO_DIST = Path(__file__).resolve().parents[2] / 'mind-studio' / 'dist'
+_REPO = Path(__file__).resolve().parents[2]
+_STUDIO_DIST = _REPO / 'mind-studio' / 'dist'
 if _STUDIO_DIST.is_dir():
     app.mount(
         '/studio',
@@ -57,6 +58,19 @@ if _STUDIO_DIST.is_dir():
     @app.get('/', include_in_schema=False)
     def root():
         return RedirectResponse('/studio/')
+
+
+# Character portraits: the card's portrait_url points at '/portraits/X.png',
+# a path the game backend owns (server.js → public/characters). Serving the
+# same folder here lets the Studio resolve it on its own origin — no
+# cross-origin base to configure.
+_PORTRAITS = _REPO / 'backend' / 'public' / 'characters'
+if _PORTRAITS.is_dir():
+    app.mount(
+        '/portraits',
+        StaticFiles(directory=_PORTRAITS),
+        name='portraits',
+    )
 
 
 @app.get('/health')

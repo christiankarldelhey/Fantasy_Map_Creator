@@ -17,6 +17,7 @@
 import re
 
 from app.day_phases import DAWN_HOUR
+from app.mind.steps import step
 
 ENVELOPE_KEYS = frozenset({
     'act', 'intensity', 'reading', 'tags', 'check',
@@ -48,6 +49,7 @@ def wake_anchor(previous_rest):
     return re.split(r' — |(?<=\.)\s', previous_rest)[0].rstrip('.')
 
 
+@step('Episode')
 def wake_event(previous_rest):
     """The day's first event: the waking itself. A real event in
     `episode.events` — perceived first, indexable like any other, the

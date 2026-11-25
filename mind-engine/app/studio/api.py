@@ -10,6 +10,7 @@
 # ============================================================================
 import os
 import secrets
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -23,7 +24,7 @@ from app.evals.narrative_checks import memory_echoes_in_text
 from app.mind.provisioning import DEFAULT_WIRING, _find_preset
 from app.mind.tables import (
     Mind, MindPreset, Character, Episode, ForgottenMemory, Memory, Musing,
-    Need,
+    Need, Relation,
 )
 from app.mind.lens import MOOD_CAUSE_MIN_VALENCE
 from app.mind.voice import mood_name
@@ -208,12 +209,11 @@ def list_minds(game: str = DEFAULT_GAME, db: Session = Depends(get_session)):
             .order_by(Episode.created_at.desc())
             .first()
         ) if lived_at else None
+        card = _card(cards.get(mind.character_id), latest)
         minds.append({
             'character_id': mind.character_id,
-            'name': (
-                _card(cards.get(mind.character_id), latest)['name']
-                or mind.character_id
-            ),
+            'name': card['name'] or mind.character_id,
+            'portrait_url': card['portrait_url'],
             'preset': mind.preset_slug,
             'episodes': episodes or 0,
             'memories': mem_counts.get(mind.character_id, 0),
@@ -256,6 +256,7 @@ def get_mind(
     )
     musings = db.query(Musing).filter_by(**scope).all()
     needs = db.query(Need).filter_by(**scope).all()
+    relations = db.query(Relation).filter_by(**scope).all()
     memories = (
         [_memory_out(m) for m in db.query(Memory).filter_by(**scope)]
         + [_memory_out(m, forgotten=True)
@@ -280,6 +281,10 @@ def get_mind(
             'status': ep.status,
             'mood': ep.mood or {},
             'needs_active': ep.needs_active or [],
+            # Raw vs lived (ADR 0021): the wire events as the Host sent
+            # them, and the same items after perception annotated them.
+            'events': ep.events or [],
+            'lived': ep.perceived_day or [],
             'perceived': [
                 {
                     'type': p.get('type'),
@@ -344,6 +349,9 @@ def get_mind(
             {
                 'id': b.id,
                 'statement': b.desc,
+                # What the conviction is about — the Subject tags it
+                # touches, same idea as a Relation's subject.
+                'subjects': b.subjects or [],
                 'origin': b.origin,
                 'status': (b.conviction or {}).get('status'),
                 'kind': (b.conviction or {}).get('kind'),
@@ -377,6 +385,25 @@ def get_mind(
                 'updated_episode': n.updated_episode,
             }
             for n in needs
+        ],
+        # Relations (CONTEXT.md · Relation): the standing each perceived
+        # event sedimented, per subject — what the Mind feels about
+        # things, never declared, only accreted.
+        'relations': [
+            {
+                'id': r.id,
+                'subject': r.subject,
+                'display_name': r.display_name,
+                'affection': r.affection or 0.0,
+                'trust': r.trust or 0.0,
+                'fear': r.fear or 0.0,
+                'familiarity': r.familiarity or 0.0,
+                'feeling': r.feeling,
+                'origin': r.origin,
+                'last_fed_episode': r.last_fed_episode,
+                'last_surfaced_episode': r.last_surfaced_episode,
+            }
+            for r in relations
         ],
         'episodes': episodes_out,
     }
@@ -632,3 +659,21 @@ def tag_registry(db: Session = Depends(get_session)):
         else:
             entry['values'].append(value)
     return {'families': list(families.values())}
+
+
+_GRAPH_PATH = (
+    Path(__file__).resolve().parents[3] / 'docs' / 'mind-map' / 'graph.json'
+)
+
+
+@router.get('/mind-map')
+def mind_map_graph():
+    """The living map (ADR-0021): the committed graph.json the Map tab
+    draws — concepts, glossary, traced steps, examples, the prompt."""
+    import json
+    if not _GRAPH_PATH.exists():
+        raise HTTPException(
+            status_code=404,
+            detail='docs/mind-map/graph.json missing — run mind_map.py --update',
+        )
+    return json.loads(_GRAPH_PATH.read_text())

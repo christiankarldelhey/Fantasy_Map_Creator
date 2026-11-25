@@ -1,0 +1,243 @@
+# ============================================================================
+# concepts.yml — the mind-map manifest (see docs/adr/0021)
+# ----------------------------------------------------------------------------
+# The seam between three sources of truth: CONTEXT.md (what each Concept
+# IS), @step decorators in app/mind (what the code DOES), and the tables
+# (where it LIVES). `scripts/mind_map.py --check` verifies that every term
+# used here and in @step is a glossary heading, and that every public
+# app.mind function called from a route handler is either a `steps` entry
+# or listed under `internal`.
+#
+# Nodes are Concepts, not tables: Belief lives inside memory rows, Mood is
+# a column, Lens is a brief + a rendered block — the glossary is the shape
+# of the mind, the schema is where it happens to sit today.
+# ============================================================================
+version: 1
+
+golden_day:
+  # A real recorded day, exported by `mind_map.py --export-day`.
+  # This mind's first-ever episode (episode_idx=1): the replay's state is
+  # exactly the preset seed — reproducible to the byte.
+  trip_id: '2c3716fc-8194-436c-90e3-fb3b765690fe'
+  day_number: 1
+  label: 'Aranath to Sarn Athrad — day 1'
+
+concepts:
+  Mind:
+    stage: lifecycle
+    lives_in: mind.minds
+  Episode:
+    stage: lifecycle
+    lives_in: mind.episodes
+  Character:
+    stage: contract
+    lives_in: mind.characters
+  Mind preset:
+    stage: contract
+    lives_in: mind.mind_presets (+ preset_wiring / starter_beliefs / leans / musings / memories)
+  Event:
+    stage: contract
+    lives_in: 'wire events[] → mind.episodes.events'
+  Condition:
+    stage: contract
+    lives_in: 'wire condition → mind.minds.body'
+  Fate:
+    stage: contract
+    lives_in: 'wire fate → mind.episodes.narrator_payload.fate'
+  Decision:
+    stage: contract
+    lives_in: mind.episodes.decisions
+  Perceived day:
+    stage: perception
+    lives_in: mind.episodes.perceived_day
+  Perception:
+    stage: perception
+    lives_in: 'perceived_day[].perception (noticed | unnoticed | misread)'
+  Perception check:
+    stage: perception
+    lives_in: 'perceived_day[].check (the seeded roll audit)'
+  Salience:
+    stage: perception
+    lives_in: 'perceived_day[].salience'
+  Novelty:
+    stage: perception
+    lives_in: 'derived per event: unseen tags ÷ tags (last 20 episodes)'
+  Meaning:
+    stage: perception
+    lives_in: 'mind.semantics (+ DEFAULT_SEMANTICS built-in pack)'
+  Recurrence:
+    stage: perception
+    lives_in: 'perceived_day (source: mind items — repetition / break)'
+  Tag:
+    stage: perception
+    lives_in: 'events[].tags (wire); families fixed by the registry'
+  Pull:
+    stage: perception
+    lives_in: 'perceived_day[].mood_pull — a felt:* tag''s point on the mood wheel'
+  Detector:
+    stage: perception
+    lives_in: mind.detectors
+  Need:
+    stage: needs/mood
+    lives_in: mind.needs
+  Thread:
+    stage: needs/mood
+    is_a: Need
+    lives_in: mind.needs (open-loop kinds)
+  Mood:
+    stage: needs/mood
+    lives_in: 'mind.minds.mood (running) + mind.episodes.mood (the day''s)'
+  Temperament:
+    stage: needs/mood
+    lives_in: mind.minds.temperament
+  Feeling:
+    stage: needs/mood
+    lives_in: 'derived: live vector × pack mind.feeling_lexicon'
+  Memory:
+    stage: memory
+    lives_in: mind.memories
+  Conviction:
+    stage: memory
+    is_a: Memory
+    lives_in: mind.memories (facet conviction)
+  Forgotten:
+    stage: memory
+    is_a: Memory
+    lives_in: mind.forgotten_memories
+  Past:
+    stage: memory
+    lives_in: 'mind.memories + mind.forgotten_memories (the kept, the lost, the patterns)'
+  Evocation:
+    stage: memory
+    lives_in: 'derived per open: memories the day connects to'
+  Belief:
+    stage: identity
+    is_a: Conviction
+    lives_in: mind.memories (conviction facet)
+  Relation:
+    stage: identity
+    lives_in: mind.relations
+  Lens:
+    stage: lens
+    lives_in: 'mind.episodes.brief + mind.episodes.lens_block'
+  Focus:
+    stage: lens
+    lives_in: mind.episodes.brief.focus
+  Musing:
+    stage: voice
+    lives_in: mind.musings
+  Inner language:
+    stage: voice
+    lives_in: 'mind.episodes.narrative (the channel, not a row)'
+  Reflection:
+    stage: close
+    lives_in: 'derived per close (LLM pass, trigger-gated)'
+
+steps:
+  # fn is module.name; term is a CONTEXT.md heading; reads/writes name
+  # Concepts. The skill keeps this file in sync when the pipeline moves.
+  - {fn: get_or_create_mind,      term: Mind,       reads: ['Mind preset'],          writes: [Mind]}
+  - {fn: get_or_create_character, term: Character,  reads: [Character],              writes: [Character]}
+  - {fn: wake_event,              term: Episode,    reads: [Episode],                writes: [Event]}
+  - {fn: perceive_events,         term: 'Perceived day', reads: [Event, Condition],  writes: ['Perceived day', Relation]}
+  - {fn: perception_check,        term: 'Perception check', reads: [Event, Character, Condition], writes: [Perception]}
+  - {fn: meaning_of,              term: Meaning,    reads: [Tag, Event],             writes: [Meaning]}
+  - {fn: derive_tags,             term: Tag,        reads: [Event],                  writes: [Tag]}
+  - {fn: retrieve,                term: Evocation,  reads: [Event, Memory],          writes: [Memory]}
+  - {fn: dialogue_recall,         term: Evocation,  reads: [Event, Memory],          writes: [Memory]}
+  - {fn: voice_memories,          term: Evocation,  reads: [Memory],                 writes: [Memory, Relation, Mood]}
+  - {fn: needs_pass,              term: Need,       reads: [Condition, 'Perceived day'], writes: [Need]}
+  - {fn: resolve_break_items,     term: Need,       reads: [Recurrence, Need],       writes: ['Perceived day']}
+  - {fn: refresh_state_needs,     term: Need,       reads: [Condition],              writes: [Need]}
+  - {fn: resolve_from_outcome,    term: Need,       reads: [Fate],                   writes: [Need]}
+  - {fn: update_streak_counters,  term: Need,       reads: [Episode],                writes: [Need]}
+  - {fn: episode_mood,            term: Mood,       reads: ['Perceived day', Need],  writes: [Mood]}
+  - {fn: update_mind_mood,        term: Pull,       reads: [Mood, Event],            writes: [Mood]}
+  - {fn: active_convictions,      term: Belief,     reads: [Belief],                 writes: [Belief]}
+  - {fn: build_brief,             term: Lens,       reads: [Event, Memory, Belief, Need, Mood, Musing], writes: [Lens, Focus]}
+  - {fn: direct,                  term: Focus,      reads: [Lens],                   writes: [Focus]}
+  - {fn: render_lens,             term: Lens,       reads: [Lens],                   writes: [Lens]}
+  - {fn: resolve_from_outcome,    term: Need,       reads: [Fate],                   writes: [Need]}
+  - {fn: close_episode_memory,    term: Past,       reads: [Episode],                writes: [Memory, Forgotten, Past]}
+  - {fn: encode_episode,          term: Memory,     reads: [Event],                  writes: [Memory]}
+  - {fn: detect_patterns,         term: Past,       reads: [Episode, Tag],           writes: [Memory]}
+  - {fn: decay_pass,              term: Forgotten,  reads: [Memory],                 writes: [Memory, Forgotten]}
+  - {fn: forget,                  term: Forgotten,  reads: [Memory],                 writes: [Forgotten]}
+  - {fn: belief_fade_pass,        term: Belief,     reads: [Belief],                 writes: [Belief]}
+  - {fn: regress,                 term: Temperament, reads: [Mood, Temperament],     writes: [Mood]}
+  - {fn: decay_all,               term: Relation,   reads: [Relation],               writes: [Relation]}
+  - {fn: maybe_reflect,           term: Reflection, reads: [Memory, Belief, Mood],   writes: [Belief, Mood]}
+  - {fn: choose,                  term: Decision,   reads: [Need, Relation],         writes: [Decision]}
+  - {fn: feed_event,              term: Relation,   reads: [Meaning],                writes: [Relation]}
+  - {fn: body_projection,         term: Detector,   reads: [Detector],               writes: [Condition]}
+  - {fn: project_body,            term: Detector,   reads: [Condition],              writes: [Condition]}
+  - {fn: derive_feeling,          term: Feeling,    reads: [Mood],                   writes: [Feeling]}
+  - {fn: narrate_day,             term: Inner language, reads: [Event, Lens, Fate],  writes: ['Inner language']}
+
+# Public app.mind functions called from route handlers that are plumbing,
+# not steps. Adding a name here is a decision too — the skill proposes it.
+internal:
+  - effective_character      # card merge: stored card beats wire card
+  - link_evoked              # joins evoked ids onto perceived items
+  - need_snapshot            # need rows → wire dicts
+  - need_items               # needs → 'voice' items for the perceived day
+  - need_origins             # origin text for each active need
+  - brief_lines              # brief → flat line list for rendering
+  - brief_beats              # brief → beat tuples for rendering
+  - disposition_beats        # dispositions → beat tuples
+  - inner_lines              # lens inner lines render (state endpoints)
+  - line_text                # one brief line → prose
+  - memory_age_days          # date arithmetic for 'a long while ago'
+  - episode_index            # the mind's own counter
+  - episode_date             # the calendar clock
+  - mood_cause               # picks what moved the mood
+  - director_enabled         # wiring flag read
+  - active_version           # pack version lookup
+  - flat_data                # event envelope → flat data view
+  - subject_tags             # tag filter: which tags name subjects
+  - character_state          # wire character → detector-readable state
+  - declared_severity        # wire's numeric fields → severity rate
+  - load_semantics           # semantic pack loader
+  - acute_hit                # one body hit applied to the vector
+  - pack_value               # pack entry lookup
+  - humanize                 # number → phrase
+  - mood_name                # vector → mood word
+  - feeling_lexicon          # lexicon rows loader
+  - seed_starter_beliefs     # preset clone: beliefs
+  - seed_musings             # preset clone: musings
+  - seed_memories            # preset clone: lived past
+  - seed_relations           # preset clone: lean Relations
+  - reassign_preset          # admin: preset swap
+  - asleep_check_result      # audit stub for checks skipped by sleep
+  - is_asleep                # night gate inside perceive
+  - misread_reading          # a failed check's wrong reading
+  - detector_needs           # detector rows → need specs (inside needs_pass)
+  - rule_needs               # composite rules → need specs (inside needs_pass)
+  - feed                     # the Relation write itself (inside feed_event)
+  - standing                 # Relation read
+  - standing_relation        # Relation read
+  - watch_weights            # relation standing → salience weights
+  - felt_proximity           # memory felt vs day targets distance
+  - ensure_embedding         # embedding helper
+  - embed                    # embedding helper
+  - cosine                   # similarity
+  - episode_embedding        # episode vector
+  - kinds                    # kind registry read
+  - kind_of                  # kind lookup
+  - is_mind_item             # source check
+  - resolve_event_reading    # kind's reading strategy
+  - felt_word                # tag → mood wheel word
+  - mood_point               # word → wheel point
+  - phrases                  # phrase pack read
+  - streak_subjects          # streak tag lookup
+  - forget                   # (also a step — kept here for nested calls)
+  - list_versions            # pack admin read
+  - clone_pack               # pack admin write
+  - promote_pack             # pack admin write
+  - _previous_rest           # yesterday's rest (routes-internal)
+  - _check_results           # wire projection (routes-internal)
+  - _encounter_prompt_shape  # wire projection (routes-internal)
+  - _merged_beats            # beat merge (routes-internal)
+  - _age_phrase              # line wording (imported into routes)
+  - _release_resolved_needs  # memory rows → freed on close
+  - _compact_duplicates      # memory dedup pass

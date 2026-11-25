@@ -10,7 +10,9 @@
 // rather than a cliff. Series toggle by group in the legend.
 // ============================================================================
 import { computed, reactive } from 'vue'
-import { label, PHASES } from '../../lib/labels'
+import { t } from '../../lib/i18n'
+import { label, moodLabel, PHASES } from '../../lib/labels'
+import { resolveMoodName, unPull, type MoodPoint } from '../../lib/moodSpace'
 import type { EpisodeMood, PerceivedEvent } from '../../types'
 
 const props = defineProps<{
@@ -57,83 +59,47 @@ const hours = computed<number[]>(() => {
 const hourOf = (_e: PerceivedEvent, i: number) => hours.value[i]
 
 // -- series -------------------------------------------------------------
-interface Pt { h: number; v: number }
+// Only the Mood series draw: what each event felt like (valence), what
+// the world objectively meant (world valence), and the day's own arc
+// per phase. Each point keeps its event so hovering a peak can name it.
+interface Pt { h: number; v: number; e?: PerceivedEvent }
 interface Series { key: string; group: string; label: string; color: string; points: Pt[] }
 
-const GROUPS = ['body', 'mood', 'otras'] as const
-const GROUP_LABEL: Record<string, string> = { body: 'Cuerpo', mood: 'Ánimo', otras: 'Otras mediciones' }
-const GROUP_COLOR: Record<string, string> = { body: '#e0707c', mood: '#7c9ee0', otras: '#9aa5b1' }
-const SERIES_LABEL: Record<string, string> = {
-  energy: 'Energía', shadow: 'Shadow', valence: 'Valencia (cómo lo sintió)',
-  world_valence: 'Valencia del mundo', mood_arc: 'Ánimo del día (arco)',
-  salience: 'Salience', severity: 'Severidad',
-  affection: 'Afecto', trust: 'Confianza', fear: 'Miedo', familiarity: 'Familiaridad',
-}
-
-const IMPRINT_COLORS: Record<string, string> = {
-  affection: '#e0a03c', trust: '#5fbf8f', fear: '#8f5fbf', familiarity: '#b0a06c',
-}
+const GROUPS = ['mood'] as const
+const GROUP_COLOR: Record<string, string> = { mood: '#7c9ee0' }
 
 const series = computed<Series[]>(() => {
   const out: Series[] = []
   const evs = props.episode.perceived
   const pts = (pick: (e: PerceivedEvent) => number | null): Pt[] =>
-    evs.map((e, i) => ({ h: hourOf(e, i), v: pick(e) }))
-      .filter((p): p is Pt => p.v != null)
+    evs.map((e, i) => ({ h: hourOf(e, i), v: pick(e), e }))
+      .filter((p): p is { h: number; v: number; e: PerceivedEvent } => p.v != null)
       .sort((a, b) => a.h - b.h)
 
-  const push = (key: string, group: string, color: string, points: Pt[]) => {
+  const push = (key: string, color: string, points: Pt[]) => {
     if (points.length) {
-      out.push({ key, group, label: SERIES_LABEL[key] ?? key, color, points })
+      out.push({ key, group: 'mood', label: t(`dc.s.${key}`), color, points })
     }
   }
 
-  // Body — vitals the Host reported on each outcome (new days carry
-  // data.after; older days only have shadow_effect deltas).
-  push('energy', 'body', '#e0707c', pts((e) => e.data?.after?.energy ?? null))
-  const hasAfterShadow = evs.some((e) => e.data?.after?.shadow != null)
-  if (hasAfterShadow) {
-    push('shadow', 'body', '#222222', pts((e) => e.data?.after?.shadow ?? null))
-  } else {
-    // Legacy: accumulate the day's shadow deltas from a 0 baseline.
-    let run = 0
-    const acc: Pt[] = []
-    evs.forEach((e, i) => {
-      const d = e.data?.shadow_effect
-      if (typeof d === 'number' && d !== 0) {
-        run += d
-        acc.push({ h: hourOf(e, i), v: run })
-      }
-    })
-    push('shadow', 'body', '#222222', acc)
-  }
-
   // Mood — what each moment felt like, plus the day's arc as anchors.
-  push('valence', 'mood', '#7c9ee0', pts((e) => e.valence ?? null))
-  push('world_valence', 'mood', '#b9c8e8', pts((e) => e.world_valence ?? null))
+  push('valence', '#7c9ee0', pts((e) => e.valence ?? null))
+  push('world_valence', '#b9c8e8', pts((e) => e.world_valence ?? null))
   const arcPts = (props.episode.mood?.arc ?? [])
     .map((a) => ({ h: PHASE_HOUR[a.phase] ?? 12, v: a.valence }))
-  push('mood_arc', 'mood', '#3f66b8', arcPts)
-
-  // Everything else numeric the perception layer produced.
-  push('salience', 'otras', '#9aa5b1', pts((e) => e.salience ?? null))
-  push('severity', 'otras', '#c46a6a', pts((e) => e.severity ?? null))
-  for (const dim of ['affection', 'trust', 'fear', 'familiarity']) {
-    push(dim, 'otras', IMPRINT_COLORS[dim] ?? '#9aa5b1',
-      pts((e) => (e.imprint || {})[dim] ?? null))
-  }
+  push('mood_arc', '#3f66b8', arcPts)
   return out
 })
 
 // -- toggles --------------------------------------------------------------
 const enabled = reactive<Record<string, boolean>>({})
-const defaultOn = (s: Series) => s.group !== 'otras'
+const defaultOn = (_s: Series) => true
 const isOn = (s: Series) => enabled[s.key] ?? defaultOn(s)
 const active = computed(() => series.value.filter(isOn))
 const groups = computed(() =>
   GROUPS.map((g) => ({
     key: g,
-    label: GROUP_LABEL[g],
+    label: t(`dc.g.${g}`),
     color: GROUP_COLOR[g],
     series: series.value.filter((s) => s.group === g),
   })).filter((g) => g.series.length),
@@ -144,7 +110,7 @@ function toggleGroup(g: string, on: boolean) {
 
 // -- geometry ---------------------------------------------------------------
 const W = 760
-const H = 240
+const H = 300
 const PAD = { t: 14, r: 14, b: 26, l: 36 }
 const X = (h: number) => PAD.l + (h / 24) * (W - PAD.l - PAD.r)
 
@@ -175,13 +141,46 @@ const ticks = [0, 6, 12, 18, 24]
 const markers = computed(() =>
   props.episode.perceived.map((e, i) => ({ e, h: hourOf(e, i), i })),
 )
+// The popup centres on the event, clamped so it never spills outside
+// the plot — ancestors clip overflow-x, an off-edge popup gets cut.
+const POP_HALF = 170
 const selected = computed(() => {
   const e = props.selectedEvent ?? null
   if (!e) return null
   const i = props.episode.perceived.indexOf(e)
-  return i < 0 ? null : { e, x: X(hours.value[i]) }
+  if (i < 0) return null
+  const raw = X(hours.value[i])
+  return { e, i, x: Math.min(Math.max(raw, POP_HALF), W - POP_HALF) }
 })
-function pick(m: { e: PerceivedEvent; h: number }) {
+// The mood each event left the day in: the episode's final mood walked
+// backward through every pull (pullVec read in reverse), so a hovered
+// point names the feeling it ended with — not a raw number.
+const afterPos = computed<MoodPoint[]>(() => {
+  const evs = props.episode.perceived
+  const out = new Array<MoodPoint>(evs.length)
+  let pos: MoodPoint = {
+    valence: props.episode.mood?.valence ?? 0,
+    arousal: props.episode.mood?.arousal ?? 0,
+  }
+  for (let i = evs.length - 1; i >= 0; i--) {
+    out[i] = pos
+    pos = unPull(evs[i], pos)
+  }
+  return out
+})
+const wordAfter = computed(() => {
+  const sel = selected.value
+  if (!sel) return null
+  const p = afterPos.value[sel.i]
+  return resolveMoodName(p.valence, p.arousal)
+})
+const wordBefore = computed(() => {
+  const sel = selected.value
+  if (!sel) return null
+  const p = unPull(props.episode.perceived[sel.i], afterPos.value[sel.i])
+  return resolveMoodName(p.valence, p.arousal)
+})
+function pick(m: { e: PerceivedEvent }) {
   emit('select', m.e)
 }
 const titleOf = (e: PerceivedEvent) =>
@@ -232,6 +231,8 @@ const titleOf = (e: PerceivedEvent) =>
           <circle
             v-for="(p, i) in s.points" :key="i"
             :cx="X(p.h)" :cy="Y(s, p.v)" r="2.4" :fill="s.color" class="pt"
+            :class="{ hit: p.e }"
+            @mouseenter="p.e && pick({ e: p.e })"
           />
         </g>
 
@@ -266,18 +267,17 @@ const titleOf = (e: PerceivedEvent) =>
         <p class="pop-title">{{ titleOf(selected.e) }}</p>
         <p v-if="selected.e.data?.act" class="muted small">
           act: {{ selected.e.data.act }}<template v-if="selected.e.data.outcome"> · {{ selected.e.data.outcome }}</template>
-          <template v-if="selected.e.data.npc_name"> · {{ selected.e.data.npc_name }}</template>
+          <template v-if="selected.e.data.npc_name ?? selected.e.data.entity_name"> · {{ selected.e.data.npc_name ?? selected.e.data.entity_name }}</template>
         </p>
-        <dl class="pop-vals">
-          <template v-if="selected.e.valence != null"><dt>valencia</dt><dd>{{ selected.e.valence.toFixed(2) }}</dd></template>
-          <template v-if="selected.e.severity != null"><dt>severidad</dt><dd>{{ selected.e.severity.toFixed(2) }}</dd></template>
-          <template v-if="selected.e.data?.shadow_effect"><dt>shadow</dt><dd>{{ selected.e.data.shadow_effect > 0 ? '+' : '' }}{{ selected.e.data.shadow_effect }}</dd></template>
-          <template v-if="selected.e.data?.after?.energy != null"><dt>energía</dt><dd>{{ selected.e.data.after.energy }}</dd></template>
-          <template v-for="(v, k) in selected.e.imprint" :key="k"><dt>{{ k }}</dt><dd>{{ v.toFixed(2) }}</dd></template>
-        </dl>
+        <p v-if="wordAfter" class="pop-mood">
+          {{ moodLabel(wordAfter) }}
+          <span v-if="wordBefore && wordBefore !== wordAfter" class="pop-was muted">
+            {{ t('dc.before') }}: {{ moodLabel(wordBefore) }}
+          </span>
+        </p>
       </div>
     </div>
-    <p class="hint muted">Los puntos sobre el eje son los eventos del día — pasá el mouse o hacé click para verlos.</p>
+    <p class="hint muted">{{ t('dc.hint') }}</p>
   </div>
 </template>
 
@@ -298,6 +298,8 @@ const titleOf = (e: PerceivedEvent) =>
 .line { fill: none; stroke-width: 1.8; }
 .line.dashed { stroke-dasharray: 5 4; }
 .pt { stroke: none; }
+.pt.hit { cursor: pointer; }
+.pt.hit:hover { stroke: var(--text); stroke-width: 1; }
 .marker-tick { stroke: var(--text-faint); stroke-width: 1; }
 .marker { fill: var(--accent); stroke: var(--bg, #fff); stroke-width: 1.5; cursor: pointer; }
 .marker.t-interaction { fill: #e0707c; }
@@ -311,19 +313,18 @@ const titleOf = (e: PerceivedEvent) =>
   transform: translateX(-50%);
   min-width: 220px;
   max-width: 320px;
-  background: var(--panel, #fff);
-  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
   padding: 10px 14px;
   font-size: 12.5px;
-  z-index: 5;
+  z-index: 20;
 }
 .pop-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 0 6px; }
 .pop-title { margin: 0 0 6px; font-weight: 500; line-height: 1.35; }
-.pop-vals { display: grid; grid-template-columns: auto 1fr; gap: 1px 12px; margin: 8px 0 0; }
-.pop-vals dt { color: var(--text-dim); }
-.pop-vals dd { margin: 0; font-family: var(--mono); text-align: right; }
+.pop-mood { margin: 8px 0 0; font-size: 15px; font-weight: 600; color: var(--accent); display: flex; align-items: baseline; gap: 10px; }
+.pop-was { font-size: 11.5px; font-weight: 400; }
 .small { font-size: 12px; }
 .mono { font-family: var(--mono); }
 .hint { font-size: 12px; margin: 0; }

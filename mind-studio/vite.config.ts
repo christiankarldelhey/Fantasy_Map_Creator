@@ -12,6 +12,9 @@ export default defineConfig({
   server: {
     port: 5180,
     proxy: {
+      // The engine also mounts the host's portrait folder — same origin
+      // in dev as in the served build.
+      '/portraits': 'http://localhost:8001',
       '/studio/api': {
         target: 'http://localhost:8001',
         changeOrigin: true,

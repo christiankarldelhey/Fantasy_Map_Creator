@@ -1,0 +1,278 @@
+%% mind.* storage schema (from app/mind/tables.py)
+erDiagram
+    characters {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        varchar_20_ kind
+        varchar_40_ original_id
+        varchar_120_ slug
+        varchar_255_ name
+        varchar_60_ type
+        varchar_20_ gender
+        varchar_160_ entity_name
+        text description
+        text description_es
+        text portrait_url
+        text foundational_phrase
+        text voice_instructions
+        jsonb skills
+        datetime created_at
+        datetime updated_at
+    }
+    composite_rules {
+        integer id
+        varchar_120_ game_id
+        varchar_120_ key
+        varchar_30_ need_type
+        varchar_60_ event_type
+        integer streak_days
+        float urgency_base
+        float urgency_per_day
+        jsonb conditions
+        text description
+    }
+    detectors {
+        integer id
+        varchar_120_ game_id
+        varchar_20_ kind
+        varchar_120_ key
+        varchar_120_ field
+        varchar_10_ op
+        jsonb value
+        float scale
+        varchar_120_ group_key
+        integer ordinal
+        float mod
+        float urgency_base
+        float urgency_per
+        varchar_20_ urgency_from
+        jsonb urgency_map
+        varchar_30_ need_type
+        text description
+        boolean enabled
+    }
+    episodes {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        varchar_120_ episode_ref
+        varchar_20_ status
+        integer episode_idx
+        date episode_date
+        jsonb events
+        jsonb narrator_payload
+        jsonb config_snapshot
+        jsonb perceived_day
+        text lens_block
+        jsonb brief
+        jsonb mood
+        jsonb needs_active
+        jsonb decisions
+        jsonb outcome
+        jsonb lens_eval
+        text narrative
+        varchar_20_ narrative_language
+        jsonb narrative_translation
+        datetime created_at
+        datetime narrated_at
+        datetime closed_at
+    }
+    forgotten_memories {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        jsonb episode_ids
+        varchar_20_ kind
+        jsonb tags
+        varchar_120_ entity_id
+        text desc
+        float valence
+        float importance
+        integer evocations
+        integer voiced
+        boolean consolidated
+        integer created_episode
+        date created_date
+        integer forgotten_episode
+        float last_strength
+    }
+    memories {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        jsonb episode_ids
+        varchar_20_ kind
+        jsonb tags
+        varchar_120_ entity_id
+        varchar_120_ region
+        text desc
+        float valence
+        float importance
+        float strength
+        integer evocations
+        integer last_evoked_episode
+        integer voiced
+        integer last_voiced_episode
+        boolean consolidated
+        jsonb embedding
+        varchar_30_ origin
+        integer created_episode
+        date created_date
+        date last_evoked_date
+        jsonb imprint
+        jsonb subjects
+        jsonb felt
+        varchar_60_ feeling
+        varchar_20_ depth
+        boolean mutable
+        jsonb conviction
+    }
+    mind_presets {
+        integer id
+        varchar_120_ game_id
+        varchar_60_ slug
+        varchar_160_ name
+        text description
+        datetime created_at
+        jsonb temperament
+        jsonb personality
+    }
+    minds {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        integer preset_id
+        varchar_60_ preset_slug
+        jsonb wiring
+        jsonb mood
+        jsonb counters
+        jsonb temperament
+        jsonb personality
+        jsonb body
+        datetime created_at
+    }
+    musings {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        text statement
+        jsonb tags
+        varchar_30_ origin
+        integer formed_episode
+        integer last_spoke_episode
+    }
+    needs {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        varchar_120_ key
+        varchar_30_ type
+        text description
+        float urgency
+        varchar_20_ status
+        jsonb source
+        varchar_120_ linked_entity
+        varchar_120_ linked_region
+        integer opened_episode
+        integer due_episode
+        integer updated_episode
+        jsonb resolution
+        datetime created_at
+    }
+    pack_entries {
+        integer id
+        varchar_120_ game_id
+        varchar_160_ key
+        jsonb value
+        boolean enabled
+    }
+    pack_versions {
+        integer id
+        varchar_120_ game_id
+        integer version
+        varchar_20_ status
+        varchar_120_ namespace
+        jsonb snapshot
+        text note
+        datetime created_at
+    }
+    relations {
+        varchar_40_ id
+        varchar_120_ game_id
+        varchar_120_ character_id
+        varchar_160_ subject
+        varchar_160_ display_name
+        float affection
+        float trust
+        float fear
+        float familiarity
+        varchar_80_ feeling
+        varchar_20_ origin
+        integer last_fed_episode
+        integer last_surfaced_episode
+    }
+    semantics {
+        integer id
+        varchar_120_ game_id
+        varchar_160_ key
+        jsonb delta
+        float weight
+        jsonb body
+        float salience_min
+        float severity
+        boolean wakes
+        boolean enabled
+    }
+    preset_leans {
+        integer id
+        integer preset_id
+        varchar_160_ subject
+        float affection
+        float trust
+        float fear
+        float familiarity
+    }
+    preset_memories {
+        integer id
+        integer preset_id
+        text desc
+        jsonb tags
+        jsonb subjects
+        float valence
+        float importance
+        jsonb imprint
+        varchar_120_ region
+        varchar_120_ entity_id
+        date lived_date
+    }
+    preset_musings {
+        integer id
+        integer preset_id
+        text statement
+        jsonb tags
+    }
+    preset_starter_beliefs {
+        integer id
+        integer preset_id
+        varchar_30_ kind
+        text statement
+        float strength
+        jsonb tags
+        jsonb boosts
+        jsonb subject
+        float stance
+        varchar_20_ source
+    }
+    preset_wiring {
+        integer id
+        integer preset_id
+        varchar_60_ key
+        float value
+    }
+    characters ||--o{ characters : ""
+    mind_presets ||--o{ preset_leans : ""
+    mind_presets ||--o{ preset_memories : ""
+    mind_presets ||--o{ preset_musings : ""
+    mind_presets ||--o{ preset_starter_beliefs : ""
+    mind_presets ||--o{ preset_wiring : ""
