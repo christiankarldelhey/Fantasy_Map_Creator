@@ -306,7 +306,7 @@ _The emotional sediment a Subject leaves in the Mind: not an entity in the world
 - **columns**: `id`, `game_id`, `character_id`, `subject`, `display_name`, `affection`, `trust`, `fear`, `familiarity`, `feeling`, `origin`, `last_fed_episode`, `last_surfaced_episode`
 - **example (golden day)**:
   ```json
-  {"id": "rel-17", "game_id": "middle_earth", "character_id": "142", "subject": "region:Weather Hills", "display_name": null, "affection": 0.0, "trust": 0.0, "fear": 0.0, "familiarity": 0.392, "feeling": null, "origin": "seed", "last_fed_episode": null}
+  {"id": "rel-17", "game_id": "middle_earth", "character_id": "142", "subject": "tag:entity_type:drakes", "display_name": null, "affection": -1.0, "trust": 0.0, "fear": 0.34299999999999997, "familiarity": 0.0, "feeling": "hatred", "origin": "seed", "last_fed_episode": null}
   ```
 
 ## Lens
@@ -318,7 +318,7 @@ _What the Mind tells the narrator about an Episode: what matters to it, one cent
 - **columns**: `id`, `game_id`, `character_id`, `episode_ref`, `status`, `episode_idx`, `episode_date`, `events`, `narrator_payload`, `config_snapshot`, `perceived_day`, `lens_block`, `brief`, `mood`, `needs_active`, `decisions`, `outcome`, `lens_eval`, `narrative`, `narrative_language`, `narrative_translation`, `created_at`, `narrated_at`, `closed_at`
 - **example (golden day)**:
   ```json
-  {"day": [{"id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "As long as birds keep singing at dawn, not everything is lost.", "phase": "morning", "score": 0.21, "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost.", "connects_to": "event:6"}, {"id": "musing:mu_8f32f011822e4b9e843d43758ee8da58", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.", "phase": "morn…
+  {"day": [{"id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "As long as birds keep singing at dawn, not everything is lost.", "phase": "morning", "score": 0.21, "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost.", "connects_to": "event:6"}, {"id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.", "phase": "morn…
   ```
 
 ## Focus
@@ -342,7 +342,7 @@ _An authored line of the Character's inner voice — how this person sounds insi
 - **columns**: `id`, `game_id`, `character_id`, `statement`, `tags`, `origin`, `formed_episode`, `last_spoke_episode`
 - **example (golden day)**:
   ```json
-  {"id": "mu_f21de25532ee498c8bd0463f820cfbe1", "game_id": "middle_earth", "character_id": "142", "statement": "I have spent years walking the borders of fallen Arnor; this time I walk alone.", "tags": ["context:solitude"], "origin": "seed", "formed_episode": null, "last_spoke_episode": null}
+  {"id": "mu_22c60b8f78b44ef384e6c805583ad850", "game_id": "middle_earth", "character_id": "142", "statement": "I have spent years walking the borders of fallen Arnor; this time I walk alone.", "tags": ["context:solitude"], "origin": "seed", "formed_episode": null, "last_spoke_episode": null}
   ```
 
 ## Inner language

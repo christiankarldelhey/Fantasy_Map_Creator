@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated": "mind_map.py --update",
-  "source_hash": "b4a0acdcb51bff22",
+  "source_hash": "477d4bb3c6157fab",
   "golden_day": {
    "trip_id": "2c3716fc-8194-436c-90e3-fb3b765690fe",
    "day_number": 1,
@@ -6541,11 +6541,11 @@
      },
      {
       "data": {
+       "reading": "the sun quits the plain early, and the dark comes with the wind, cool and grey, partly cloudy, a wind that does not rest and soft rain",
        "tags": [
         "weather:wet",
         "weather:windy"
-       ],
-       "reading": "the sun quits the plain early, and the dark comes with the wind, cool and grey, partly cloudy, a wind that does not rest and soft rain"
+       ]
       }
      },
      {
@@ -6900,11 +6900,11 @@
      },
      {
       "data": {
+       "reading": "a chill that does not lift, heavy cloud cover and a steady rain",
        "tags": [
         "weather:wet",
         "weather:overcast"
-       ],
-       "reading": "a chill that does not lift, heavy cloud cover and a steady rain"
+       ]
       }
      },
      {
@@ -8024,7 +8024,6 @@
        },
        "entity_name": "Herb-lands",
        "entity_type": "resources",
-       "intensity": 1.0,
        "act": "talk",
        "check": {
         "skill": "tracking",
@@ -8032,7 +8031,8 @@
         "difficulty": 3.0,
         "mods": null
        },
-       "reading": "Herb-lands — The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road."
+       "reading": "Herb-lands — The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.",
+       "intensity": 1.0
       }
      },
      {
@@ -8491,7 +8491,6 @@
        },
        "entity_name": "Owls",
        "entity_type": "flying_animals",
-       "intensity": 0.0,
        "act": "watch",
        "check": {
         "skill": "tracking",
@@ -8499,7 +8498,8 @@
         "difficulty": 7.0,
         "mods": null
        },
-       "reading": "Owls — They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues."
+       "reading": "Owls — They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues.",
+       "intensity": 0.0
       }
      },
      {
@@ -9004,7 +9004,6 @@
        },
        "entity_name": "Deer",
        "entity_type": "herbivores",
-       "intensity": 1.0,
        "act": "watch",
        "check": {
         "skill": "tracking",
@@ -9012,7 +9011,8 @@
         "difficulty": 5.0,
         "mods": null
        },
-       "reading": "Deer — It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm.…"
+       "reading": "Deer — It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm.…",
+       "intensity": 1.0
       }
      },
      {
@@ -10281,13 +10281,13 @@
        "kind": "crossroads",
        "name": "The ford of the voice",
        "subtype": "place",
-       "intensity": 1.0,
        "act": "walk",
+       "reading": "The ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses…",
        "tags": [
         "visited",
         "felt:uneasy"
        ],
-       "reading": "The ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses…"
+       "intensity": 1.0
       }
      },
      {
@@ -10697,13 +10697,13 @@
        "kind": "city",
        "name": "Vinyathrad",
        "subtype": "place",
-       "intensity": 0.0,
        "act": "watch",
+       "reading": "a city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water",
        "tags": [
         "settlement",
         "sighted"
        ],
-       "reading": "a city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water"
+       "intensity": 0.0
       }
      },
      {
@@ -11112,10 +11112,10 @@
        "subtype": "region",
        "description": "The most settled sub-region of Forlindon, mild and green thanks to the Gulf of Lhûn. Oak forests and clover meadows, the oldest and best-preserved Elvish settle…",
        "act": "walk",
+       "reading": "crossed into Sandariand",
        "tags": [
         "region_entered"
-       ],
-       "reading": "crossed into Sandariand"
+       ]
       }
      },
      {
@@ -11476,10 +11476,10 @@
        "subtype": "region",
        "description": "Inner Forlindon along the Linduin, a land of constant drizzle and moss-green on every surface. Damp heather hills, pool-fed waterfalls in side valleys and Elvis…",
        "act": "walk",
+       "reading": "crossed into Mänoriand",
        "tags": [
         "region_entered"
-       ],
-       "reading": "crossed into Mänoriand"
+       ]
       }
      },
      {
@@ -12671,12 +12671,12 @@
         "interaction_id": "cnt:id-03:sit:sole"
        },
        "entity_name": "Owls",
-       "intensity": 1.0,
        "act": "avoid",
+       "reading": "Notes the sky is calm. Continues.",
        "tags": [
         "felt:watchful"
        ],
-       "reading": "Notes the sky is calm. Continues."
+       "intensity": 1.0
       }
      },
      {
@@ -13070,12 +13070,12 @@
         "interaction_id": "cnt:id-04:sit:sole"
        },
        "entity_name": "Deer",
-       "intensity": 1.0,
        "act": "avoid",
+       "reading": "Notes the calm. Continues.",
        "tags": [
         "felt:calm"
        ],
-       "reading": "Notes the calm. Continues."
+       "intensity": 1.0
       }
      },
      {
@@ -13463,12 +13463,12 @@
         "interaction_id": "ovn:41_night:rest"
        },
        "shadow_delta": -1,
-       "intensity": 0.0,
        "act": "rest",
+       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…",
        "tags": [
         "mind:fatigue"
        ],
-       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…"
+       "intensity": 0.0
       }
      },
      {
@@ -13825,10 +13825,10 @@
       "data": {
        "shadow_delta": -1,
        "act": "rest",
+       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…",
        "tags": [
         "rest:open_sky"
-       ],
-       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…"
+       ]
       }
      },
      {
@@ -14378,36 +14378,36 @@
       "game_id": "middle_earth",
       "character_id": "142",
       "episode_ids": "…",
-      "kind": "conviction",
+      "kind": "episodic",
       "tags": "…",
       "entity_id": null,
-      "region": null,
+      "region": "Ettenmoors",
       "desc": "…",
-      "valence": -0.8
+      "valence": -0.75
      },
      {
       "id": "mem-11",
       "game_id": "middle_earth",
       "character_id": "142",
       "episode_ids": "…",
-      "kind": "conviction",
+      "kind": "episodic",
       "tags": "…",
       "entity_id": null,
-      "region": null,
-      "desc": "The last of my people walk the same roads I do; we nod once, and that is enough.",
-      "valence": 0.7
+      "region": "Coldfells",
+      "desc": "…",
+      "valence": -0.8
      },
      {
       "id": "mem-12",
       "game_id": "middle_earth",
       "character_id": "142",
       "episode_ids": "…",
-      "kind": "conviction",
+      "kind": "episodic",
       "tags": "…",
       "entity_id": null,
       "region": null,
       "desc": "…",
-      "valence": 0.55
+      "valence": -0.7
      },
      "… 2 more"
     ],
@@ -15310,36 +15310,36 @@
         "game_id": "middle_earth",
         "character_id": "142",
         "episode_ids": "…",
-        "kind": "conviction",
+        "kind": "episodic",
         "tags": "…",
         "entity_id": null,
-        "region": null,
+        "region": "Ettenmoors",
         "desc": "…",
-        "valence": -0.8
+        "valence": -0.75
        },
        {
         "id": "mem-11",
         "game_id": "middle_earth",
         "character_id": "142",
         "episode_ids": "…",
-        "kind": "conviction",
+        "kind": "episodic",
         "tags": "…",
         "entity_id": null,
-        "region": null,
-        "desc": "The last of my people walk the same roads I do; we nod once, and that is enough.",
-        "valence": 0.7
+        "region": "Coldfells",
+        "desc": "…",
+        "valence": -0.8
        },
        {
         "id": "mem-12",
         "game_id": "middle_earth",
         "character_id": "142",
         "episode_ids": "…",
-        "kind": "conviction",
+        "kind": "episodic",
         "tags": "…",
         "entity_id": null,
         "region": null,
         "desc": "…",
-        "valence": 0.55
+        "valence": -0.7
        },
        "… 2 more"
       ]
@@ -15413,7 +15413,8 @@
      },
      {
       "anchors": {
-       "mem-13": 5
+       "mem-13": 5,
+       "mem-14": 11
       }
      },
      {
@@ -15433,7 +15434,7 @@
      "carried": [],
      "day": [
       {
-       "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
+       "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15443,7 +15444,7 @@
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
+       "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15453,7 +15454,7 @@
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_d0c342eb3db44011a075b541986af563",
+       "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15613,7 +15614,7 @@
        "carried": [],
        "day": [
         {
-         "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
+         "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -15624,7 +15625,7 @@
          "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
         },
         {
-         "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
+         "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -15635,7 +15636,7 @@
          "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
         },
         {
-         "id": "musing:mu_d0c342eb3db44011a075b541986af563",
+         "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -15758,9 +15759,9 @@
        "energy_delta": -12,
        "shadow_delta": 0,
        "encountered_entity_ids": [
-        "id-14",
         "id-15",
-        "id-16"
+        "id-16",
+        "id-17"
        ]
       }
      }
@@ -15799,131 +15800,6 @@
      {
       "vector": {
        "familiarity": 0.002
-      }
-     },
-     {
-      "lexicon": [
-       {
-        "feeling": "dread",
-        "when": {
-         "fear": "…",
-         "dominance": "…"
-        }
-       },
-       {
-        "feeling": "deep friendship",
-        "when": {
-         "affection": "…",
-         "trust": "…",
-         "familiarity": "…"
-        }
-       },
-       {
-        "feeling": "feared and hated",
-        "when": {
-         "fear": "…",
-         "affection": "…"
-        }
-       },
-       "… 8 more"
-      ]
-     }
-    ],
-    "out": null,
-    "test": null,
-    "depth": 2
-   },
-   {
-    "term": "Feeling",
-    "fn": "app.mind.engine.derive_feeling",
-    "in": [
-     {
-      "vector": {
-       "affection": -0.018500000000000003,
-       "familiarity": 0.002
-      }
-     },
-     {
-      "lexicon": [
-       {
-        "feeling": "dread",
-        "when": {
-         "fear": "…",
-         "dominance": "…"
-        }
-       },
-       {
-        "feeling": "deep friendship",
-        "when": {
-         "affection": "…",
-         "trust": "…",
-         "familiarity": "…"
-        }
-       },
-       {
-        "feeling": "feared and hated",
-        "when": {
-         "fear": "…",
-         "affection": "…"
-        }
-       },
-       "… 8 more"
-      ]
-     }
-    ],
-    "out": null,
-    "test": null,
-    "depth": 2
-   },
-   {
-    "term": "Feeling",
-    "fn": "app.mind.engine.derive_feeling",
-    "in": [
-     {
-      "vector": {
-       "affection": -0.0155,
-       "familiarity": 0.002
-      }
-     },
-     {
-      "lexicon": [
-       {
-        "feeling": "dread",
-        "when": {
-         "fear": "…",
-         "dominance": "…"
-        }
-       },
-       {
-        "feeling": "deep friendship",
-        "when": {
-         "affection": "…",
-         "trust": "…",
-         "familiarity": "…"
-        }
-       },
-       {
-        "feeling": "feared and hated",
-        "when": {
-         "fear": "…",
-         "affection": "…"
-        }
-       },
-       "… 8 more"
-      ]
-     }
-    ],
-    "out": null,
-    "test": null,
-    "depth": 2
-   },
-   {
-    "term": "Feeling",
-    "fn": "app.mind.engine.derive_feeling",
-    "in": [
-     {
-      "vector": {
-       "familiarity": 0.010000000000000002
       }
      },
      {
@@ -16095,48 +15971,6 @@
        "fear": 0.0,
        "affection": 0.0,
        "familiarity": 0.055
-      }
-     },
-     {
-      "lexicon": [
-       {
-        "feeling": "dread",
-        "when": {
-         "fear": "…",
-         "dominance": "…"
-        }
-       },
-       {
-        "feeling": "deep friendship",
-        "when": {
-         "affection": "…",
-         "trust": "…",
-         "familiarity": "…"
-        }
-       },
-       {
-        "feeling": "feared and hated",
-        "when": {
-         "fear": "…",
-         "affection": "…"
-        }
-       },
-       "… 8 more"
-      ]
-     }
-    ],
-    "out": null,
-    "test": null,
-    "depth": 2
-   },
-   {
-    "term": "Feeling",
-    "fn": "app.mind.engine.derive_feeling",
-    "in": [
-     {
-      "vector": {
-       "trust": 0.020000000000000004,
-       "affection": 0.1175
       }
      },
      {
@@ -16608,7 +16442,7 @@
      }
     ],
     "out": {
-     "encoded": 19,
+     "encoded": 15,
      "absorbed": 1,
      "born_consolidated": 0
     },
@@ -16709,7 +16543,7 @@
      }
     ],
     "out": {
-     "encoded": 19,
+     "encoded": 15,
      "forgotten": 0,
      "consolidated": 0,
      "patterns": 0,
@@ -19274,10 +19108,10 @@
     "in": [
      {
       "vector": {
-       "affection": 0.0,
+       "affection": -0.1274,
        "trust": 0.0,
        "fear": 0.0,
-       "familiarity": 0.050960000000000005
+       "familiarity": 0.0
       }
      },
      {
@@ -19318,10 +19152,10 @@
     "in": [
      {
       "vector": {
-       "affection": -0.1274,
+       "affection": 0.0,
        "trust": 0.0,
        "fear": 0.0,
-       "familiarity": 0.0
+       "familiarity": 0.050960000000000005
       }
      },
      {
@@ -19890,36 +19724,36 @@
        "game_id": "middle_earth",
        "character_id": "142",
        "episode_ids": "…",
-       "kind": "conviction",
+       "kind": "episodic",
        "tags": "…",
        "entity_id": null,
-       "region": null,
+       "region": "Ettenmoors",
        "desc": "…",
-       "valence": -0.8
+       "valence": -0.75
       },
       {
        "id": "mem-11",
        "game_id": "middle_earth",
        "character_id": "142",
        "episode_ids": "…",
-       "kind": "conviction",
+       "kind": "episodic",
        "tags": "…",
        "entity_id": null,
-       "region": null,
-       "desc": "The last of my people walk the same roads I do; we nod once, and that is enough.",
-       "valence": 0.7
+       "region": "Coldfells",
+       "desc": "…",
+       "valence": -0.8
       },
       {
        "id": "mem-12",
        "game_id": "middle_earth",
        "character_id": "142",
        "episode_ids": "…",
-       "kind": "conviction",
+       "kind": "episodic",
        "tags": "…",
        "entity_id": null,
        "region": null,
        "desc": "…",
-       "valence": 0.55
+       "valence": -0.7
       },
       "… 2 more"
      ],
@@ -20779,36 +20613,36 @@
          "game_id": "middle_earth",
          "character_id": "142",
          "episode_ids": "…",
-         "kind": "conviction",
+         "kind": "episodic",
          "tags": "…",
          "entity_id": null,
-         "region": null,
+         "region": "Ettenmoors",
          "desc": "…",
-         "valence": -0.8
+         "valence": -0.75
         },
         {
          "id": "mem-11",
          "game_id": "middle_earth",
          "character_id": "142",
          "episode_ids": "…",
-         "kind": "conviction",
+         "kind": "episodic",
          "tags": "…",
          "entity_id": null,
-         "region": null,
-         "desc": "The last of my people walk the same roads I do; we nod once, and that is enough.",
-         "valence": 0.7
+         "region": "Coldfells",
+         "desc": "…",
+         "valence": -0.8
         },
         {
          "id": "mem-12",
          "game_id": "middle_earth",
          "character_id": "142",
          "episode_ids": "…",
-         "kind": "conviction",
+         "kind": "episodic",
          "tags": "…",
          "entity_id": null,
          "region": null,
          "desc": "…",
-         "valence": 0.55
+         "valence": -0.7
         },
         "… 2 more"
        ]
@@ -20882,7 +20716,8 @@
       },
       {
        "anchors": {
-        "mem-13": 5
+        "mem-13": 5,
+        "mem-14": 11
        }
       },
       {
@@ -20902,7 +20737,7 @@
       "carried": [],
       "day": [
        {
-        "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
+        "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -20912,7 +20747,7 @@
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
+        "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -20922,7 +20757,7 @@
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_d0c342eb3db44011a075b541986af563",
+        "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -21038,7 +20873,7 @@
         "carried": [],
         "day": [
          {
-          "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
+          "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
@@ -21049,7 +20884,7 @@
           "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
          },
          {
-          "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
+          "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
@@ -21060,7 +20895,7 @@
           "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
          },
          {
-          "id": "musing:mu_d0c342eb3db44011a075b541986af563",
+          "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
@@ -21183,9 +21018,9 @@
         "energy_delta": -12,
         "shadow_delta": 0,
         "encountered_entity_ids": [
-         "id-14",
          "id-15",
-         "id-16"
+         "id-16",
+         "id-17"
         ]
        }
       }
@@ -21237,7 +21072,7 @@
       }
      ],
      "out": {
-      "encoded": 19,
+      "encoded": 15,
       "absorbed": 1,
       "born_consolidated": 0
      },
@@ -21338,7 +21173,7 @@
       }
      ],
      "out": {
-      "encoded": 19,
+      "encoded": 15,
       "forgotten": 0,
       "consolidated": 0,
       "patterns": 0,
