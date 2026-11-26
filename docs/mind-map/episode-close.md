@@ -72,7 +72,7 @@ _An impression a Mind kept from something it lived._
   ```
 - **example out**:
   ```json
-  {"encoded": 19, "absorbed": 1, "born_consolidated": 0}
+  {"encoded": 15, "absorbed": 1, "born_consolidated": 0}
   ```
 
 ### Past — `detect_patterns()` `app/mind/memory.py`
@@ -136,7 +136,7 @@ _What the Mind lived and kept: its Memories, the Forgotten and the patterns repe
   ```
 - **example out**:
   ```json
-  {"encoded": 19, "forgotten": 0, "consolidated": 0, "patterns": 0, "patterns_faded": 0, "beliefs_faded": 0, "needs_released": 0, "memories_merged": 0, "memories_absorbed": 1}
+  {"encoded": 15, "forgotten": 0, "consolidated": 0, "patterns": 0, "patterns_faded": 0, "beliefs_faded": 0, "needs_released": 0, "memories_merged": 0, "memories_absorbed": 1}
   ```
 
 ### Temperament — `regress()` `app/mind/engine.py`
