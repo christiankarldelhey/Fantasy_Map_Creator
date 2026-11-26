@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated": "mind_map.py --update",
-  "source_hash": "490d584683bc1b17",
+  "source_hash": "b4a0acdcb51bff22",
   "golden_day": {
    "trip_id": "2c3716fc-8194-436c-90e3-fb3b765690fe",
    "day_number": 1,
@@ -6541,11 +6541,11 @@
      },
      {
       "data": {
-       "reading": "the sun quits the plain early, and the dark comes with the wind, cool and grey, partly cloudy, a wind that does not rest and soft rain",
        "tags": [
         "weather:wet",
         "weather:windy"
-       ]
+       ],
+       "reading": "the sun quits the plain early, and the dark comes with the wind, cool and grey, partly cloudy, a wind that does not rest and soft rain"
       }
      },
      {
@@ -6900,11 +6900,11 @@
      },
      {
       "data": {
-       "reading": "a chill that does not lift, heavy cloud cover and a steady rain",
        "tags": [
         "weather:wet",
         "weather:overcast"
-       ]
+       ],
+       "reading": "a chill that does not lift, heavy cloud cover and a steady rain"
       }
      },
      {
@@ -7270,8 +7270,8 @@
         "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.",
         "Heather-paths between the pools and the tors; in August the moor goes purple and the bees cloud the walking."
        ],
-       "reading": "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.",
-       "act": "walk"
+       "act": "walk",
+       "reading": "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring."
       }
      },
      {
@@ -7621,8 +7621,8 @@
      {
       "data": {
        "subtype": "terrain",
-       "reading": "open country, cross-country, Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.",
-       "act": "walk"
+       "act": "walk",
+       "reading": "open country, cross-country, Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring."
       }
      },
      {
@@ -8025,14 +8025,14 @@
        "entity_name": "Herb-lands",
        "entity_type": "resources",
        "intensity": 1.0,
-       "reading": "Herb-lands — The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.",
        "act": "talk",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 3.0,
         "mods": null
-       }
+       },
+       "reading": "Herb-lands — The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road."
       }
      },
      {
@@ -8492,14 +8492,14 @@
        "entity_name": "Owls",
        "entity_type": "flying_animals",
        "intensity": 0.0,
-       "reading": "Owls — They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues.",
        "act": "watch",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 7.0,
         "mods": null
-       }
+       },
+       "reading": "Owls — They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues."
       }
      },
      {
@@ -9005,14 +9005,14 @@
        "entity_name": "Deer",
        "entity_type": "herbivores",
        "intensity": 1.0,
-       "reading": "Deer — It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm.…",
        "act": "watch",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 5.0,
         "mods": null
-       }
+       },
+       "reading": "Deer — It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm.…"
       }
      },
      {
@@ -9462,8 +9462,8 @@
       "data": {
        "food": "a_ration_of_road_bread_and_dried_fruit",
        "drink": "waterskin",
-       "reading": "A pause at the height of the day: a ration of road-bread and dried fruit; water from the skin.",
-       "act": "eat"
+       "act": "eat",
+       "reading": "A pause at the height of the day: a ration of road-bread and dried fruit; water from the skin."
       }
      },
      {
@@ -9867,8 +9867,8 @@
       "data": {
        "food": "a_ration_of_road_bread_and_dried_fruit",
        "drink": "waterskin",
-       "reading": "Food at camp, once the packs are down: a ration of road-bread and dried fruit; water from the skin. The fire allows what is eaten to be warmed, if it is worth w…",
-       "act": "eat"
+       "act": "eat",
+       "reading": "Food at camp, once the packs are down: a ration of road-bread and dried fruit; water from the skin. The fire allows what is eaten to be warmed, if it is worth w…"
       }
      },
      {
@@ -10282,12 +10282,12 @@
        "name": "The ford of the voice",
        "subtype": "place",
        "intensity": 1.0,
-       "reading": "The ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses…",
        "act": "walk",
        "tags": [
         "visited",
         "felt:uneasy"
-       ]
+       ],
+       "reading": "The ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses…"
       }
      },
      {
@@ -10698,12 +10698,12 @@
        "name": "Vinyathrad",
        "subtype": "place",
        "intensity": 0.0,
-       "reading": "a city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water",
        "act": "watch",
        "tags": [
         "settlement",
         "sighted"
-       ]
+       ],
+       "reading": "a city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water"
       }
      },
      {
@@ -11111,11 +11111,11 @@
        "name": "Sandariand",
        "subtype": "region",
        "description": "The most settled sub-region of Forlindon, mild and green thanks to the Gulf of Lhûn. Oak forests and clover meadows, the oldest and best-preserved Elvish settle…",
-       "reading": "crossed into Sandariand",
        "act": "walk",
        "tags": [
         "region_entered"
-       ]
+       ],
+       "reading": "crossed into Sandariand"
       }
      },
      {
@@ -11475,11 +11475,11 @@
        "name": "Mänoriand",
        "subtype": "region",
        "description": "Inner Forlindon along the Linduin, a land of constant drizzle and moss-green on every surface. Damp heather hills, pool-fed waterfalls in side valleys and Elvis…",
-       "reading": "crossed into Mänoriand",
        "act": "walk",
        "tags": [
         "region_entered"
-       ]
+       ],
+       "reading": "crossed into Mänoriand"
       }
      },
      {
@@ -11830,8 +11830,8 @@
        "kind": "river",
        "name": "River",
        "subtype": "water",
-       "reading": "- A river is crossed by a stone bridge as the light failed.",
-       "act": "walk"
+       "act": "walk",
+       "reading": "- A river is crossed by a stone bridge as the light failed."
       }
      },
      {
@@ -12235,8 +12235,8 @@
        "kind": "river",
        "name": "River",
        "subtype": "water",
-       "reading": "- A river is crossed by a stone bridge as the light failed.",
-       "act": "walk"
+       "act": "walk",
+       "reading": "- A river is crossed by a stone bridge as the light failed."
       }
      },
      {
@@ -12672,11 +12672,11 @@
        },
        "entity_name": "Owls",
        "intensity": 1.0,
-       "reading": "Notes the sky is calm. Continues.",
        "act": "avoid",
        "tags": [
         "felt:watchful"
-       ]
+       ],
+       "reading": "Notes the sky is calm. Continues."
       }
      },
      {
@@ -13071,11 +13071,11 @@
        },
        "entity_name": "Deer",
        "intensity": 1.0,
-       "reading": "Notes the calm. Continues.",
        "act": "avoid",
        "tags": [
         "felt:calm"
-       ]
+       ],
+       "reading": "Notes the calm. Continues."
       }
      },
      {
@@ -13464,11 +13464,11 @@
        },
        "shadow_delta": -1,
        "intensity": 0.0,
-       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…",
        "act": "rest",
        "tags": [
         "mind:fatigue"
-       ]
+       ],
+       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…"
       }
      },
      {
@@ -13824,11 +13824,11 @@
      {
       "data": {
        "shadow_delta": -1,
-       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…",
        "act": "rest",
        "tags": [
         "rest:open_sky"
-       ]
+       ],
+       "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…"
       }
      },
      {
@@ -15433,7 +15433,7 @@
      "carried": [],
      "day": [
       {
-       "id": "musing:mu_3c4ec0d8a7864565a5651deb0dbc98e9",
+       "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15443,7 +15443,7 @@
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_cad2b015ed2b46ae85a1f7f69606b572",
+       "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15453,7 +15453,7 @@
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_6b23cc3f7f2a4f489eba38762b75ccb4",
+       "id": "musing:mu_d0c342eb3db44011a075b541986af563",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15613,7 +15613,7 @@
        "carried": [],
        "day": [
         {
-         "id": "musing:mu_3c4ec0d8a7864565a5651deb0dbc98e9",
+         "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -15624,7 +15624,7 @@
          "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
         },
         {
-         "id": "musing:mu_cad2b015ed2b46ae85a1f7f69606b572",
+         "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -15635,7 +15635,7 @@
          "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
         },
         {
-         "id": "musing:mu_6b23cc3f7f2a4f489eba38762b75ccb4",
+         "id": "musing:mu_d0c342eb3db44011a075b541986af563",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -19274,10 +19274,10 @@
     "in": [
      {
       "vector": {
-       "affection": -0.1274,
+       "affection": 0.0,
        "trust": 0.0,
        "fear": 0.0,
-       "familiarity": 0.0
+       "familiarity": 0.050960000000000005
       }
      },
      {
@@ -19318,10 +19318,10 @@
     "in": [
      {
       "vector": {
-       "affection": 0.0,
+       "affection": -0.1274,
        "trust": 0.0,
        "fear": 0.0,
-       "familiarity": 0.050960000000000005
+       "familiarity": 0.0
       }
      },
      {
@@ -20902,7 +20902,7 @@
       "carried": [],
       "day": [
        {
-        "id": "musing:mu_3c4ec0d8a7864565a5651deb0dbc98e9",
+        "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -20912,7 +20912,7 @@
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_cad2b015ed2b46ae85a1f7f69606b572",
+        "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -20922,7 +20922,7 @@
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_6b23cc3f7f2a4f489eba38762b75ccb4",
+        "id": "musing:mu_d0c342eb3db44011a075b541986af563",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -21038,7 +21038,7 @@
         "carried": [],
         "day": [
          {
-          "id": "musing:mu_3c4ec0d8a7864565a5651deb0dbc98e9",
+          "id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
@@ -21049,7 +21049,7 @@
           "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
          },
          {
-          "id": "musing:mu_cad2b015ed2b46ae85a1f7f69606b572",
+          "id": "musing:mu_8f32f011822e4b9e843d43758ee8da58",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
@@ -21060,7 +21060,7 @@
           "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
          },
          {
-          "id": "musing:mu_6b23cc3f7f2a4f489eba38762b75ccb4",
+          "id": "musing:mu_d0c342eb3db44011a075b541986af563",
           "kind": "musing",
           "part": "day",
           "phase": "morning",

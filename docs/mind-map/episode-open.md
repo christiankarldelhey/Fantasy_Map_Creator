@@ -277,7 +277,7 @@ _What the Mind tells the narrator about an Episode: what matters to it, one cent
   ```
 - **example out**:
   ```json
-  {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55"}, "carried": [], "day": [{"id": "musing:mu_3c4ec0d8a7864565a5651deb0dbc98e9", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.21, "connects_to": "event:6", "why": "called up by: Owls — They are going about their own business. Their busine"}, {"id": "musing…
+  {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55"}, "carried": [], "day": [{"id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.21, "connects_to": "event:6", "why": "called up by: Owls — They are going about their own business. Their busine"}, {"id": "musing…
   ```
 
 ### Evocation — `voice_memories()` `app/mind/retrieval.py`
@@ -310,7 +310,7 @@ _What the Mind tells the narrator about an Episode: what matters to it, one cent
   - `tests/test_c24_mood.py::test_lens_names_the_entering_mood_when_it_stands_somewhere` — The wheel word reaches the Lens even without a cause — 'the day
 - **example in**:
   ```json
-  [{"character_name": "Aranath"}, {"brief": {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55", "render": "crossed into Sandariand"}, "carried": [], "day": [{"id": "musing:mu_3c4ec0d8a7864565a5651deb0dbc98e9", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.21, "connects_to": "event:6", "why": "called up by:…
+  [{"character_name": "Aranath"}, {"brief": {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55", "render": "crossed into Sandariand"}, "carried": [], "day": [{"id": "musing:mu_223d51a4175d4c9089c17aa6345c3f6b", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.21, "connects_to": "event:6", "why": "called up by:…
   ```
 - **example out**:
   ```json
