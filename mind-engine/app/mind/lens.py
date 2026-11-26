@@ -20,6 +20,7 @@ from app.mind.engine import (
 from app.mind.tags import cause_tags, tag_family
 from app.mind.voice import humanize, mood_name
 from app.mind.provisioning import DEFAULT_WIRING
+from app.mind.steps import step
 
 
 def _weighted_mean(items, key):
@@ -32,6 +33,7 @@ def _weighted_mean(items, key):
     )
 
 
+@step('Mood')
 def episode_mood(session, game_id, perceived_day, mind=None, needs=None):
     """Where the day's pulls left the mood (#184): the running mood
     steps through each item's felt pulls in order — a trajectory, not
@@ -244,6 +246,7 @@ def mood_cause(perceived_day, needs=None):
     return best
 
 
+@step('Pull')
 def update_mind_mood(session, game_id, mind, ep_mood, cause=None,
                       when=None):
     """The running mood absorbs the day's felt deltas (ADR 0017): each
@@ -603,6 +606,7 @@ def disposition_beats(dispositions, items):
     return beats
 
 
+@step('Lens')
 def render_lens(character_name, brief, mood=None, today=None):
     """The Lens as an Episode brief (C35, CONTEXT.md · Lens): only what the
     Character CARRIES IN renders here — the entering mood through its

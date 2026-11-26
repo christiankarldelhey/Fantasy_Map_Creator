@@ -12,6 +12,7 @@
 # ============================================================================
 from app.ai import generate_narrative, translate_text
 from app.evals.eval_runner import run_narrative_evals
+from app.mind.steps import step
 from app.prompt.builder import build_day_prompt
 
 INNER_LANGUAGE = 'english'
@@ -29,6 +30,7 @@ def _reader_language(language):
     return _LANGUAGE_NAMES.get(lang, lang)
 
 
+@step('Inner language')
 def narrate_day(
     day,
     trip=None,

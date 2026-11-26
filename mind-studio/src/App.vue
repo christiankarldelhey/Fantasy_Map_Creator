@@ -7,10 +7,12 @@ import MemoryTab from './components/memory/MemoryTab.vue'
 import PersonalityTab from './components/personality/PersonalityTab.vue'
 import SummaryTab from './components/summary/SummaryTab.vue'
 import TagsTab from './components/tags/TagsTab.vue'
+import MapTab from './components/map/MapTab.vue'
+import { t } from './lib/i18n'
 import { useMind } from './composables/useMind'
 import { useMinds } from './composables/useMinds'
 
-type Tab = 'summary' | 'personality' | 'memory' | 'episodes' | 'tags'
+type Tab = 'summary' | 'personality' | 'memory' | 'episodes' | 'tags' | 'map'
 
 const { minds, selectedId, error: rosterError, select } = useMinds()
 const { mind, loading, error, refresh } = useMind(selectedId)
@@ -18,38 +20,41 @@ const { mind, loading, error, refresh } = useMind(selectedId)
 const tab = shallowRef<Tab>('summary')
 
 const tabs = computed(() => [
-  { id: 'summary' as const, label: 'Resumen' },
-  { id: 'personality' as const, label: 'Personalidad' },
-  { id: 'memory' as const, label: 'Memoria', count: mind.value?.memories.length },
-  { id: 'episodes' as const, label: 'Episodios', count: mind.value?.episodes.length },
-  { id: 'tags' as const, label: 'Tags' },
+  { id: 'summary' as const, label: t('tab.summary') },
+  { id: 'personality' as const, label: t('tab.personality') },
+  { id: 'memory' as const, label: t('tab.memory'), count: mind.value?.memories.length },
+  { id: 'episodes' as const, label: t('tab.episodes'), count: mind.value?.episodes.length },
+  { id: 'tags' as const, label: t('tab.tags') },
+  { id: 'map' as const, label: t('tab.map') },
 ])
 </script>
 
 <template>
   <div class="studio">
-    <AppHeader :minds="minds" :selected-id="selectedId" @select="select" />
+    <AppHeader :minds="minds" :selected-id="selectedId" :mind="mind" @select="select" />
 
     <p v-if="rosterError || error" class="notice error">
-      No se pudo cargar la mente ({{ rosterError || error }}). Revisá que el mind-engine esté corriendo.
+      {{ t('err.load', { err: rosterError || error || '?' }) }}
     </p>
     <p v-else-if="!loading && !minds.length" class="notice muted">
-      Todavía no hay mentes. Se crean cuando un personaje vive su primer episodio de viaje.
+      {{ t('empty.minds') }}
     </p>
 
-    <main v-if="mind" class="main">
+    <main v-if="mind || tab === 'map'" class="main">
       <TabNav v-model="tab" :tabs="tabs" />
       <div class="content">
-        <SummaryTab v-if="tab === 'summary'" :mind="mind" @saved="refresh" />
-        <PersonalityTab v-else-if="tab === 'personality'" :key="mind.character_id" :mind="mind" @saved="refresh" />
-        <MemoryTab v-else-if="tab === 'memory'" :mind="mind" />
-        <EpisodesTab
-          v-else-if="tab === 'episodes'"
-          :key="mind.character_id"
-          :mind="mind"
-          @saved="refresh"
-        />
-        <TagsTab v-else />
+        <MapTab v-if="tab === 'map'" />
+        <template v-else-if="mind">
+          <SummaryTab v-if="tab === 'summary'" :mind="mind" @saved="refresh" />
+          <PersonalityTab v-else-if="tab === 'personality'" :key="mind.character_id" :mind="mind" @saved="refresh" />
+          <MemoryTab v-else-if="tab === 'memory'" :mind="mind" />
+          <EpisodesTab
+            v-else-if="tab === 'episodes'"
+            :key="mind.character_id"
+            :mind="mind"
+          />
+          <TagsTab v-else />
+        </template>
       </div>
     </main>
   </div>

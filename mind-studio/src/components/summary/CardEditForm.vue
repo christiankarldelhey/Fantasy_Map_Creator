@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import { reactive, shallowRef } from 'vue'
+import { computed, reactive, shallowRef } from 'vue'
 import { patchCard } from '../../api'
+import { t } from '../../lib/i18n'
 import type { CharacterCard } from '../../types'
 
 const props = defineProps<{ character: CharacterCard; characterId: string }>()
 const emit = defineEmits<{ cancel: []; saved: [] }>()
 
-const FIELDS = [
-  { key: 'name', label: 'Nombre', rows: 0 },
-  { key: 'entity_name', label: 'Pueblo o tipo', rows: 0 },
-  { key: 'portrait_url', label: 'Retrato (URL de imagen)', rows: 0 },
-  { key: 'description', label: 'Descripción', rows: 3 },
-  { key: 'description_es', label: 'Descripción en español', rows: 3 },
-  { key: 'foundational_phrase', label: 'Frase fundacional', rows: 5 },
-  { key: 'voice_instructions', label: 'Cómo habla', rows: 3 },
-] as const
+const FIELDS = computed(() => [
+  { key: 'name', label: t('card.name'), rows: 0 },
+  { key: 'entity_name', label: t('card.entity'), rows: 0 },
+  { key: 'portrait_url', label: t('card.portrait'), rows: 0 },
+  { key: 'description', label: t('card.descEn'), rows: 3 },
+  { key: 'description_es', label: t('card.descEs'), rows: 3 },
+  { key: 'foundational_phrase', label: t('card.lens'), rows: 5 },
+  { key: 'voice_instructions', label: t('card.voice'), rows: 3 },
+] as const)
 
-type Field = (typeof FIELDS)[number]['key']
+type Field = 'name' | 'entity_name' | 'portrait_url' | 'description'
+  | 'description_es' | 'foundational_phrase' | 'voice_instructions'
 
 const draft = reactive(
-  Object.fromEntries(FIELDS.map((f) => [f.key, props.character[f.key] ?? ''])) as Record<Field, string>,
+  Object.fromEntries(FIELDS.value.map((f) => [f.key, props.character[f.key] ?? ''])) as Record<Field, string>,
 )
 const saving = shallowRef(false)
 const error = shallowRef<string | null>(null)
@@ -45,10 +47,10 @@ async function save() {
       <textarea v-if="f.rows" v-model="draft[f.key]" class="field" :rows="f.rows" />
       <input v-else v-model="draft[f.key]" class="field" />
     </label>
-    <p v-if="error" class="error">No se guardó: {{ error }}</p>
+    <p v-if="error" class="error">{{ t('card.err', { err: error }) }}</p>
     <div class="actions">
-      <button type="submit" class="btn btn-primary" :disabled="saving">{{ saving ? 'Guardando…' : 'Guardar' }}</button>
-      <button type="button" class="btn btn-ghost" @click="emit('cancel')">Cancelar</button>
+      <button type="submit" class="btn btn-primary" :disabled="saving">{{ saving ? t('card.saving') : t('card.save') }}</button>
+      <button type="button" class="btn btn-ghost" @click="emit('cancel')">{{ t('card.cancel') }}</button>
     </div>
   </form>
 </template>

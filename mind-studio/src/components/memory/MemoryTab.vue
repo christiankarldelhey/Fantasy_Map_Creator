@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
-import type { MindDetail } from '../../types'
+import { t } from '../../lib/i18n'
+import type { MemoryNode, MindDetail } from '../../types'
 import TabNav from '../TabNav.vue'
 import BeliefList from './BeliefList.vue'
 import MemoryList from './MemoryList.vue'
 import MusingList from './MusingList.vue'
+import RelationList from './RelationList.vue'
 
-type View = 'alive' | 'forgotten' | 'beliefs' | 'musings'
+type View = 'alive' | 'forgotten' | 'beliefs' | 'musings' | 'relations'
 
 const props = defineProps<{ mind: MindDetail }>()
 
@@ -15,47 +17,53 @@ const query = shallowRef('')
 
 const matches = (text: string) => text.toLowerCase().includes(query.value.trim().toLowerCase())
 
+const anchors = (m: MemoryNode) =>
+  [...(m.subjects ?? []), m.entity_id ?? '', m.region ?? '']
 const alive = computed(() =>
   props.mind.memories
-    .filter((m) => m.state === 'alive' && matches(m.desc))
+    .filter((m) => m.state === 'alive' && (matches(m.desc) || anchors(m).some(matches)))
     .sort((a, b) => b.strength - a.strength),
 )
 const forgotten = computed(() =>
   props.mind.memories
-    .filter((m) => m.state !== 'alive' && matches(m.desc))
+    .filter((m) => m.state !== 'alive' && (matches(m.desc) || anchors(m).some(matches)))
     .sort((a, b) => (b.forgotten_episode ?? 0) - (a.forgotten_episode ?? 0)),
 )
 const beliefs = computed(() =>
-  props.mind.beliefs.filter((b) => matches(b.statement)).sort((a, b) => b.strength - a.strength),
+  props.mind.beliefs
+    .filter((b) => matches(b.statement) || (b.subjects ?? []).some(matches))
+    .sort((a, b) => b.strength - a.strength),
 )
 const musings = computed(() => props.mind.musings.filter((m) => matches(m.statement)))
+const relations = computed(() =>
+  props.mind.relations
+    .filter((r) => matches(r.subject) || matches(r.display_name ?? ''))
+    .sort((a, b) =>
+      (Math.abs(b.affection) + Math.abs(b.fear) + Math.abs(b.trust))
+      - (Math.abs(a.affection) + Math.abs(a.fear) + Math.abs(a.trust))),
+)
 
 const views = computed(() => [
-  { id: 'alive' as const, label: 'Recuerdos', count: alive.value.length },
-  { id: 'forgotten' as const, label: 'Olvidados', count: forgotten.value.length },
-  { id: 'beliefs' as const, label: 'Creencias', count: beliefs.value.length },
-  { id: 'musings' as const, label: 'Voz interior', count: musings.value.length },
+  { id: 'alive' as const, label: t('mem.alive'), count: alive.value.length },
+  { id: 'relations' as const, label: t('mem.relations'), count: relations.value.length },
+  { id: 'beliefs' as const, label: t('mem.beliefs'), count: beliefs.value.length },
+  { id: 'musings' as const, label: t('mem.musings'), count: musings.value.length },
+  { id: 'forgotten' as const, label: t('mem.forgotten'), count: forgotten.value.length, dim: true },
 ])
-
-const HELP: Record<View, string> = {
-  alive: 'Lo que recuerda de sus viajes. Los recuerdos se debilitan con el tiempo salvo que algo los vuelva a traer.',
-  forgotten: 'Recuerdos que se debilitaron hasta perderse. Queda su rastro, pero ya no influyen.',
-  beliefs: 'Lo que tiene por cierto. Algunas vienen del preset y otras las aprendió reflexionando sobre lo vivido.',
-  musings: 'Frases escritas de antemano que le dan color a su forma de pensar. No son creencias: el narrador las usa como inspiración.',
-}
 </script>
 
 <template>
   <div class="memory">
     <div class="toolbar">
       <TabNav v-model="view" :tabs="views" />
-      <input v-model="query" class="field search" type="search" placeholder="Buscar…" aria-label="Buscar" />
+      <input v-model="query" class="field search" type="search" :placeholder="t('mem.search')" aria-label="Search" />
     </div>
-    <p class="help muted">{{ HELP[view] }}</p>
+    <p class="help muted">{{ t(`mem.${view}.help`) }}</p>
 
     <MemoryList v-if="view === 'alive'" :memories="alive" />
     <MemoryList v-else-if="view === 'forgotten'" :memories="forgotten" forgotten />
     <BeliefList v-else-if="view === 'beliefs'" :beliefs="beliefs" />
+    <RelationList v-else-if="view === 'relations'" :relations="relations" />
     <MusingList v-else :musings="musings" />
   </div>
 </template>

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# pre-push — the mind-map must not lie in a PR (ADR-0021).
+# Fast lint only (no DB): @step terms resolve to CONTEXT.md, every public
+# app.mind call from a handler is a step or declared internal, and the
+# committed artifacts match the code that produced them.
+# Install: cp .githooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+set -uo pipefail
+root="$(git rev-parse --show-toplevel)"
+if [ -x "$root/mind-engine/.venv/bin/python" ]; then
+    if ! (cd "$root/mind-engine" && .venv/bin/python scripts/mind_map.py --check); then
+        echo "✗ mind-map check failed — fix the lint or run:"
+        echo "    cd mind-engine && .venv/bin/python scripts/mind_map.py --update"
+        exit 1
+    fi
+fi

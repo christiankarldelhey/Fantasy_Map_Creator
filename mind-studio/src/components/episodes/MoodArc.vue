@@ -8,6 +8,7 @@
 // perceived event left on the felt substrate, in order.
 // ============================================================================
 import { computed } from 'vue'
+import { t } from '../../lib/i18n'
 import { label, moodLabel, PHASES } from '../../lib/labels'
 import { moodWord } from '../../lib/moodSpace'
 import type { EpisodeMood } from '../../types'
@@ -32,7 +33,7 @@ const phaseLabel = (p: string) => label(PHASES, p)
       >
         <p class="phase-name">
           {{ phaseLabel(p.phase) }}
-          <span v-if="turn?.phase === p.phase" class="badge badge-accent">giro</span>
+          <span v-if="turn?.phase === p.phase" class="badge badge-accent">{{ t('arc.turn') }}</span>
         </p>
         <p class="phase-mood">
           <span class="val" :class="{ neg: p.valence < 0 }">{{ signed(p.valence) }}</span>
@@ -41,13 +42,11 @@ const phaseLabel = (p: string) => label(PHASES, p)
         <p v-if="p.cause" class="phase-cause">«{{ p.cause }}»</p>
       </div>
     </div>
-    <p v-else class="muted">Este episodio no registró arco de ánimo (es anterior a ADR 0017 o no tuvo eventos con huella).</p>
+    <p v-else class="muted">{{ t('arc.empty') }}</p>
 
     <details v-if="trace.length" class="trace">
-      <summary>Huella por evento ({{ trace.length }})</summary>
-      <p class="muted small">
-        Lo que cada momento dejó en el sustrato sentido — afecto, confianza, miedo, familiaridad — en el orden en que se sintió.
-      </p>
+      <summary>{{ t('arc.trace', { n: trace.length }) }}</summary>
+      <p class="muted small">{{ t('arc.trace.desc') }}</p>
       <ul>
         <li v-for="(t, i) in trace" :key="i">
           <span class="t-reading">{{ t.reading ?? t.subject ?? '—' }}</span>
@@ -61,11 +60,11 @@ const phaseLabel = (p: string) => label(PHASES, p)
     </details>
 
     <p v-if="feltDims.length" class="felt-total muted small">
-      Acumulado del día:
+      {{ t('arc.total') }}
       <span v-for="d in feltDims" :key="d" class="dim mono" :class="{ neg: (mood.felt?.[d] ?? 0) < 0 }">
         {{ d }} {{ signed(mood.felt?.[d] ?? 0) }}
       </span>
-      <template v-if="mood.need_pressure"> · presión de necesidades {{ mood.need_pressure.toFixed(2) }}</template>
+      <template v-if="mood.need_pressure"> · {{ t('arc.needPressure', { v: mood.need_pressure.toFixed(2) }) }}</template>
     </p>
   </div>
 </template>

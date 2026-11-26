@@ -1,0 +1,47 @@
+%% Concepts — the glossary's vocabulary, grouped by home
+flowchart TD
+    subgraph wire["Wire"]
+        Event["Event<br/><i>wire events[] → mind.episodes.events</i>"]
+        Condition["Condition<br/><i>wire condition → mind.minds.body</i>"]
+        Fate["Fate<br/><i>wire fate → mind.episodes.narrator_payload.fate</i>"]
+        Tag["Tag<br/><i>events[].tags (wire); families fixed by the registry</i>"]
+    end
+    subgraph stored["Stored"]
+        Mind["Mind<br/><i>mind.minds</i>"]
+        Episode["Episode<br/><i>mind.episodes</i>"]
+        Character["Character<br/><i>mind.characters</i>"]
+        Mind_preset["Mind preset<br/><i>mind.mind_presets (+ preset_wiring / starter_beliefs / leans / musings / memories)</i>"]
+        Decision["Decision<br/><i>mind.episodes.decisions</i>"]
+        Perceived_day["Perceived day<br/><i>mind.episodes.perceived_day</i>"]
+        Perception["Perception<br/><i>perceived_day[].perception (noticed | unnoticed | misread)</i>"]
+        Perception_check["Perception check<br/><i>perceived_day[].check (the seeded roll audit)</i>"]
+        Salience["Salience<br/><i>perceived_day[].salience</i>"]
+        Meaning["Meaning<br/><i>mind.semantics (+ DEFAULT_SEMANTICS built-in pack)</i>"]
+        Recurrence["Recurrence<br/><i>perceived_day (source: mind items — repetition / break)</i>"]
+        Pull["Pull<br/><i>perceived_day[].mood_pull — a felt:* tag's point on the mood wheel</i>"]
+        Detector["Detector<br/><i>mind.detectors</i>"]
+        Need["Need<br/><i>mind.needs</i>"]
+        Thread["Thread<br/><i>mind.needs (open-loop kinds)</i>"]
+        Mood["Mood<br/><i>mind.minds.mood (running) + mind.episodes.mood (the day's)</i>"]
+        Temperament["Temperament<br/><i>mind.minds.temperament</i>"]
+        Memory["Memory<br/><i>mind.memories</i>"]
+        Conviction["Conviction<br/><i>mind.memories (facet conviction)</i>"]
+        Forgotten["Forgotten<br/><i>mind.forgotten_memories</i>"]
+        Past["Past<br/><i>mind.memories + mind.forgotten_memories (the kept, the lost, the patterns)</i>"]
+        Belief["Belief<br/><i>mind.memories (conviction facet)</i>"]
+        Relation["Relation<br/><i>mind.relations</i>"]
+        Lens["Lens<br/><i>mind.episodes.brief + mind.episodes.lens_block</i>"]
+        Focus["Focus<br/><i>mind.episodes.brief.focus</i>"]
+        Musing["Musing<br/><i>mind.musings</i>"]
+        Inner_language["Inner language<br/><i>mind.episodes.narrative (the channel, not a row)</i>"]
+    end
+    subgraph derived["Derived"]
+        Novelty["Novelty<br/><i>derived per event: unseen tags ÷ tags (last 20 episodes)</i>"]
+        Feeling["Feeling<br/><i>derived: live vector × pack mind.feeling_lexicon</i>"]
+        Evocation["Evocation<br/><i>derived per open: memories the day connects to</i>"]
+        Reflection["Reflection<br/><i>derived per close (LLM pass, trigger-gated)</i>"]
+    end
+    Thread -.->|is a| Need
+    Conviction -.->|is a| Memory
+    Forgotten -.->|is a| Memory
+    Belief -.->|is a| Conviction

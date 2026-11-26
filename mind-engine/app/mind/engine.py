@@ -17,6 +17,7 @@
 # ============================================================================
 import math
 
+from app.mind.steps import step
 from app.mind.util import OPS
 
 RELATION_DIMS = ('affection', 'trust', 'fear', 'familiarity')
@@ -206,6 +207,7 @@ def weigh_body(mood, body):
     return mood
 
 
+@step('Temperament')
 def regress(mood, temperament, alpha):
     """Inertia: each quiet episode the mood drifts a share α (the
     Personality's moodiness) back toward the Temperament."""
@@ -224,6 +226,7 @@ def decay(vec, rate):
     return vec
 
 
+@step('Detector')
 def project_body(condition, mapping):
     """Condition → body dims: a declared field→dim map ({'hunger':
     {'field': 'days_without_food', 'scale': 5}}) — scale is how many
@@ -255,6 +258,7 @@ def feeling_lexicon(session, game_id):
     ) or []
 
 
+@step('Feeling')
 def derive_feeling(vector, lexicon=None):
     """The first lexicon pattern the live state satisfies — numbers
     stay physics; the word is what the narration carries."""

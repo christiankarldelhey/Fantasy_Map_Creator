@@ -1,47 +1,100 @@
 <script setup lang="ts">
-import { label, MEMORY_KIND } from '../../lib/labels'
+import { t } from '../../lib/i18n'
+import { humanize, label, MEMORY_KIND, tagLabel } from '../../lib/labels'
 import type { MemoryNode } from '../../types'
 import MeterBar from '../ui/MeterBar.vue'
 
 defineProps<{ memories: MemoryNode[]; forgotten?: boolean }>()
 
-const feeling = (v: number) => (v <= -0.2 ? 'Negativo' : v >= 0.2 ? 'Positivo' : 'Neutro')
+const feeling = (v: number) =>
+  v <= -0.2 ? t('mem.feel.neg') : v >= 0.2 ? t('mem.feel.pos') : t('mem.feel.neutral')
+
+// The felt word as the pull stamped it — first pull word wins.
+const feltWord = (m: MemoryNode) => m.felt?.find((f) => f.word)?.word ?? null
+
+// What the memory refers to: its Subject tags humanized ('entity:X' →
+// 'X'), plus the stored entity/region anchors when they add a name the
+// subjects don't carry. A ref chip is the memory's "about".
+const refs = (m: MemoryNode) => {
+  const out: { key: string; name: string }[] = []
+  const seen = new Set<string>()
+  for (const s of m.subjects ?? []) {
+    const name = s.split(':').pop() ?? s
+    out.push({ key: s, name: humanize(name) })
+    seen.add(name)
+  }
+  for (const [k, v] of [['entity', m.entity_id], ['region', m.region]] as const) {
+    if (v && !seen.has(v)) out.push({ key: `${k}:${v}`, name: humanize(v) })
+  }
+  return out
+}
 </script>
 
 <template>
   <table v-if="memories.length" class="table">
     <thead>
       <tr>
-        <th>Recuerdo</th>
-        <th>Tipo</th>
-        <th>Sensación</th>
-        <th v-if="!forgotten" title="Qué tan vivo está el recuerdo">Fuerza</th>
-        <th title="Cuánto le marcó cuando lo vivió">Importancia</th>
-        <th title="Veces que volvió a su mente">Evocado</th>
-        <th>{{ forgotten ? 'Olvidado en' : 'Desde' }}</th>
+        <th>{{ t('mem.col.memory') }}</th>
+        <th>{{ t('mem.col.tags') }}</th>
+        <th>{{ t('mem.col.kind') }}</th>
+        <th>{{ t('mem.col.feeling') }}</th>
+        <th v-if="!forgotten" :title="t('mem.col.strength.help')">{{ t('mem.col.strength') }}</th>
+        <th :title="t('mem.col.importance.help')">{{ t('mem.col.importance') }}</th>
+        <th :title="t('mem.col.evoked.help')">{{ t('mem.col.evoked') }}</th>
+        <th v-if="!forgotten" :title="t('mem.col.voiced.help')">{{ t('mem.col.voiced') }}</th>
+        <th>{{ forgotten ? t('mem.col.forgottenIn') : t('mem.col.since') }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="m in memories" :key="m.id">
-        <td class="text">{{ m.desc }}</td>
+        <td class="text">
+          {{ m.desc }}
+          <span v-if="m.consolidated" class="badge cons" :title="t('mem.consolidated')">◆</span>
+        </td>
+        <td class="tags">
+          <span v-for="r in refs(m)" :key="r.key" class="tag ref" :title="r.key">{{ r.name }}</span>
+          <span v-for="tag in m.tags" :key="tag" class="tag" :title="tag">{{ tagLabel(tag) }}</span>
+        </td>
         <td><span class="badge">{{ label(MEMORY_KIND, m.kind) }}</span></td>
-        <td :class="['feel', feeling(m.valence).toLowerCase()]">{{ feeling(m.valence) }}</td>
+        <td :class="['feel', feeling(m.valence).toLowerCase()]">
+          {{ feeling(m.valence) }}<template v-if="feltWord(m)"> · {{ feltWord(m) }}</template>
+        </td>
         <td v-if="!forgotten"><MeterBar :value="m.strength" /></td>
         <td><MeterBar :value="m.importance" /></td>
         <td class="num">{{ m.evocations }}</td>
+        <td v-if="!forgotten" class="num">{{ m.voiced }}</td>
         <td class="num">
-          {{ forgotten ? (m.forgotten_episode != null ? `Ep. ${m.forgotten_episode}` : '—')
-            : (m.born_episode != null ? `Ep. ${m.born_episode}` : 'Preset') }}
+          {{ forgotten
+            ? (m.forgotten_episode != null ? t('mem.ep', { n: m.forgotten_episode }) : '—')
+            : (m.born_episode != null ? t('mem.ep', { n: m.born_episode }) : t('mem.preset')) }}
         </td>
       </tr>
     </tbody>
   </table>
-  <p v-else class="empty">{{ forgotten ? 'No olvidó nada todavía.' : 'No hay recuerdos.' }}</p>
+  <p v-else class="empty">{{ forgotten ? t('mem.empty.forgotten') : t('mem.empty.alive') }}</p>
 </template>
 
 <style scoped src="./table.css"></style>
 <style scoped>
 .feel { font-size: 13px; color: var(--text-dim); }
-.feel.positivo { color: var(--positive); }
-.feel.negativo { color: var(--danger); }
+.feel.positivo, .feel.positive { color: var(--positive); }
+.feel.negativo, .feel.negative { color: var(--danger); }
+.tags { max-width: 220px; }
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 1px 6px;
+  margin: 1px 3px 1px 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.cons { font-size: 9px; padding: 1px 5px; margin-left: 6px; color: var(--accent); }
+.tag.ref {
+  color: var(--accent);
+  border-color: var(--border-strong);
+  background: var(--accent-soft);
+}
 </style>

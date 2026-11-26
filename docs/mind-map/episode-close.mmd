@@ -1,0 +1,23 @@
+%% Episode close — POST /episodes/{id}/close
+flowchart LR
+    s0["Need<br/><i>resolve_from_outcome</i>"]
+    s1["Need<br/><i>update_streak_counters</i>"]
+    s2["Memory<br/><i>encode_episode</i>"]
+    s3["Past<br/><i>detect_patterns</i>"]
+    s4["Forgotten<br/><i>decay_pass</i>"]
+    s5["Belief<br/><i>belief_fade_pass</i>"]
+    s6["Past<br/><i>close_episode_memory</i>"]
+    s7["Temperament<br/><i>regress</i>"]
+    s8["Feeling<br/><i>derive_feeling</i>"]
+    s9["Relation<br/><i>decay_all</i>"]
+    s10["Reflection<br/><i>maybe_reflect</i>"]
+    s0 --> s1
+    s1 --> s2
+    s2 --> s3
+    s3 --> s4
+    s4 --> s5
+    s5 --> s6
+    s6 --> s7
+    s7 --> s8
+    s8 --> s9
+    s9 --> s10

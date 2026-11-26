@@ -24,6 +24,7 @@ from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.voice import mood_point, phrases
 from app.mind.rules import rule_needs, update_rule_streaks
+from app.mind.steps import step
 from app.mind.tables import Need
 
 NEED_PHRASE_PREFIX = 'mind.need.'
@@ -53,6 +54,7 @@ def _phrase(key, subject=None, urgency=0.0, idx=0, wiring=None,
     )
 
 
+@step('Need')
 def update_streak_counters(session, mind, episode):
     """Close-time bookkeeping (B9): per-rule streaks only count episodes
     the host actually persisted (close), never abandoned opens."""
@@ -173,6 +175,7 @@ def _apply_fired(session, game_id, mind, fired, resolved_refs, idx):
     )
 
 
+@step('Need')
 def needs_pass(session, game_id, mind, episode, perceived, character=None):
     """Open-time pass: fire detectors + threads, refresh urgency, close what
     cleared. Returns the character's open needs (urgency desc)."""
@@ -189,6 +192,7 @@ def needs_pass(session, game_id, mind, episode, perceived, character=None):
     return _apply_fired(session, game_id, mind, fired, resolved_refs, idx)
 
 
+@step('Need')
 def refresh_state_needs(session, game_id, mind, state, idx=None):
     """The mid-day core (Wave C): detectors alone, over the Condition the
     host reports NOW — no episode, no threads, no streak rules. An outcome
@@ -199,6 +203,7 @@ def refresh_state_needs(session, game_id, mind, state, idx=None):
     return _apply_fired(session, game_id, mind, fired, [], idx)
 
 
+@step('Need')
 def resolve_from_outcome(session, mind, episode, outcome):
     """Close-time: the host reports which needs its persisted outcome
     settled. Entries may be need ids, keys, thread slugs or types."""

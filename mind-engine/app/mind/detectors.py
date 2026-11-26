@@ -25,6 +25,7 @@ import logging
 import operator
 import time
 
+from app.mind.steps import step
 from app.mind.tables import Detector
 from app.mind.util import OPS, num
 
@@ -310,6 +311,7 @@ def altered_by_state(session, game_id, state, w=None):
     )
 
 
+@step('Detector')
 def body_projection(session, game_id):
     """The Condition → felt-body map (ADR 0017): 'body'-kind detector
     rows declare field→dim projections — scale the units that saturate

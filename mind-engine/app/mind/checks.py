@@ -26,6 +26,7 @@ import random
 from app.mind.detectors import altered_by_state, state_mods
 from app.mind.events import flat_data
 from app.mind.semantics import wakes_sleeper
+from app.mind.steps import step
 from app.mind.util import num
 from app.mind.voice import phrases
 
@@ -165,8 +166,9 @@ def _seed_for(game_id, character_id, episode_date, index, skill):
     )
 
 
-def resolve_check(session, game_id, character, event, index, state, w,
-                  mind=None, episode_date=None):
+@step('Perception check')
+def perception_check(session, game_id, character, event, index, state, w,
+                     mind=None, episode_date=None):
     """Resolve one event's check. Returns (check_result, perception).
 
     check_result lands verbatim in the packet's check_results and inside

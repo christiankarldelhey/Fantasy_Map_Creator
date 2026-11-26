@@ -28,6 +28,7 @@
 # Game-level overrides live in the `semantics` table, declared like
 # Detectors: DEFAULT_SEMANTICS is the built-in pack.
 # ============================================================================
+from app.mind.steps import step
 from app.mind.util import num, tag_matches
 
 DEFAULT_SEMANTICS = {
@@ -310,7 +311,7 @@ DEFAULT_SEMANTICS = {
         'delta': {'fear': 0.1, 'affection': -0.1},
     },
     # THE force dial: one authored number per encounter row (0-4 → 0-1
-    # severity). The same value scales the world_delta — a hard
+    # severity). The same value scales the meaning — a hard
     # happening imprints the Relation AND registers loud; tracks and
     # far shapes stay washed. The host stamps data.intensity on any
     # event that wants declared force (forms emit it on the wire).
@@ -356,7 +357,7 @@ def salience_floor(tags, semantics):
     return salience_min
 
 
-def field_severity(data, semantics):
+def declared_severity(data, semantics):
     """The wire's explicit severity (C6): 'field:' rows declare which
     numeric data fields count as severity — the host's word, not the
     engine's. A row's 'severity' is the rate the value applies at."""
@@ -385,18 +386,19 @@ def wakes_sleeper(tags, semantics):
     return False
 
 
-def semantic_delta(tags, data, semantics):
-    """The event's objective reading: the summed sparse delta its matched
+@step('Meaning')
+def meaning_of(tags, data, semantics):
+    """The event's objective Meaning: the summed sparse delta its matched
     semantic rows declare, plus 'field:' rows for the wire's numeric fact
-    channels at the event's overall contact weight.
+    channels at the event's overall contact force.
 
     The scale is one dial, not a per-row vote: a declared data.intensity
     (0-4, authored on the encounter row) IS the event's force and scales
     every matched row — the same number that drives severity through
     'field:intensity'. Events without intensity fall back to each row's
     authored 'weight'.
-    Returns (world_delta, contact_weight, body_hit)."""
-    world, body_hit = {}, {}
+    Returns (meaning, force, body_hit)."""
+    meaning, body_hit = {}, {}
     raw_force = num((data or {}).get('intensity'))
     force = (min(1.0, max(INTENSITY_FLOOR, raw_force / 4.0))
              if raw_force is not None else None)
@@ -411,7 +413,7 @@ def semantic_delta(tags, data, semantics):
             weight = max(weight, row_w if row_w is not None else 0.5)
         scale = force if force is not None else (row_w or 0.5)
         for dim, v in (row.get('delta') or {}).items():
-            world[dim] = world.get(dim, 0.0) + v * scale
+            meaning[dim] = meaning.get(dim, 0.0) + v * scale
         for dim, v in (row.get('body') or {}).items():
             body_hit[dim] = body_hit.get(dim, 0.0) + v
     contact = weight or 0.5
@@ -422,5 +424,5 @@ def semantic_delta(tags, data, semantics):
         if raw is None:
             continue
         for dim, v in (row.get('delta') or {}).items():
-            world[dim] = world.get(dim, 0.0) + v * raw * contact
-    return world, contact, body_hit
+            meaning[dim] = meaning.get(dim, 0.0) + v * raw * contact
+    return meaning, contact, body_hit

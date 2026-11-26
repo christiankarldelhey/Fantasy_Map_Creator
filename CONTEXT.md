@@ -56,6 +56,10 @@ _Avoid_: event category, event tier
 Which channel an item of the perceived day came from: the **world** (something that happened to the Character), the **ambient** frame (the backdrop that colours it), a **Decision** the Character made, or the **Mind** itself (a Need, a streak's wear). Mind items feel and speak but never pose as world-evidence — they spike no Reflection and feed no streaks. Not the Source of a Belief (lived or heard) — that says how the Mind came to hold something true, this says where a lived thing entered from.
 _Avoid_: origin, channel
 
+**Decision**:
+An act the Character chose, as opposed to what the world did to it: the pre-episode picking of each Situation's Interaction (ADR-0019), or any act the host records as chosen. As an Event source (`decision`) it is evidence of the Character's own agency; not a Kind — kinds name what happened, source says where it entered from.
+_Avoid_: choice, option pick, action resolution
+
 **Ambience**:
 The world's own voice made into an Event — a resolved ambient situation the world fired for the Episode ("the wall that hums, night 1"), one Event per situation with its authored reading. A Moment-role Kind: it can take the Focus and it can call up a Musing, but it is world, not interiority — the inner voice is the Musing. Named 'moment' until #158.
 _Avoid_: moment (the old name; Moment is a Role, not this Kind), ambience as mood
@@ -98,8 +102,36 @@ _Avoid_: memory (one Memory is a single impression), history, log
 One stretch of life a Mind lives at once, whatever the Host calls it (a day, a scene, a session). The unit of the Mind's timeline.
 _Avoid_: day, turn, scene, session
 
+**Perceived day**:
+The Episode's Events as the Mind lived them: the raw `events[]` annotated with Perception, Reading, Salience, valence, Tags, Imprint and Pulls — the same facts, now felt. Everything downstream (Needs, Mood, Evocation, Lens, Memory) reads the Perceived day, never the raw wire; the raw stays on `episodes.events` for audit.
+_Avoid_: processed events, enriched events, parsed day
+
+**Perception**:
+The verdict an Event earns passing through the Mind: noticed, unnoticed, or misread. The world's facts never change — only what the Mind registers of them. A favor slept through never happened; a misread track tells a story the world did not write. Lives as the `perception` field on each item of the Perceived day.
+_Avoid_: perception skill (a check names any skill), sensory filter
+
+**Perception check**:
+A gate the Host declares on an Event — "noticing this takes this skill" (`check{skill, difficulty, gate?}`). Resolved as a seeded die roll: skill below the gate and the option never existed; a failed roll leaves the Event unnoticed; a failed roll while altered leaves it misread. The seed is the Event's own identity, so the same day always perceives the same.
+_Avoid_: skill test, perception roll (it gates any skill), RNG
+
+**Salience**:
+How loudly a lived thing lands — the intensity with which the Mind lived the Event. The Host's `intensity` is one voice in it; Novelty, the Meaning the contact carries, and how watched its Subject is speak too. A noticed thing may be floored by what it IS: orcs are never background.
+_Avoid_: importance score, priority, event weight
+
+**Novelty**:
+How much of an Event's Tag surface the Mind has never seen — new things arrive louder, familiar things sink to background. Measured against what recent Episodes already showed, and spent inside the day: the fifth orc of the same day is less new than the first.
+_Avoid_: freshness, surprise factor
+
+**Meaning**:
+What a kind of contact objectively means — the declared delta a Tag pattern carries (an attack means fear, an offered meal means trust), stored in the `semantics` pack and tunable per game. The same Meaning lands on every Mind; Relations and Personality bend the landing downstream. Only what registered carries Meaning — a favour slept through never happened.
+_Avoid_: semantic delta (the old code name), event payload, emotion table
+
+**Recurrence**:
+The Mind's own noticing of repetition — items it synthesizes, not things the world did (source: mind). What repeats day after day wears on it: the fourth straight rain is not weather, it is the week closing in. What breaks speaks as news — the first dry day. A break over an open Need warns rather than relieves.
+_Avoid_: streak counter, boredom mechanic, monotony debuff
+
 **Memory**:
-An impression a Mind kept from something it lived. It strengthens when evoked, weakens with time, and below a threshold becomes Forgotten. Reaches the Lens only when it connects to the Episode, always told as past; being recent is not a reason on its own. A Memory keeps two felt channels apart: `imprint` is what the world suggested — the objective sediment that feeds Relations; `felt` is the pull as it actually landed through the Personality (word, refracted target, gain) — how it felt, and what remembering re-feels.
+An impression a Mind kept from something it lived. It lives one life across three depths: **fresh**, where being recent is reason enough to come forward — what just happened colours the day even when nothing touches it; **consolidated**, where recency no longer weighs and it surfaces only by connection — a shared subject, a shared feeling, a shared sense; and **Conviction**, where the impression has become something held true. A Memory encodes only what is distinctive — a first thing, a record, a break, the day's centre — never the routine of the day. It strengthens when evoked, weakens with time, and below a threshold becomes Forgotten; a Memory that stays a Memory is always told as past. A Memory keeps two felt channels apart: `imprint` is what the world suggested — the objective sediment that feeds Relations; `felt` is the pull as it actually landed through the Personality (word, refracted target, gain) — how it felt, and what remembering re-feels.
 _Avoid_: record, entry
 
 **Forgotten**:
@@ -139,8 +171,8 @@ A Belief with a Subject that is a place and a Stance toward it. Lived or only he
 _Avoid_: location note, region opinion, lore
 
 **Relation**:
-The emotional sediment a Subject leaves in the Mind: not an entity in the world but the standing sum of everything the Mind has felt about it — the love for a place, the fear of a kind, the trust in a person. Born only from lived experience (a Relation is never declared, only accreted), it outlives the Memories that made it: the bite is forgotten, the fear of dogs stays. Without new evidence it slowly fades toward indifference. Attitudes and Impressions are its seeds — what the Mind arrived already feeling.
-_Avoid_: relationship, reputation, attitude, affinity
+The emotional sediment a Subject leaves in the Mind: not an entity in the world but the standing sum of everything the Mind has felt about it — the love for a place, the fear of a kind, the trust in a person. Its current value is its **standing**: the `{affection, fear, trust, familiarity}` vector as it sits today — it refracts Pulls, weighs attention, and scales how fast repetition grates. Born only from lived experience (a Relation is never declared, only accreted), it outlives the Memories that made it: the bite is forgotten, the fear of dogs stays. Without new evidence it slowly fades toward indifference. Attitudes and Impressions are its seeds — what the Mind arrived already feeling.
+_Avoid_: relationship, reputation, attitude, affinity, relation_state (State is the Mind's Mood + Needs)
 
 **Source**:
 How a Mind came to hold a Belief: lived it or heard it (a legend is something heard long ago). Lived outweighs heard; a heard Belief turns lived the first time the Character meets its Subject.
@@ -213,6 +245,10 @@ _Avoid_: voiced, bled, used
 **Mind preset**:
 A ready-made way of thinking (what to notice, how to remember, starting beliefs, the lived past it was born carrying) that is copied into an Original when it is created or edited. Copied, never linked: changing a preset later changes no one.
 _Avoid_: mold, archetype, profile
+
+**Reflection**:
+The Mind's only re-reading of itself: a close-time pass that, when its trigger fires, rewrites what the Episode left — it may lend a carried cause better words, or turn a prejudice by rewriting the Conviction's facet and imprint. The one LLM call inside the engine; a skipped or failed Reflection never breaks the close, it is merely a quiet day.
+_Avoid_: insight pass, belief update, post-processing
 
 ### Voice of the data
 

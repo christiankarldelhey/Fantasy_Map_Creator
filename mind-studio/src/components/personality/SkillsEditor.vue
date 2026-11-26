@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { patchCard } from '../../api'
-import { SKILLS, skillLabel } from '../../lib/labels'
+import { SKILLS, skillHelp, skillLabel } from '../../lib/labels'
 import type { MindDetail } from '../../types'
 import SliderField from '../ui/SliderField.vue'
 
@@ -25,16 +25,13 @@ async function save() {
 </script>
 
 <template>
-  <p v-if="!editable" class="muted note">
-    Solo lectura: las habilidades se pueden editar cuando la ficha del personaje es editable (copias, después del primer episodio).
-  </p>
   <div class="skills">
     <SliderField
       v-for="key in keys"
       :key="key"
       v-model="values[key]!"
       :label="skillLabel(key)"
-      :help="SKILLS[key]?.help"
+      :help="skillHelp(key)"
       :min="0"
       :max="10"
       :step="1"
@@ -46,7 +43,6 @@ async function save() {
 </template>
 
 <style scoped>
-.note { margin: 0 0 16px; font-size: 13px; }
 .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; }
 @media (max-width: 800px) { .skills { grid-template-columns: 1fr; } }
 </style>

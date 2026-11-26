@@ -1,5 +1,38 @@
 // Shapes of the mind-engine's /studio/api (app/studio/api.py).
 
+// --- Mind map (docs/mind-map/graph.json, ADR-0021) ---------------------------
+
+export interface MindMapStep {
+  fn: string
+  term: string
+  reads?: string[]
+  writes?: string[]
+}
+
+export interface MindMapTrace {
+  term: string
+  fn: string
+  in: unknown[]
+  out: unknown
+  depth: number
+}
+
+export interface MindMapGraph {
+  meta: { generated: string; source_hash: string; golden_day: { label: string } }
+  glossary: Record<string, string>
+  concepts: Record<string, { lives_in?: string; is_a?: string; stage?: string }>
+  steps: MindMapStep[]
+  test_rules: Record<string, string[]>
+  request: Record<string, any>
+  prompt: { system?: string; user?: string }
+  trace: {
+    open: MindMapTrace[]
+    close: MindMapTrace[]
+    flow: { open: MindMapTrace[]; close: MindMapTrace[] }
+  }
+  tables: Record<string, { table: string; columns: Record<string, string> }>
+}
+
 export interface Mood {
   valence?: number
   arousal?: number
@@ -72,6 +105,11 @@ export interface PerceivedEvent {
     record?: string
     situation?: string
     npc_name?: string
+    entity_name?: string
+    provenance?: string
+    // Current wire name for the shadow the event cost ('shadow_effect'
+    // is the legacy name pre-envelope days carry).
+    shadow_delta?: number
     shadow_effect?: number
     after?: { energy?: number | null; shadow?: number | null }
     reading?: string | null
@@ -81,6 +119,7 @@ export interface PerceivedEvent {
 export interface MindSummary {
   character_id: string
   name: string
+  portrait_url: string | null
   preset: string
   episodes: number
   memories: number
@@ -118,7 +157,17 @@ export interface MemoryNode {
   kind: 'episodic' | 'pattern' | string
   desc: string
   tags: string[]
+  // What the memory is about — the Subject tags it touches (entity,
+  // kind, region, place) plus the stored anchors. Forgotten traces
+  // kept entity only.
+  subjects?: string[]
+  entity_id?: string | null
+  region?: string | null
   valence: number
+  // How it felt as it landed (pull word/target/gain) and the
+  // imprint-derived relational word — never on forgotten traces.
+  felt?: { word?: string }[] | null
+  feeling?: string | null
   importance: number
   strength: number
   evocations: number
@@ -130,9 +179,27 @@ export interface MemoryNode {
   state: 'alive' | 'forgotten'
 }
 
+// A Relation (CONTEXT.md): the standing the lived day sedimented per
+// subject — affection/trust bipolar, fear/familiarity unipolar.
+export interface RelationNode {
+  id: string
+  subject: string
+  display_name: string | null
+  affection: number
+  trust: number
+  fear: number
+  familiarity: number
+  feeling: string | null
+  origin: 'seed' | 'heard' | 'lived' | string
+  last_fed_episode: number | null
+  last_surfaced_episode: number | null
+}
+
 export interface BeliefNode {
   id: string
   statement: string
+  // The Subject tags the conviction touches — what it refers to.
+  subjects: string[]
   origin: 'seed' | 'reflected' | string
   status: string
   kind: string
@@ -208,6 +275,10 @@ export interface EpisodeView {
   status: string
   mood: EpisodeMood
   needs_active: ActiveNeed[]
+  // Raw wire events as the Host sent them (episodes.events) and the
+  // same items after perception annotated them (episodes.perceived_day).
+  events: Record<string, unknown>[]
+  lived: Record<string, unknown>[]
   perceived: PerceivedEvent[]
   lens: LensLine[]
   brief: EpisodeBrief | null
@@ -242,6 +313,7 @@ export interface MindDetail {
   beliefs: BeliefNode[]
   musings: MusingNode[]
   needs: { id: string; key: string; description: string; status: string }[]
+  relations: RelationNode[]
   episodes: EpisodeView[]
 }
 

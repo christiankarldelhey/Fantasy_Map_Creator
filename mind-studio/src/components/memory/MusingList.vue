@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../../lib/i18n'
 import { tagLabel } from '../../lib/labels'
 import type { MusingNode } from '../../types'
 
@@ -10,12 +11,12 @@ defineProps<{ musings: MusingNode[] }>()
     <li v-for="m in musings" :key="m.id">
       <p class="statement">{{ m.statement }}</p>
       <div v-if="m.tags.length" class="tags">
-        <span class="muted small">Aparece con:</span>
-        <span v-for="t in m.tags" :key="t" class="badge" :title="t">{{ tagLabel(t) }}</span>
+        <span class="muted small">{{ t('mem.appearsWith') }}</span>
+        <span v-for="tg in m.tags" :key="tg" class="badge" :title="tg">{{ tagLabel(tg) }}</span>
       </div>
     </li>
   </ul>
-  <p v-else class="empty">Este personaje no tiene frases de voz interior.</p>
+  <p v-else class="empty">{{ t('mem.empty.musings') }}</p>
 </template>
 
 <style scoped>

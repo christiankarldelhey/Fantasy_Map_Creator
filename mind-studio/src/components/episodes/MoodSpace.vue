@@ -13,19 +13,24 @@
 import { computed, shallowRef, useTemplateRef } from 'vue'
 import { MOOD_SECTORS, moodWord, pullVec, toPx, toSpace, type MoodPoint } from '../../lib/moodSpace'
 import { moodLabel } from '../../lib/labels'
+import { t } from '../../lib/i18n'
 import type { Mood, PerceivedEvent } from '../../types'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   mood: Mood
   temperament: Record<string, number>
   event?: PerceivedEvent | null
-}>()
+  /** Read-only: no drag — the disc as display (Personality tab). */
+  readonly?: boolean
+  /** Bigger disc for full-width cards. */
+  large?: boolean
+}>(), { readonly: false, large: false })
 const emit = defineEmits<{ move: [pos: MoodPoint] }>()
 
 // -- geometry ---------------------------------------------------------------
 const SIZE = 360
 const C = SIZE / 2
-const R = 118
+const R = 130
 const PX = (p: MoodPoint) => toPx(p, C, R)
 
 // Quadrant tints — the Russell layout: afraid (top-left), excited
@@ -45,11 +50,52 @@ const REGION_R = 0.72
 const REGIONS = MOOD_SECTORS.map((s) => {
   const rad = (s.deg * Math.PI) / 180
   return {
+    word: s.word,
     label: moodLabel(s.word),
     x: Math.cos(rad) * REGION_R,
     y: -Math.sin(rad) * REGION_R,
   }
 })
+
+// The softened words the same sectors speak near the centre (voice.py's
+// inner ring: r < 0.5 → `soft`). Sectors sharing a soft word (sad and
+// depressed both soften to 'melancholy') draw once at their mean angle;
+// adjacent words alternate radius so the labels don't collide.
+const SOFT_RS = [0.38, 0.46]
+const SOFT_REGIONS = (() => {
+  const by = new Map<string, { sx: number; sy: number }>()
+  for (const s of MOOD_SECTORS) {
+    const rad = (s.deg * Math.PI) / 180
+    const g = by.get(s.soft) ?? { sx: 0, sy: 0 }
+    g.sx += Math.cos(rad)
+    g.sy += Math.sin(rad)
+    by.set(s.soft, g)
+  }
+  return [...by].map(([word, g], i) => {
+    const rad = Math.atan2(g.sy, g.sx)
+    const r = SOFT_RS[i % SOFT_RS.length]
+    return {
+      word,
+      label: moodLabel(word),
+      x: Math.cos(rad) * r,
+      y: -Math.sin(rad) * r,
+    }
+  })
+})()
+
+// Hover a region name → a popup with what the word means. Position is
+// held in svg coordinates, the div places it in % over the wrapper.
+interface Tip { label: string; text: string; x: number; y: number; below: boolean }
+const tip = shallowRef<Tip | null>(null)
+function showTip(word: string, label: string, px: number, py: number) {
+  tip.value = {
+    label,
+    text: t(`ms.w.${word}`),
+    x: (px / SIZE) * 100,
+    y: (py / SIZE) * 100,
+    below: py < SIZE * 0.18,
+  }
+}
 
 // -- points ------------------------------------------------------------------
 const drag = shallowRef<MoodPoint | null>(null)
@@ -108,6 +154,7 @@ function pointFromEvent(e: PointerEvent): MoodPoint {
 }
 
 function onDown(e: PointerEvent) {
+  if (props.readonly) return
   dragging.value = true
   svg.value?.setPointerCapture(e.pointerId)
   drag.value = pointFromEvent(e)
@@ -130,15 +177,17 @@ const signed = (v?: number) => `${(v ?? 0) > 0 ? '+' : ''}${(v ?? 0).toFixed(2)}
 
 <template>
   <div class="space">
-    <svg
+    <div class="disc" :class="{ large }">
+      <svg
       ref="svg"
       :viewBox="`0 0 ${SIZE} ${SIZE}`"
-      class="svg"
+      :class="['svg', { ro: readonly }]"
       @pointerdown="onDown"
       @pointermove="onMove"
       @pointerup="onUp"
       @pointercancel="onUp"
-    >
+      @pointerleave="tip = null"
+      >
       <defs>
         <clipPath id="disc"><circle :cx="C" :cy="C" :r="R" /></clipPath>
         <filter id="soft"><feGaussianBlur stdDeviation="26" /></filter>
@@ -169,24 +218,38 @@ const signed = (v?: number) => `${(v ?? 0) > 0 ? '+' : ''}${(v ?? 0).toFixed(2)}
       <circle :cx="C" :cy="C" :r="R" class="ring" />
       <circle :cx="C" :cy="C" :r="R * 0.5" class="ring inner" />
 
-      <!-- feeling names -->
+      <!-- feeling names — the strong ring outside, the softened
+           ring near the centre -->
       <text
         v-for="r in REGIONS" :key="r.label"
         :x="C + r.x * R" :y="C + r.y * R"
         class="region"
+        @mouseenter="showTip(r.word, r.label, C + r.x * R, C + r.y * R)"
+        @mouseleave="tip = null"
+      >{{ r.label }}</text>
+      <text
+        v-for="r in SOFT_REGIONS" :key="`soft-${r.word}`"
+        :x="C + r.x * R" :y="C + r.y * R"
+        class="region soft"
+        @mouseenter="showTip(r.word, r.label, C + r.x * R, C + r.y * R)"
+        @mouseleave="tip = null"
       >{{ r.label }}</text>
 
       <!-- axes -->
       <line :x1="C" :y1="C - R - 22" :x2="C" :y2="C + R + 22" class="axis" />
       <line :x1="C - R - 22" :y1="C" :x2="C + R + 22" :y2="C" class="axis" />
-      <text :x="C" :y="C - R - 28" class="axis-label" text-anchor="middle">Agitación (+)</text>
-      <text :x="C" :y="C + R + 38" class="axis-label" text-anchor="middle">Agitación (−)</text>
-      <text :x="C - R - 28" :y="C" class="axis-label" text-anchor="middle" :transform="`rotate(-90 ${C - R - 28} ${C})`">Valencia (−)</text>
-      <text :x="C + R + 28" :y="C" class="axis-label" text-anchor="middle" :transform="`rotate(90 ${C + R + 28} ${C})`">Valencia (+)</text>
+      <text :x="C" :y="C - R - 28" class="axis-label" text-anchor="middle">{{ t('ms.arousal.pos') }}</text>
+      <text :x="C" :y="C + R + 38" class="axis-label" text-anchor="middle">{{ t('ms.arousal.neg') }}</text>
+      <text :x="C - R - 28" :y="C" class="axis-label" text-anchor="middle" :transform="`rotate(-90 ${C - R - 28} ${C})`">{{ t('ms.valence.neg') }}</text>
+      <text :x="C + R + 28" :y="C" class="axis-label" text-anchor="middle" :transform="`rotate(90 ${C + R + 28} ${C})`">{{ t('ms.valence.pos') }}</text>
 
       <!-- neutral core — the engine names this ring 'steady' -->
-      <circle :cx="C" :cy="C" r="26" class="core" />
-      <text :x="C" :y="C + 4" class="core-label">Tranquilo</text>
+      <circle
+        :cx="C" :cy="C" r="26" class="core"
+        @mouseenter="showTip('steady', t('ms.steady'), C, C)"
+        @mouseleave="tip = null"
+      />
+      <text :x="C" :y="C + 4" class="core-label">{{ t('ms.steady') }}</text>
 
       <!-- selected event's pull: dashed aim at the refracted target,
            solid arrow the distance the mood would actually travel -->
@@ -211,7 +274,7 @@ const signed = (v?: number) => `${(v ?? 0) > 0 ? '+' : ''}${(v ?? 0).toFixed(2)}
 
       <!-- temperament: the fixed nature the mood regresses to -->
       <circle :cx="tempPx.x" :cy="tempPx.y" r="7" class="temperament" />
-      <text :x="tempPx.x + 11" :y="tempPx.y - 6" class="pt-label temp">naturaleza</text>
+      <text :x="tempPx.x + 11" :y="tempPx.y - 6" class="pt-label temp">{{ t('ms.nature') }}</text>
 
       <!-- mood: the running weather — drag anywhere on the disc -->
       <circle :cx="moodPx.x" :cy="moodPx.y" r="14" class="halo" />
@@ -219,38 +282,90 @@ const signed = (v?: number) => `${(v ?? 0) > 0 ? '+' : ''}${(v ?? 0).toFixed(2)}
       <text :x="moodPx.x + 11" :y="moodPx.y + 14" class="pt-label">
         {{ moodLabel(moodWord(mood)) }}
       </text>
-    </svg>
-
-    <div class="readout">
-      <span>ánimo <b>{{ moodLabel(moodWord(mood)) }}</b></span>
-      <span class="mono">valencia {{ signed(mood.valence) }}</span>
-      <span class="mono">agitación {{ signed(mood.arousal) }}</span>
-      <span v-if="dominance != null" class="mono">dominancia {{ signed(dominance) }}</span>
+      </svg>
+      <div
+        v-if="tip"
+        class="tip" :class="{ below: tip.below }"
+        :style="{ left: `${tip.x}%`, top: `${tip.y}%` }"
+      ><b>{{ tip.label }}</b> {{ tip.text }}</div>
     </div>
-    <p v-if="cause" class="cause">«{{ cause }}»</p>
-    <p v-if="event && eventTitle" class="event-note">
-      <span class="badge">{{ event.type }}</span> {{ eventTitle }}
-      <template v-if="pull?.word"> — tira a «{{ moodLabel(pull.word) }}»</template>
-      <template v-else-if="!pull"> — sin tirón sobre el ánimo</template>
-    </p>
-    <p class="hint muted">
-      Punto ámbar: el ánimo ahora (arrastrá para moverlo). Anillo azul:
-      la naturaleza, fija. El punto verde es adónde tira el evento
-      elegido; la flecha, cuánto llega a mover.
-    </p>
+
+    <div class="info">
+      <div class="readout">
+        <span>{{ t('ms.mood') }} <b>{{ moodLabel(moodWord(mood)) }}</b></span>
+        <span class="mono">{{ t('ms.valence') }} {{ signed(mood.valence) }}</span>
+        <span class="mono">{{ t('ms.arousal') }} {{ signed(mood.arousal) }}</span>
+        <span v-if="dominance != null" class="mono">{{ t('ms.dominance') }} {{ signed(dominance) }}</span>
+      </div>
+      <slot name="side" />
+      <p v-if="cause" class="cause">«{{ cause }}»</p>
+      <p v-if="event && eventTitle" class="event-note">
+        <span class="badge">{{ event.type }}</span> {{ eventTitle }}
+        <template v-if="pull?.word"> — {{ t('ms.pullTo', { word: moodLabel(pull.word) }) }}</template>
+        <template v-else-if="!pull"> — {{ t('ms.noPull') }}</template>
+      </p>
+      <p class="hint muted">{{ readonly ? t('ms.hint') : t('ms.hint.drag') }}</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .space { display: grid; gap: 8px; justify-items: center; }
-.svg { width: 100%; max-width: 360px; cursor: crosshair; touch-action: none; user-select: none; }
+.space:has(.disc.large) {
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+  justify-items: start;
+}
+@media (max-width: 1000px) {
+  .space:has(.disc.large) { grid-template-columns: 1fr; justify-items: center; }
+}
+.disc { position: relative; width: 100%; max-width: 380px; margin: 0 auto; }
+.disc.large { max-width: none; }
+.info { display: grid; gap: 8px; }
+.svg { width: 100%; display: block; cursor: crosshair; touch-action: none; user-select: none; }
+.svg.ro { cursor: default; }
+
+.tip {
+  position: absolute;
+  transform: translate(-50%, -115%);
+  max-width: 230px;
+  padding: 7px 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-dim);
+  pointer-events: none;
+  z-index: 5;
+}
+.tip b { color: var(--text); margin-right: 4px; }
+.tip.below { transform: translate(-50%, 25%); }
 
 .ring { fill: none; stroke: var(--border-strong); stroke-width: 1.2; }
 .ring.inner { stroke: var(--border); stroke-dasharray: 3 5; opacity: 0.7; }
 .axis { stroke: var(--text-faint); stroke-width: 1; }
 .axis-label { fill: var(--text-faint); font-size: 10px; }
-.region { fill: var(--text); font-size: 10.5px; text-anchor: middle; opacity: 0.75; pointer-events: none; }
-.core { fill: var(--surface-2); stroke: var(--border-strong); }
+.region {
+  fill: var(--text);
+  font-size: 11px;
+  text-anchor: middle;
+  opacity: 0.85;
+  cursor: crosshair;
+  paint-order: stroke;
+  stroke: rgba(10, 13, 18, 0.82);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+.region.soft { fill: var(--text-dim); font-size: 9.5px; opacity: 0; transition: opacity 0.2s ease; }
+/* The inner ring names appear only while the disc is hovered — the
+   permanent labels are the rim words; the centre stays readable. */
+.disc:hover .region.soft { opacity: 0.8; }
+.disc:hover .region.soft:hover { opacity: 1; fill: var(--text); }
+.region:hover { opacity: 1; fill: var(--text); }
+.core { fill: var(--surface-2); stroke: var(--border-strong); cursor: crosshair; }
 .core-label { fill: var(--text-dim); font-size: 10px; text-anchor: middle; pointer-events: none; }
 
 .push { stroke: #7dd87d; stroke-width: 1.8; }
