@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
 import { t } from '../../lib/i18n'
-import type { MindDetail } from '../../types'
+import type { MemoryNode, MindDetail } from '../../types'
 import TabNav from '../TabNav.vue'
 import BeliefList from './BeliefList.vue'
 import MemoryList from './MemoryList.vue'
@@ -17,14 +17,16 @@ const query = shallowRef('')
 
 const matches = (text: string) => text.toLowerCase().includes(query.value.trim().toLowerCase())
 
+const anchors = (m: MemoryNode) =>
+  [...(m.subjects ?? []), m.entity_id ?? '', m.region ?? '']
 const alive = computed(() =>
   props.mind.memories
-    .filter((m) => m.state === 'alive' && matches(m.desc))
+    .filter((m) => m.state === 'alive' && (matches(m.desc) || anchors(m).some(matches)))
     .sort((a, b) => b.strength - a.strength),
 )
 const forgotten = computed(() =>
   props.mind.memories
-    .filter((m) => m.state !== 'alive' && matches(m.desc))
+    .filter((m) => m.state !== 'alive' && (matches(m.desc) || anchors(m).some(matches)))
     .sort((a, b) => (b.forgotten_episode ?? 0) - (a.forgotten_episode ?? 0)),
 )
 const beliefs = computed(() =>

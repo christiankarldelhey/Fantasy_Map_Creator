@@ -131,7 +131,7 @@ The Mind's own noticing of repetition — items it synthesizes, not things the w
 _Avoid_: streak counter, boredom mechanic, monotony debuff
 
 **Memory**:
-An impression a Mind kept from something it lived. It strengthens when evoked, weakens with time, and below a threshold becomes Forgotten. Reaches the Lens only when it connects to the Episode, always told as past; being recent is not a reason on its own. A Memory keeps two felt channels apart: `imprint` is what the world suggested — the objective sediment that feeds Relations; `felt` is the pull as it actually landed through the Personality (word, refracted target, gain) — how it felt, and what remembering re-feels.
+An impression a Mind kept from something it lived. It lives one life across three depths: **fresh**, where being recent is reason enough to come forward — what just happened colours the day even when nothing touches it; **consolidated**, where recency no longer weighs and it surfaces only by connection — a shared subject, a shared feeling, a shared sense; and **Conviction**, where the impression has become something held true. A Memory encodes only what is distinctive — a first thing, a record, a break, the day's centre — never the routine of the day. It strengthens when evoked, weakens with time, and below a threshold becomes Forgotten; a Memory that stays a Memory is always told as past. A Memory keeps two felt channels apart: `imprint` is what the world suggested — the objective sediment that feeds Relations; `felt` is the pull as it actually landed through the Personality (word, refracted target, gain) — how it felt, and what remembering re-feels.
 _Avoid_: record, entry
 
 **Forgotten**:

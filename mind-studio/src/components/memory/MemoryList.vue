@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t } from '../../lib/i18n'
-import { label, MEMORY_KIND, tagLabel } from '../../lib/labels'
+import { humanize, label, MEMORY_KIND, tagLabel } from '../../lib/labels'
 import type { MemoryNode } from '../../types'
 import MeterBar from '../ui/MeterBar.vue'
 
@@ -11,6 +11,23 @@ const feeling = (v: number) =>
 
 // The felt word as the pull stamped it — first pull word wins.
 const feltWord = (m: MemoryNode) => m.felt?.find((f) => f.word)?.word ?? null
+
+// What the memory refers to: its Subject tags humanized ('entity:X' →
+// 'X'), plus the stored entity/region anchors when they add a name the
+// subjects don't carry. A ref chip is the memory's "about".
+const refs = (m: MemoryNode) => {
+  const out: { key: string; name: string }[] = []
+  const seen = new Set<string>()
+  for (const s of m.subjects ?? []) {
+    const name = s.split(':').pop() ?? s
+    out.push({ key: s, name: humanize(name) })
+    seen.add(name)
+  }
+  for (const [k, v] of [['entity', m.entity_id], ['region', m.region]] as const) {
+    if (v && !seen.has(v)) out.push({ key: `${k}:${v}`, name: humanize(v) })
+  }
+  return out
+}
 </script>
 
 <template>
@@ -35,6 +52,7 @@ const feltWord = (m: MemoryNode) => m.felt?.find((f) => f.word)?.word ?? null
           <span v-if="m.consolidated" class="badge cons" :title="t('mem.consolidated')">◆</span>
         </td>
         <td class="tags">
+          <span v-for="r in refs(m)" :key="r.key" class="tag ref" :title="r.key">{{ r.name }}</span>
           <span v-for="tag in m.tags" :key="tag" class="tag" :title="tag">{{ tagLabel(tag) }}</span>
         </td>
         <td><span class="badge">{{ label(MEMORY_KIND, m.kind) }}</span></td>
@@ -74,4 +92,9 @@ const feltWord = (m: MemoryNode) => m.felt?.find((f) => f.word)?.word ?? null
   white-space: nowrap;
 }
 .cons { font-size: 9px; padding: 1px 5px; margin-left: 6px; color: var(--accent); }
+.tag.ref {
+  color: var(--accent);
+  border-color: var(--border-strong);
+  background: var(--accent-soft);
+}
 </style>

@@ -157,6 +157,12 @@ export interface MemoryNode {
   kind: 'episodic' | 'pattern' | string
   desc: string
   tags: string[]
+  // What the memory is about — the Subject tags it touches (entity,
+  // kind, region, place) plus the stored anchors. Forgotten traces
+  // kept entity only.
+  subjects?: string[]
+  entity_id?: string | null
+  region?: string | null
   valence: number
   // How it felt as it landed (pull word/target/gain) and the
   // imprint-derived relational word — never on forgotten traces.

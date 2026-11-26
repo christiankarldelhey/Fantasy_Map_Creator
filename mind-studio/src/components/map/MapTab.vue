@@ -22,6 +22,7 @@ const { graph, error, loading, nodes, edges, stage } = useMindMap()
 const EXPLAINERS: Record<string, { x: string; f: string; n: number }> = {
   'perception': { x: 'map.perc', f: 'map.flow', n: 7 },
   'needs/mood': { x: 'map.imp', f: 'map.impf', n: 5 },
+  'memory': { x: 'map.mem', f: 'map.memf', n: 6 },
 }
 const VISIBLE_STAGES = Object.keys(EXPLAINERS)
 const cfg = computed(() => EXPLAINERS[stage.value])

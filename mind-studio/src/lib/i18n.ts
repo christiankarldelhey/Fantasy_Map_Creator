@@ -465,6 +465,7 @@ const S: Record<string, { es: string; en: string }> = {
   // -- map: stage chips + shared ------------------------------------------------
   'map.stage.perception': { es: 'Percepción', en: 'Perception' },
   'map.stage.needs/mood': { es: 'Impacto', en: 'Impact' },
+  'map.stage.memory': { es: 'Memoria', en: 'Memory' },
   'map.trace': {
     es: 'Trazado real — los pasos del día dorado, nodo a nodo',
     en: 'Real trace — the golden day, step by step',
@@ -586,6 +587,64 @@ const S: Record<string, { es: string; en: string }> = {
   'map.impf.p5.t': { es: 'El ánimo se asienta', en: 'The mood settles' },
   'map.impf.p5.d': { es: 'se mezcla en el corriente, el cuerpo arrastra, la inercia regresa al temperamento', en: 'blends into the running mood, the body drags, inertia returns to temperament' },
   'map.impf.p5.e': { es: 'ej: worried baja el mood → deriva al pesimista de siempre', en: 'e.g.: worried lowers the mood → drifts back to the old pessimist' },
+
+  // -- map: memory explainer + scheme --------------------------------------------
+  'map.mem.title': { es: 'Qué me llevo de hoy', en: 'What the day leaves me' },
+  'map.mem.hint': { es: 'perceived_day ↔ memories', en: 'perceived_day ↔ memories' },
+  'map.mem.intro': {
+    es: 'La memoria corre en los dos sentidos y abraza el episodio: al abrirlo, el día nuevo llama al pasado (lo que hoy recuerda se vuelve narrable); al cerrarlo, lo vivido se asienta en el pasado (lo que queda, lo que se junta, lo que se pierde). Una memoria que nunca aflora se desvanece — la mente pierde lo que nunca dijo:',
+    en: 'Memory runs both ways and brackets the episode: when the day opens, the new day calls the past (what it recalls becomes narratable); when it closes, what was lived settles into the past (what stays, what merges, what is lost). A memory that never surfaces fades — the mind loses what it never said:',
+  },
+  'map.mem.s1': {
+    es: '<b>El pasado se asoma</b> — cada memoria se puntúa contra el día nuevo: si toca lo mismo (tags), si se parece (embedding), si se sintió igual (los tirones del día contra su valencia), qué tan reciente es. Las top evocadas se vuelven narrables; los patrones quedan excluidos y lo trivial no se auto-evoca.',
+    en: '<b>The past leans in</b> — every memory is scored against the new day: whether it touches the same things (tags), whether it resembles them (embedding), whether it felt the same (the day’s pulls vs its valence), how recent it is. The top evoked become narratable; patterns stay out and the trivial never self-evokes.',
+  },
+  'map.mem.s2': {
+    es: '<b>La memoria habla</b> — un encuentro con sustancia evoca memorias puntuales (el diálogo "responde desde" lo vivido), y cada evocada se ancla a la fase donde se la llama: nunca habla antes del momento que la trajo.',
+    en: '<b>The memory speaks</b> — an encounter with substance evokes particular memories (the dialogue “answers from” what was lived), and each evoked one anchors to the phase that called it: it never speaks before its moment.',
+  },
+  'map.mem.s3': {
+    es: '<b>El día se guarda</b> — al close, los ítems percibidos se vuelven Memory: la salience decide qué queda; el Focus del episodio codifica un poco más fuerte — lo que la mente puso al centro se recuerda mejor.',
+    en: '<b>The day is stored</b> — at close, the perceived items become Memory rows: salience decides what stays; the episode’s Focus encodes a little stronger — what the mind put at the centre is remembered better.',
+  },
+  'map.mem.s4': {
+    es: '<b>Lo mismo se junta</b> — la misma cosa vivida es la misma memoria: en vez de una copia nueva, la fila se refuerza y gana días. El hambre habla con una sola voz durante todo su arco: una memoria que madura, no copias por amanecer.',
+    en: '<b>The same thing merges</b> — the same lived thing is the same memory: instead of a fresh copy, the row strengthens and gains days. The hunger speaks in one voice through its whole arc: one maturing memory, not a copy per dawn.',
+  },
+  'map.mem.s5': {
+    es: '<b>Lo dicho consolida</b> — lo que el narrador dijo (voiced) y lo evocado se afianzan; lo de mayor peso (salience ≥0.8) nace ya consolidado. Una racha de temas recurrentes puede volverse patrón — un segundo camino a la permanencia.',
+    en: '<b>What was said consolidates</b> — what the narrator voiced and what was evoked gets stronger; the heaviest (salience ≥0.8) is born consolidated. A recurring theme can become a pattern — a second path to permanence.',
+  },
+  'map.mem.s6': {
+    es: '<b>Lo callado se desvanece</b> — lo que nunca afloró decae por tiers; al morir, la memoria deja su rastro en forgotten. Lo nacido o agitado este episodio está exento — el olvido no se come lo fresco.',
+    en: '<b>What went unsaid fades</b> — what never surfaced decays by tiers; when it dies, the memory leaves its trace in forgotten. Anything born or stirred this episode is exempt — forgetting does not eat the fresh.',
+  },
+  'map.mem.out': {
+    es: 'La memoria no es un archivo pasivo: decide qué del día merece quedarse, qué del pasado merece hablar hoy, y deja perder el resto. De ese pasado filtrado salen después las convicciones y los vínculos — la identidad.',
+    en: 'Memory is not a passive archive: it decides what of the day deserves keeping, what of the past deserves speaking today, and lets the rest go. From that filtered past come the convictions and bonds — identity.',
+  },
+  'map.memf.in': { es: 'perceived_day + pasado', en: 'perceived_day + past' },
+  'map.memf.in.sub': { es: 'el día vivido y lo acumulado', en: 'the lived day and what accrued' },
+  'map.memf.out': { es: 'evoked + memories', en: 'evoked + memories' },
+  'map.memf.out.sub': { es: 'lo que habla hoy y lo que queda', en: 'what speaks today and what stays' },
+  'map.memf.p1.t': { es: 'El pasado se asoma', en: 'The past leans in' },
+  'map.memf.p1.d': { es: 'el día nuevo puntúa a las memorias: tema, parecido, cómo se sintió, cercanía', en: 'the new day scores memories: topic, likeness, how it felt, recency' },
+  'map.memf.p1.e': { es: 'ej: orcos en el vado → evoca «la cueva donde casi nos encuentran»', en: 'e.g.: orcs at the ford → evokes “the cave where they nearly found us”' },
+  'map.memf.p2.t': { es: 'La memoria habla', en: 'The memory speaks' },
+  'map.memf.p2.d': { es: 'en un encuentro, el diálogo evoca memorias puntuales, ancladas a su fase', en: 'in an encounter, dialogue evokes particular memories, anchored to their phase' },
+  'map.memf.p2.e': { es: 'ej: hablando del camino sale «la noche a la intemperie»', en: 'e.g.: talking about the road brings up “the night in the open”' },
+  'map.memf.p3.t': { es: 'El día se guarda', en: 'The day is stored' },
+  'map.memf.p3.d': { es: 'al close, lo percibido se vuelve Memory; el Focus codifica más fuerte', en: 'at close, what was perceived becomes Memory; the Focus encodes stronger' },
+  'map.memf.p3.e': { es: 'ej: «Sombras grises en el vado» → Memory (0.72)', en: 'e.g.: “Grey shapes at the ford” → Memory (0.72)' },
+  'map.memf.p4.t': { es: 'Lo mismo se junta', en: 'The same thing merges' },
+  'map.memf.p4.d': { es: 'la misma cosa vivida refuerza la misma fila en vez de duplicarla', en: 'the same lived thing strengthens the same row instead of duplicating' },
+  'map.memf.p4.e': { es: 'ej: 3er día de lluvia → la misma memoria gana un día', en: 'e.g.: 3rd day of rain → the same memory gains a day' },
+  'map.memf.p5.t': { es: 'Lo dicho consolida', en: 'What was said consolidates' },
+  'map.memf.p5.d': { es: 'lo voceado se afianza; lo de mayor peso nace consolidado', en: 'the voiced strengthens; the heaviest is born consolidated' },
+  'map.memf.p5.e': { es: 'ej: la memoria narrada en la escena queda fija', en: 'e.g.: the memory narrated in the scene stays fixed' },
+  'map.memf.p6.t': { es: 'Lo callado se desvanece', en: 'What went unsaid fades' },
+  'map.memf.p6.d': { es: 'lo que nunca afloró decae por tiers → forgotten', en: 'what never surfaced decays by tiers → forgotten' },
+  'map.memf.p6.e': { es: 'ej: una trivialidad de hace semanas → forgotten', en: 'e.g.: a triviality from weeks ago → forgotten' },
 }
 
 export function t(key: string, params?: Record<string, string | number>): string {

@@ -151,6 +151,12 @@ def _memory_out(m, forgotten=False):
         'kind': m.kind,
         'desc': m.desc,
         'tags': m.tags or [],
+        # What the memory is about — the Subject tags it touches
+        # (entity, kind, region, place), plus its stored anchors.
+        # Forgotten traces kept entity only.
+        'subjects': getattr(m, 'subjects', None) or [],
+        'entity_id': m.entity_id,
+        'region': getattr(m, 'region', None),
         'valence': m.valence or 0.0,
         # How it felt as it actually landed (pull word/target/gain) —
         # 'feeling' stays the imprint-derived relational word. Forgotten
