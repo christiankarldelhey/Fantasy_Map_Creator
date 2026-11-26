@@ -113,7 +113,10 @@ def test_semantic_recall_without_tag_overlap(client):
     desc = 'the rain soaked every stitch of wool'
 
     tuned = _uid('tuned')
-    _seed_memory(tuned, desc, created_episode=None)
+    # C2: consolidated rows carry no recency share, so the semantic
+    # channel must clear min_score on connection alone — the memory
+    # needs real importance for the door to matter.
+    _seed_memory(tuned, desc, importance=0.5, created_episode=None)
     # The day's reading must clear retrieval_semantic_min (0.45):
     # 'rain drizzled…' only reaches ~0.35 — genuine resonance, not vibe.
     close_note = {

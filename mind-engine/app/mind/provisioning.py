@@ -36,7 +36,11 @@ DEFAULT_WIRING = {
     'lambda_recency': 0.3,
     'retrieval_top_k': 5,
     'retrieval_boost': 0.1,
-    'retrieval_min_score': 0.5,
+    # C2: consolidated rows no longer earn the α·recency share, so the
+    # floor drops to what a connected-but-old memory can still reach —
+    # and leaves the felt channel headroom (a grief important enough
+    # and felt closely enough now clears it).
+    'retrieval_min_score': 0.4,
     # C20 contact gate: a memory evokes only if it shares a tag with
     # today's perceived items OR its embedding cosine clears this floor.
     # Bucket-embedder cosine: unrelated pairs sit ~0.2-0.3, genuine
@@ -57,6 +61,15 @@ DEFAULT_WIRING = {
     # quiet — dwelling must not re-summon itself. Recency also ages from
     # when the event happened, never from when it was last recalled.
     'refractory_episodes': 1,
+    # C2 fresh channel (N1): a volatile memory this many lived episodes
+    # old presents itself to scoring on recency alone — yesterday's
+    # storm colours today even under clear skies. Past the window it
+    # needs connection like anything else.
+    'fresh_episodes': 2,
+    # C2 felt gate (N2/N3): a consolidated memory also opens when the
+    # day's felt pulls come this close to how the memory felt — old
+    # grief surfaces on a grey day without a single shared tag.
+    'felt_gate_min': 0.7,
     # C23: a spoken encounter probes memory on its own terms — the
     # question's text embeds against the corpus and the best hit may
     # inform the answer. Below retrieval_semantic_min because the probe

@@ -19,7 +19,7 @@ from app.mind.voice import humanize, phrases, streak_subjects
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.steps import step
 from app.mind.tables import Episode, ForgottenMemory, Memory, Need
-from app.mind.tags import pattern_tag
+from app.mind.tags import contact_tags as _contact_tags, pattern_tag
 
 
 def _wiring(mind):
@@ -110,22 +110,98 @@ def _entity_of(item):
     return data.get('entity') or data.get('entity_id')
 
 
+def _anchor_of(item):
+    """The named thing this item is about — entity first, then the place,
+    then the region it all happened in."""
+    data = item.get('data') or {}
+    where = item.get('where') or {}
+    return (
+        data.get('entity') or data.get('entity_id')
+        or where.get('place')
+        or where.get('region')
+    )
+
+
+def _distinct_signature(item):
+    """The 'same kind of thing' signature (C1): type + named anchor +
+    contact-tag set. Ambient tags never distinguish two things — 'this
+    storm' and 'another storm' share a signature, 'foxes seen' and
+    'foxes attacking' do not."""
+    return (
+        item.get('type'),
+        _anchor_of(item),
+        frozenset(_contact_tags(item.get('tags') or [])),
+    )
+
+
+def _distinct_signature_from_memory(mem):
+    """The same signature recovered from a stored row: the type rides
+    the tags ('type:encounter'), the anchor the entity/place/region
+    columns."""
+    type_tag = next(
+        (t.split(':', 1)[1] for t in (mem.tags or [])
+         if t.startswith('type:')),
+        None,
+    )
+    place = next(
+        (t.split(':', 1)[1] for t in (mem.tags or [])
+         if t.startswith('place:')),
+        None,
+    )
+    return (
+        type_tag,
+        mem.entity_id or place or mem.region,
+        frozenset(_contact_tags(mem.tags or [])),
+    )
+
+
+def _is_rupture(item):
+    return any(
+        t.startswith('rupture:') for t in (item.get('tags') or [])
+    )
+
+
+def _bare_names(item):
+    """Every name the item could resolve to as a bare label — the
+    subject (entity/name/title/entity_id, humanized) and the place.
+    A reading equal to any of these is the resolver's name fallback,
+    never words the world put on the moment."""
+    data = item.get('data') or {}
+    place = data.get('place')
+    return {
+        n for n in (
+            data.get('entity_name'), data.get('name'), data.get('title'),
+            data.get('entity'), data.get('entity_id'),
+            humanize(data.get('entity') or data.get('entity_id')),
+            place if isinstance(place, str) else None,
+            humanize(place) if isinstance(place, str) else None,
+        ) if n
+    }
+
+
 def _describe(session, game_id, item, mind=None):
     # An unnoticed event never resolved into a reading — what may lodge in
     # memory is only the difuso it left behind (editable 'mind.unnoticed').
     if item.get('perception') == 'unnoticed':
         vague = phrases('mind.unnoticed', session, game_id)
         return vague[0] if vague else 'a faint unease, its source unclear'
-    data = item.get('data') or {}
-    subject = (
-        data.get('entity_name') or data.get('name')
-        or humanize(data.get('entity') or data.get('entity_id'))
-    )
-    desc = item.get('reading') or (str(subject) if subject else None)
-    # Unwordable items — 'travel' resolves no reading by design
-    # (mileage rides the condition) and carries no subject. Without
-    # words there is no impression to keep.
-    return desc
+    # No words, no impression (C1): an item the world did not put into
+    # words keeps nothing — 'town' or 'Minas Girithlin' as a bare name
+    # is the resolver's fallback, not a memory. ('travel' resolves no
+    # reading by design; mileage rides the condition.) 'meal' and
+    # 'encounter' strategies are exempt: their names ARE the content —
+    # 'lembas' is what was served, 'red foxes' is who was met. Only
+    # 'declared'/'rest' kinds use a name as a placeholder for prose
+    # that was never written.
+    reading = item.get('reading')
+    if not reading:
+        return None
+    strategy = kind_of(
+        session, game_id, item.get('type')).get('reading', 'declared')
+    if (strategy not in ('meal', 'encounter')
+            and reading in _bare_names(item)):
+        return None
+    return reading
 
 
 @step('Memory')
@@ -153,6 +229,7 @@ def encode_episode(session, mind, episode):
     # generalized). Same key as _compact_duplicates: 'need:<key>' rows
     # keep their arc identity; everything else is (kind, desc, entity).
     by_desc = {}
+    by_signature = {}
     for m in session.query(Memory).filter_by(
         character_id=episode.character_id
     ).all():
@@ -160,6 +237,13 @@ def encode_episode(session, mind, episode):
             (t for t in (m.tags or []) if t.startswith('need:')), None
         )
         by_desc[need_tag or (m.kind, _norm_desc(m.desc), m.entity_id)] = m
+        if m.kind == 'episodic':
+            s = _distinct_signature_from_memory(m)
+            best = by_signature.get(s)
+            if best is None or (
+                (m.importance or 0.0) > (best.importance or 0.0)
+            ):
+                by_signature[s] = m
     # C35: the Focus marks how the Episode is remembered — the event the
     # Mind put at the centre encodes a little stronger than its salience.
     focus = (getattr(episode, 'brief', None) or {}).get('focus') or {}
@@ -246,6 +330,33 @@ def encode_episode(session, mind, episode):
                 existing.embedding = embed(desc)
             absorbed += 1
             continue
+        # The distinctive gate (C1): a kind of thing the mind already
+        # keeps earns a new row only by surpassing the best it kept —
+        # the eighth identical night is bookkeeping, not an impression.
+        # A record refreshes that row instead of spawning a sibling.
+        # Ruptures (the break IS the news) and the day's centre always
+        # encode.
+        prior_best = by_signature.get(_distinct_signature(item))
+        if (
+            prior_best is not None
+            and not _is_rupture(item)
+            and i != focus_idx
+        ):
+            if importance <= (prior_best.importance or 0.0):
+                continue
+            if episode.id not in (prior_best.episode_ids or []):
+                prior_best.episode_ids = [
+                    *(prior_best.episode_ids or []), episode.id,
+                ]
+            prior_best.importance = importance
+            prior_best.strength = max(
+                prior_best.strength or 0.0, importance
+            )
+            if prior_best.desc != desc:
+                prior_best.desc = desc
+                prior_best.embedding = embed(desc)
+            absorbed += 1
+            continue
         # The vector substrate (ADR 0017): imprint is the felt delta the
         # item carried (a need's ache reads as a small affection dip),
         # subjects the Relation-bearing tags it touched; depth follows
@@ -286,6 +397,7 @@ def encode_episode(session, mind, episode):
         session.add(new_mem)
         # Register so a twin later in this same pass absorbs into it.
         by_desc[('episodic', _norm_desc(desc), entity_id)] = new_mem
+        by_signature[_distinct_signature(item)] = new_mem
         encoded += 1
         born_consolidated += int(consolidated)
     return {

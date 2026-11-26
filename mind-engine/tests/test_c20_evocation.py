@@ -62,14 +62,15 @@ def _day(*tags, reading='wolf-prints crossing the path'):
     }]
 
 
-def test_fresh_and_important_memory_without_contact_stays_unevoked():
+def test_past_the_fresh_window_memory_without_contact_stays_unevoked():
     """A memory whose tags share neither a tag nor a coarse facet with
-    today stays quiet: recency and importance alone do not summon it —
-    it must touch today's story."""
+    today stays quiet once its fresh window closed (C2): inside it, the
+    N1 channel lets recency present the memory alone — outside, it must
+    touch today's story."""
     session, char = _session_with_memories({
         'desc': 'a ranger asked about the roads north',
         'tags': ['tag:form:brief_exchange'],
-        'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 6,
     })
     evoked = retrieve(
         session, _brain(char), _episode(10),
@@ -104,7 +105,7 @@ def test_single_segment_tags_share_no_facet():
     session, char = _session_with_memories({
         'desc': 'an orc patrol crossed the road east',
         'tags': ['entity:orcs'],
-        'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 6,
     })
     evoked = retrieve(
         session, _brain(char), _episode(10),
@@ -151,17 +152,19 @@ def test_semantic_overlap_evokes_even_without_shared_tags():
 def test_purely_ambient_memories_never_evoke():
     """Weather and vitals are ambience — the recurrence channel owns
     their repetition. All-ambient tags means no door at all, not even
-    the semantic one. (Food/drink became subjects under ADR 0017 —
-    the bread's memory may evoke now; the rain's may not.)"""
+    the semantic one — past the fresh window, that is: inside it, the
+    storm of yesterday speaks on recency alone (C2). (Food/drink became
+    subjects under ADR 0017 — the bread's memory may evoke now; the
+    rain's may not.)"""
     session, char = _session_with_memories(
         {   # a wet day on a wet day — same sky is not a story
             'desc': 'cool, partly cloudy, a passing shower',
             'tags': ['type:climate', 'tag:weather:wet', 'region:X'],
-            'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+            'importance': 0.8, 'strength': 0.6, 'created_episode': 6,
         },
         {   # vitals are the body's channel
             'desc': 'a body', 'tags': ['type:body'],
-            'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+            'importance': 0.8, 'strength': 0.6, 'created_episode': 6,
         },
     )
     evoked = retrieve(
@@ -229,7 +232,7 @@ def test_region_alone_does_not_make_contact():
         # Only a region in common with today: the entity tag shares no
         # coarse facet either (single-segment tags have none, ADR-0016).
         'tags': ['type:encounter', 'entity:dunedain_3', 'region:Rast Vorn'],
-        'importance': 0.8, 'strength': 0.6, 'created_episode': 9,
+        'importance': 0.8, 'strength': 0.6, 'created_episode': 6,
     })
     evoked = retrieve(
         session, _brain(char), _episode(10),

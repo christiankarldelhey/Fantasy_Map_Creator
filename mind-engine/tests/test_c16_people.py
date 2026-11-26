@@ -384,8 +384,9 @@ def test_identical_events_within_one_episode_encode_one_memory(client):
     assert len(rows[0].episode_ids or []) == 1
 
 
-def test_different_readings_still_encode_separate_memories(client):
-    """Dedup is exact-desc only: two DIFFERENT meals keep their rows."""
+def test_same_signature_different_readings_encode_one_memory(client):
+    """C1 distinctive gate: two meals in one day share a signature —
+    only the better impression keeps a row; the routine one drops."""
     char = _uid('two-meals')
     events = [
         {
@@ -399,7 +400,7 @@ def test_different_readings_still_encode_separate_memories(client):
     _close(client, opened['episode_id'])
     descs = {m.desc for m in _memories(char)}
     assert "the farm wife's soup" in descs
-    assert 'stale bread and water' in descs
+    assert 'stale bread and water' not in descs
 
 
 # --- H) the lens reads one impression, not three copies --------------------

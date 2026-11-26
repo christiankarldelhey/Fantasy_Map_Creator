@@ -136,6 +136,69 @@ def _had_contact(perceived_day):
     return False
 
 
+_DANGER_IMPRINT_FLOOR = 0.15
+
+
+def _had_danger(perceived_day):
+    """Did the day carry menace? Whatever the semantics wrote into the
+    item's imprint as fear — the attack, the wound, the patrol too
+    close — or the wire's own declared `danger`. Tracks and far shapes
+    stay under the floor: a sign is not a threat."""
+    for item in perceived_day or []:
+        if item.get('perception') == 'unnoticed':
+            continue
+        data = item.get('data') or {}
+        if (data.get('danger') or 0) > 0:
+            return True
+        if (item.get('imprint') or {}).get('fear', 0.0) \
+                >= _DANGER_IMPRINT_FLOOR:
+            return True
+    return False
+
+
+def _open_physical_need(needs):
+    """A physiological need open — the body is being asked for."""
+    for n in needs or []:
+        ntype = (
+            n.get('type') if isinstance(n, dict)
+            else getattr(n, 'type', None)
+        )
+        if ntype == 'physiological':
+            return True
+    return False
+
+
+# C3 — the contexts a voice may ask of the DAY as a whole, declared as a
+# registry: a new context is an entry here, never another if. Each
+# evaluator reads the full perceived day (and the needs snapshot), not
+# one item — 'safe' is the day nothing dangerous happened, which no
+# single item can say.
+_DAY_CONTEXT_EVALS = {
+    'solitude':    lambda day, needs: not _had_contact(day),
+    'company':     lambda day, needs: _had_contact(day),
+    'danger':      lambda day, needs: _had_danger(day),
+    'safe':        lambda day, needs: not _had_danger(day),
+    'deprivation': lambda day, needs: _open_physical_need(needs),
+}
+
+
+def _day_contexts(perceived_day, needs_active):
+    """The contexts true of this day — presence and absence alike."""
+    return {
+        name for name, check in _DAY_CONTEXT_EVALS.items()
+        if check(perceived_day, needs_active or [])
+    }
+
+
+def _declared_contexts(tags):
+    """The 'context:*' asks a voice carries — the kind of day it speaks
+    on ('context:solitude' → 'solitude')."""
+    return {
+        t.split(':', 1)[1] for t in (tags or [])
+        if t.startswith('context:')
+    }
+
+
 # The tags that name the SAME thing — 'the same orcs' beats 'the same
 # kind of moment' as the reason a memory came back. Flag families say
 # only the shape of the rhyme.
@@ -206,7 +269,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
         k for k, v in kinds(session, game_id).items()
         if v.get('role') in (ROLE_FRAME, ROLE_VOICE)
     }
-    contact_seen = _had_contact(perceived_day)
+    # C3: the day's contexts — solitude, company, danger, safe,
+    # deprivation — computed once over the whole day; 'context:*' voices
+    # gate on them.
+    contexts = _day_contexts(perceived_day, needs)
 
     # --- today's moments: every noticed, read event; the salient ones are
     # the Focus candidates and day lines. The inner voice hears more than
@@ -285,22 +351,29 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             if n and (hit is None or (n, m['score']) > (overlap, hit['score'])):
                 hit, overlap = m, n
         if hit is None:
-            # 'context:solitude' beliefs ask nothing of the day — they
-            # speak when nobody touched the mind at all: the thoughts a
-            # person keeps for themselves (seed thoughts, authored
-            # personality). Days with company keep them quiet.
-            if 'context:solitude' not in (b.tags or []):
+            # 'context:*' beliefs ask nothing of the day but its shape —
+            # they speak when the day IS the kind of day they are about:
+            # the thoughts a person keeps for solitude, for safe days,
+            # for company (seed thoughts, authored personality). Days
+            # that are not that kind keep them quiet.
+            declared = _declared_contexts(b.tags)
+            if not declared:
                 silenced.append({
                     'kind': 'belief', 'text': statement,
                     'stage': 'filter',
                     'reason': 'nothing in the Episode puts it at stake',
                 })
                 continue
-            if contact_seen:
+            missing = declared - contexts
+            if missing:
                 silenced.append({
                     'kind': 'belief', 'text': statement,
                     'stage': 'filter',
-                    'reason': 'the day had company',
+                    'reason': (
+                        'the day had company'
+                        if missing == {'solitude'}
+                        else f'the day was not {sorted(missing)[0]}'
+                    ),
                 })
                 continue
             # A flat score, below anything the day actually touched:
@@ -312,7 +385,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 'phase': None, 'text': statement,
                 'score': SOLITUDE_SCORE,
                 'solitude': True, 'tagged': True,
-                'why': 'the mind alone with itself',
+                'context': sorted(declared),
+                'why': 'the mind alone with itself'
+                       if declared == {'solitude'}
+                       else f"the day itself: {sorted(declared)[0]}",
             })
             continue
         belief_lines.append({
@@ -389,18 +465,24 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             if n and (hit is None or (n, mo['score']) > (overlap, hit['score'])):
                 hit, overlap = mo, n
         if hit is None:
-            if 'context:solitude' not in (m.tags or []):
+            declared = _declared_contexts(m.tags)
+            if not declared:
                 silenced.append({
                     'kind': 'musing', 'text': m.statement,
                     'stage': 'filter',
                     'reason': 'nothing in the Episode calls this voice up',
                 })
                 continue
-            if contact_seen:
+            missing = declared - contexts
+            if missing:
                 silenced.append({
                     'kind': 'musing', 'text': m.statement,
                     'stage': 'filter',
-                    'reason': 'the day had company',
+                    'reason': (
+                        'the day had company'
+                        if missing == {'solitude'}
+                        else f'the day was not {sorted(missing)[0]}'
+                    ),
                 })
                 continue
             musing_lines.append({
@@ -408,7 +490,10 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 'phase': None, 'text': m.statement,
                 'score': SOLITUDE_SCORE * voice_gain,
                 'solitude': True, 'tagged': True,
-                'why': 'the mind alone with itself',
+                'context': sorted(declared),
+                'why': 'the mind alone with itself'
+                       if declared == {'solitude'}
+                       else f"the day itself: {sorted(declared)[0]}",
             })
             continue
         musing_lines.append({

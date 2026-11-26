@@ -155,6 +155,15 @@ def retrieve(session, mind, episode, perceived_day):
     sem_min = w.get('retrieval_semantic_min', 0.5)
     facet_w = w.get('retrieval_facet_weight', 0.4)
     refractory = int(w.get('refractory_episodes', 1))
+    # C2 — the depth channels: a FRESH memory (N1) presents itself on
+    # recency alone inside `fresh_episodes` lived days — yesterday's
+    # storm colours today even under clear skies. A CONSOLIDATED one
+    # (N2/N3) needs contact, semantics, or feeling-as-the-day — the
+    # felt gate (`felt_gate_min`): old grief surfaces on a grey day
+    # without a single shared tag. Volatiles past their window go back
+    # to needing connection like anything else.
+    fresh_episodes = int(w.get('fresh_episodes', 2))
+    felt_gate = float(w.get('felt_gate_min', 0.7))
     for mem in candidates:
         # Patterns are background bookkeeping, not impressions (C5):
         # they live and die by recurrence and their voice is the
@@ -176,31 +185,53 @@ def retrieve(session, mind, episode, perceived_day):
             and 1 <= idx - last_evoked <= refractory
         ):
             continue
-        # A memory whose tags are ALL ambient never stirs: the day's
-        # bread and the day's sky belong to the recurrence channel, not
-        # to evocation — otherwise the ration out-thinks the warg.
-        # (Tag-less memories keep the semantic door, B8.)
         mem_contact = _contact_tags(mem.tags)
-        if mem.tags and not mem_contact:
-            continue
+        # C2: the age that matters is days LIVED (episode_idx) — a month
+        # of rest between journeys does not age the memory a month; the
+        # calendar stays for how the lens says 'a month ago'.
+        delta = memory_age_episodes(episode, mem)
+        fresh = (
+            not mem.consolidated and delta is not None
+            and delta <= fresh_episodes
+        )
         sim = (
             cosine(episode_vec, ensure_embedding(mem))
             if episode_vec is not None else 0.0
         )
-        # Contact gate: no content tag shared with today — exact or
-        # through a shared coarse facet — no semantic overlap either:
-        # no evocation, however fresh or important the memory.
-        if _relevance(mem_contact, day_tags, facet_w) <= 0.0 and sim < sem_min:
-            continue
+        fp = (
+            felt_proximity(getattr(mem, 'felt', None), day_targets)
+            if day_targets else 0.0
+        )
+        if not fresh:
+            # A memory whose tags are ALL ambient never stirs: the day's
+            # bread and the day's sky belong to the recurrence channel,
+            # not to evocation — otherwise the ration out-thinks the
+            # warg. (Tag-less memories keep the semantic door, B8.)
+            if mem.tags and not mem_contact:
+                continue
+            # Contact gate: no content tag shared with today — exact or
+            # through a shared coarse facet — no semantic overlap
+            # either: no evocation, however fresh or important the
+            # memory. Except the consolidated: they may also enter on
+            # felt — how the day feels can wake what nothing in it
+            # mentions.
+            if (
+                _relevance(mem_contact, day_tags, facet_w) <= 0.0
+                and sim < sem_min
+                and not (mem.consolidated and fp >= felt_gate)
+            ):
+                continue
         # C23: recency ages from when the event HAPPENED, never from
         # when it was last recalled — evoking the fox does not make
-        # the fox newer; it only strengthens the trace. C30: the delta
-        # is calendar days — a month of rest between journeys reads as
-        # a month.
-        delta = memory_age_days(episode, mem)
-        if delta is None:
-            delta = 0
-        recency = math.exp(-lam * delta)
+        # the fox newer; it only strengthens the trace. C2: the term is
+        # the volatile channel's own — a consolidated memory competes on
+        # connection alone; being old is no longer a penalty and being
+        # recent no longer a reason.
+        recency = (
+            math.exp(-lam * delta)
+            if delta is not None and not mem.consolidated
+            else 0.0
+        )
         score = (
             alpha * recency
             + beta * (mem.importance or 0.0)
@@ -208,9 +239,8 @@ def retrieve(session, mind, episode, perceived_day):
         )
         if episode_vec is not None:
             score += delta_w * sim
-        if felt_w and day_targets:
-            score += felt_w * felt_proximity(
-                getattr(mem, 'felt', None), day_targets)
+        if felt_w:
+            score += felt_w * fp
         scored.append((score, mem))
 
     scored.sort(key=lambda t: t[0], reverse=True)
@@ -339,10 +369,23 @@ def dialogue_recall(session, mind, item, idx, exclude_ids=()):
     return best
 
 
+def memory_age_episodes(episode, mem):
+    """How long ago this memory happened, in days LIVED (C2): the
+    episode_idx distance — the mind's own clock. A month of rest
+    between journeys is no age at all; the calendar stays for the
+    lens's 'a month ago'."""
+    idx = episode_index(episode)
+    if idx is None or getattr(mem, 'created_episode', None) is None:
+        return None
+    return max(0, idx - mem.created_episode)
+
+
 def memory_age_days(episode, mem):
     """How long ago this memory happened, in calendar days (C30):
-    episode_date − created_date. Falls back to lived-episode distance
-    for rows that predate the calendar columns."""
+    episode_date − created_date. Display clock — how the lens says
+    'a month ago'; mechanics use memory_age_episodes instead.
+    Falls back to lived-episode distance for rows that predate the
+    calendar columns."""
     ep_date = episode_date(episode)
     if ep_date is not None and getattr(mem, 'created_date', None):
         return max(0, (ep_date - mem.created_date).days)
