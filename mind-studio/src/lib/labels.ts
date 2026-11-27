@@ -202,44 +202,46 @@ export const SILENCED_REASON: Record<string, L> = {
   },
 }
 
-const TAG_LABELS: Record<string, L> = {
-  'tag:entity_type:humans': { es: 'Humanos', en: 'Humans' },
-  'tag:entity_type:hobbits': { es: 'Hobbits', en: 'Hobbits' },
-  'tag:entity_type:elves': { es: 'Elfos', en: 'Elves' },
-  'tag:entity_type:dwarves': { es: 'Enanos', en: 'Dwarves' },
-  'tag:entity_type:orcs': { es: 'Orcos', en: 'Orcs' },
-  'tag:entity_type:trolls': { es: 'Trolls', en: 'Trolls' },
-  'tag:entity_type:undead': { es: 'No-muertos', en: 'Undead' },
-  'tag:entity_type:giants': { es: 'Gigantes', en: 'Giants' },
-  'tag:entity_type:demons': { es: 'Demonios', en: 'Demons' },
-  'tag:entity_type:maiar': { es: 'Maiar', en: 'Maiar' },
-  'tag:entity_type:woses': { es: 'Woses', en: 'Woses' },
-  'tag:entity_type:living_trees': { es: 'Árboles vivos', en: 'Living trees' },
-  'tag:entity_type:pukel_constructs': { es: 'Estatuas púkel', en: 'Púkel statues' },
-  'tag:form:brief_exchange': { es: 'Charlas breves', en: 'Brief talks' },
-  'tag:form:aid_or_trade': { es: 'Ayuda y comercio', en: 'Aid and trade' },
-  'tag:form:harvest_shelter': { es: 'Refugio y comida', en: 'Shelter and food' },
-  'tag:form:confronts': { es: 'Enfrentamientos', en: 'Confrontations' },
-  'tag:form:attacks': { es: 'Ataques', en: 'Attacks' },
-  'tag:form:sudden_peril': { es: 'Peligros repentinos', en: 'Sudden perils' },
-  'tag:form:stalks': { es: 'Ser acechado', en: 'Being stalked' },
-  'tag:form:watches': { es: 'Ser observado', en: 'Being watched' },
-  'tag:form:hinders_passage': { es: 'Obstáculos en el camino', en: 'Blocked passage' },
-  'tag:form:reacts_withdraws': { es: 'Criaturas que huyen', en: 'Fleeing creatures' },
-  'tag:form:drifts_closer': { es: 'Criaturas que se acercan', en: 'Creatures drawing near' },
-  'tag:form:mistaken_for_object': { es: 'Confusiones', en: 'Mistaken sightings' },
-  'tag:weather:snow': { es: 'Nieve', en: 'Snow' },
-  'tag:weather:storm': { es: 'Tormentas', en: 'Storms' },
-  'tag:weather:freezing': { es: 'Heladas', en: 'Freezing cold' },
-  'tag:weather:deep_cold': { es: 'Frío extremo', en: 'Deep cold' },
-  'tag:weather:scorching': { es: 'Calor extremo', en: 'Scorching heat' },
-  'type:encounter': { es: 'Encuentros', en: 'Encounters' },
-  'type:climate': { es: 'Clima', en: 'Climate' },
-  'type:travel': { es: 'El viaje', en: 'Travel' },
-  'type:meal': { es: 'Comidas', en: 'Meals' },
-  'type:rest': { es: 'Descanso', en: 'Rest' },
-  'type:place': { es: 'Lugares', en: 'Places' },
-  'type:body': { es: 'El cuerpo', en: 'The body' },
+// Display names for tag keys — English only, the language the data
+// stores; tags are retrieval keys, not prose to be localized.
+const TAG_LABELS: Record<string, string> = {
+  'tag:entity_type:humans': 'Humans',
+  'tag:entity_type:hobbits': 'Hobbits',
+  'tag:entity_type:elves': 'Elves',
+  'tag:entity_type:dwarves': 'Dwarves',
+  'tag:entity_type:orcs': 'Orcs',
+  'tag:entity_type:trolls': 'Trolls',
+  'tag:entity_type:undead': 'Undead',
+  'tag:entity_type:giants': 'Giants',
+  'tag:entity_type:demons': 'Demons',
+  'tag:entity_type:maiar': 'Maiar',
+  'tag:entity_type:woses': 'Woses',
+  'tag:entity_type:living_trees': 'Living trees',
+  'tag:entity_type:pukel_constructs': 'Púkel statues',
+  'tag:form:brief_exchange': 'Brief talks',
+  'tag:form:aid_or_trade': 'Aid and trade',
+  'tag:form:harvest_shelter': 'Shelter and food',
+  'tag:form:confronts': 'Confrontations',
+  'tag:form:attacks': 'Attacks',
+  'tag:form:sudden_peril': 'Sudden perils',
+  'tag:form:stalks': 'Being stalked',
+  'tag:form:watches': 'Being watched',
+  'tag:form:hinders_passage': 'Blocked passage',
+  'tag:form:reacts_withdraws': 'Fleeing creatures',
+  'tag:form:drifts_closer': 'Creatures drawing near',
+  'tag:form:mistaken_for_object': 'Mistaken sightings',
+  'tag:weather:snow': 'Snow',
+  'tag:weather:storm': 'Storms',
+  'tag:weather:freezing': 'Freezing cold',
+  'tag:weather:deep_cold': 'Deep cold',
+  'tag:weather:scorching': 'Scorching heat',
+  'type:encounter': 'Encounters',
+  'type:climate': 'Climate',
+  'type:travel': 'Travel',
+  'type:meal': 'Meals',
+  'type:rest': 'Rest',
+  'type:place': 'Places',
+  'type:body': 'The body',
 }
 
 export function humanize(key: string): string {
@@ -257,9 +259,8 @@ export const label = (map: Record<string, L>, key: string | null | undefined) =>
 }
 
 export function tagLabel(key: string): string {
-  const entry = TAG_LABELS[key]
-  if (entry) return entry[locale.value]
-  return humanize(key.replace(/^(tag|type|entity):/, '').replace(/^[^:]+:/, ''))
+  return TAG_LABELS[key]
+    ?? humanize(key.replace(/^(tag|type|entity):/, '').replace(/^[^:]+:/, ''))
 }
 
 export function skillLabel(key: string): string {

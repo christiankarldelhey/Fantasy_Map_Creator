@@ -168,6 +168,14 @@ def _memory_out(m, forgotten=False):
         'evocations': m.evocations or 0,
         'voiced': m.voiced or 0,
         'consolidated': bool(m.consolidated),
+        # The memory-continuum tier (fresh | consolidated | conviction)
+        # — convictions fold the belief facet in ({kind, horizon,
+        # status, evidence…}) so a single table can show all three.
+        'depth': getattr(m, 'depth', None) or (
+            'conviction' if m.kind == 'conviction'
+            else 'consolidated' if getattr(m, 'consolidated', False)
+            else 'fresh'),
+        'conviction': getattr(m, 'conviction', None) or None,
         'born_episode': m.created_episode,
         'last_evoked_episode': (
             None if forgotten else m.last_evoked_episode

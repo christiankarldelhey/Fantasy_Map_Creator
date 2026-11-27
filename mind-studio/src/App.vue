@@ -5,27 +5,25 @@ import TabNav from './components/TabNav.vue'
 import EpisodesTab from './components/episodes/EpisodesTab.vue'
 import MemoryTab from './components/memory/MemoryTab.vue'
 import PersonalityTab from './components/personality/PersonalityTab.vue'
-import SummaryTab from './components/summary/SummaryTab.vue'
 import TagsTab from './components/tags/TagsTab.vue'
 import MapTab from './components/map/MapTab.vue'
 import { t } from './lib/i18n'
 import { useMind } from './composables/useMind'
 import { useMinds } from './composables/useMinds'
 
-type Tab = 'summary' | 'personality' | 'memory' | 'episodes' | 'tags' | 'map'
+type Tab = 'personality' | 'memory' | 'episodes' | 'map' | 'tags'
 
 const { minds, selectedId, error: rosterError, select } = useMinds()
 const { mind, loading, error, refresh } = useMind(selectedId)
 
-const tab = shallowRef<Tab>('summary')
+const tab = shallowRef<Tab>('personality')
 
 const tabs = computed(() => [
-  { id: 'summary' as const, label: t('tab.summary') },
   { id: 'personality' as const, label: t('tab.personality') },
-  { id: 'memory' as const, label: t('tab.memory'), count: mind.value?.memories.length },
+  { id: 'memory' as const, label: t('tab.memory') },
   { id: 'episodes' as const, label: t('tab.episodes'), count: mind.value?.episodes.length },
-  { id: 'tags' as const, label: t('tab.tags') },
   { id: 'map' as const, label: t('tab.map') },
+  { id: 'tags' as const, label: t('tab.tags') },
 ])
 </script>
 
@@ -45,8 +43,7 @@ const tabs = computed(() => [
       <div class="content">
         <MapTab v-if="tab === 'map'" />
         <template v-else-if="mind">
-          <SummaryTab v-if="tab === 'summary'" :mind="mind" @saved="refresh" />
-          <PersonalityTab v-else-if="tab === 'personality'" :key="mind.character_id" :mind="mind" @saved="refresh" />
+          <PersonalityTab v-if="tab === 'personality'" :key="mind.character_id" :mind="mind" @saved="refresh" />
           <MemoryTab v-else-if="tab === 'memory'" :mind="mind" />
           <EpisodesTab
             v-else-if="tab === 'episodes'"

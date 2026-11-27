@@ -5,6 +5,7 @@ import { moodLabel } from '../../lib/labels'
 import { moodWord } from '../../lib/moodSpace'
 import type { MindDetail } from '../../types'
 import MoodSpace from '../episodes/MoodSpace.vue'
+import SummaryTab from '../summary/SummaryTab.vue'
 import PanelCard from '../ui/PanelCard.vue'
 import NatureEditor from './NatureEditor.vue'
 import SkillsEditor from './SkillsEditor.vue'
@@ -45,6 +46,8 @@ const tempName = computed(() =>
 
 <template>
   <div class="stack">
+    <SummaryTab :mind="mind" @saved="onSaved" />
+
     <p class="intro muted">
       {{ t('per.intro') }}
       <span v-if="status" :class="['status', status.kind]">{{ status.text }}</span>
