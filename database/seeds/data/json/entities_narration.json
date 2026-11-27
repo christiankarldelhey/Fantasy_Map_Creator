@@ -23331,7 +23331,7 @@
         "id": "cnt:0c963fb6-d8c1-40ae-a2db-42e2e214c95f:sit",
         "tags": [],
         "situation": {
-          "en": "Fifteen seconds to impact at this closing speed. The road has no cover on either side."
+          "en": "Fifteen seconds to impact at this closing speed. Whatever happens next, it happens now."
         }
       }
     ],
@@ -23541,7 +23541,7 @@
         "id": "cnt:4ab1cf38-e3fe-4b4e-b98b-11b72cafdeb5:sit",
         "tags": [],
         "situation": {
-          "en": "The way back requires cutting through. The way forward may be equally closed by now."
+          "en": "The way back may already be web. The way forward may be equally closed by now — or may not."
         }
       }
     ],
@@ -38109,6 +38109,297 @@
       "source": "hand_authored",
       "adr": "0022",
       "pilot": "wolves"
+    }
+  },
+  {
+    "id": "cnt:5c606a41-d7ca-4cf9-879b-a25d7977e879",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "e9e4f1d8-e500-4392-a9fc-0a4641491683",
+      "ec5bf6f3-dc3a-47a7-9b5c-00e8fdc7feef"
+    ],
+    "entity_type": "carnivores",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "They do not bother with silence. The first howl comes from the left and is answered from the right — the pack already knows where the traveller is, and wants it known."
+    },
+    "presence": {
+      "en": "Wargs — not wolves. Bigger at the shoulder, broader in the head, and something in the way they move that says they are thinking about it."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:5c606a41-d7ca-4cf9-879b-a25d7977e879:sit",
+        "tags": [],
+        "situation": {
+          "en": "They spread wide as they come, patient, in no hurry at all. They mean to take their time and take the traveller in the end."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "wargs"
+    }
+  },
+  {
+    "id": "cnt:716399a3-4f9d-4ab7-9a59-82e011bfcf08",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "f7b850f6-81d6-4473-b115-07ec5220bd35",
+      "b7f03af7-8d83-4ba9-8485-5822f69b651c",
+      "70d83c41-7dff-42dd-b551-88c2b70d9de6",
+      "836d92d0-4b45-48dc-b50c-c1b6e12d07f4",
+      "2323a2e1-afe3-4775-9cd6-13983830e830",
+      "f3ff2bc3-dc5e-4f32-8b97-319f4c359bd3"
+    ],
+    "entity_type": "carnivores",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "It stands up out of the bracken ahead — not charging, not fleeing, simply there, vast and breathing, between the traveller and the rest of the road."
+    },
+    "presence": {
+      "en": "A bear, full-grown, close enough to smell. It is not hunting. It is deciding whether the traveller is a threat, a meal, or nothing at all."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:716399a3-4f9d-4ab7-9a59-82e011bfcf08:sit",
+        "tags": [],
+        "situation": {
+          "en": "Everything depends on the next few breaths. A bear that decides wrongly can cover ground faster than a horse."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "bears"
+    }
+  },
+  {
+    "id": "cnt:8ea762bf-af3d-4224-9428-c4c153d86c04",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "c3928a43-6d5a-4d60-8099-9253a09bb58f",
+      "a75aeee3-2613-4cd7-9a26-3e5a52813af5",
+      "91aa42fc-d516-4215-808b-e13614d1ec79"
+    ],
+    "entity_type": "giant_spiders",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "The first sign is not the spider but the web — a grey rope of it across the path, too thick, too low, too fresh. The second sign is the silence of birds."
+    },
+    "presence": {
+      "en": "It is already above the path, hanging dead-still, legs wide as a shield. It has been waiting since before the traveller was a sound in the wood."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:8ea762bf-af3d-4224-9428-c4c153d86c04:sit",
+        "tags": [],
+        "situation": {
+          "en": "The web closes the way ahead. Behind, the path is still open — for now."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "spiders"
+    }
+  },
+  {
+    "id": "cnt:2d87c77b-f128-4875-9538-349bcfed530a",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "d3a35ef0-2b84-4234-b079-6f9602e120ce",
+      "267142a7-6b80-4b64-ae25-1e9531c778b1",
+      "b64c6dea-1ac4-44ea-ad56-af303a424eff",
+      "f3fd6129-aa5c-475d-b750-a2588eaf9787",
+      "3a6bae34-7ee5-4654-8f73-4eda362ac011",
+      "66f75c77-d90b-4ff5-acaf-5106c523a9d8",
+      "d7ddc76f-97f4-4814-80a1-bcc66bcbf207",
+      "eec8aa66-8041-4537-9387-a4f6aa02230d",
+      "b0fa4b6c-76c4-44f2-b55c-3427f607c433",
+      "f38aad29-da9e-449d-9bbd-e38f92cea941",
+      "ba0f7acd-7d65-4b3b-8425-bf2363bc04b2",
+      "fcdd4c2a-4a10-408b-8a33-6fb81c70f563"
+    ],
+    "entity_type": "orcs",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "A whistle from the rocks — not a bird, nothing like a bird, though it tries. Then movement: grey-green shapes spreading out along the slope, unhurried, already sure."
+    },
+    "presence": {
+      "en": "Orcs — a patrol or a warband, hard to say how many. They have the look of those who have done this before and expect no trouble."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:2d87c77b-f128-4875-9538-349bcfed530a:sit",
+        "tags": [],
+        "situation": {
+          "en": "They have not seen the traveller clearly yet — or they have, and are herding. Either way the next moments decide it."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "orcs"
+    }
+  },
+  {
+    "id": "cnt:7e3d53c4-2edb-4500-8cc7-98bc003aae91",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "bdb8190e-09bf-451c-836b-72ee6fcb1710",
+      "c89ff2d0-b1cb-4ea0-bab6-9306ac788564"
+    ],
+    "entity_type": "orcs",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "No whistle, no jeering. A horn-note, once, and then the sound of ironshod boots in step — actual step — coming up the slope in a line that does not waver."
+    },
+    "presence": {
+      "en": "Uruk-hai. Bred for this, whoever bred them: taller than common orcs, broader, unbothered by the sun. They do not look hungry. They look employed."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:7e3d53c4-2edb-4500-8cc7-98bc003aae91:sit",
+        "tags": [],
+        "situation": {
+          "en": "They have already measured the ground and the traveller both. There will be no confusion and no mercy in what happens next."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "uruk_hai"
+    }
+  },
+  {
+    "id": "cnt:2f3960fe-8f02-44c6-afe1-45eb795d8ad6",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "180e506d-071e-46a2-8a3f-7b655d80c966"
+    ],
+    "entity_type": "orcs",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "Dust first, then the sound — not hooves but claws, a loping wrongness of gait — and then the shapes themselves: wolves the size of ponies, and on their backs, bows already strung."
+    },
+    "presence": {
+      "en": "Warg-riders, a scouting pack of them. The mounts are worse than the riders; the riders know it and use it."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:2f3960fe-8f02-44c6-afe1-45eb795d8ad6:sit",
+        "tags": [],
+        "situation": {
+          "en": "They spread into a loose crescent without a word spoken. On open ground they are faster than anything on two legs, and they know it."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "warg_riders"
+    }
+  },
+  {
+    "id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": null,
+    "entity_type": "carnivores",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "It comes out of the scrub low and fast — not a wolf, not anything with a name worth fearing, just a lean wild thing with its teeth bared. Something is wrong with it: hunger, or madness, or a den too close."
+    },
+    "presence": {
+      "en": "A cornered or desperate animal — small enough to kill with one good blow, fast enough that the blow may never land."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit",
+        "tags": [],
+        "situation": {
+          "en": "It is small and it is fast and it does not seem to know it should be afraid. That makes it more dangerous, not less."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "carnivores_fallback"
     }
   }
 ]
