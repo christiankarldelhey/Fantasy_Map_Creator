@@ -477,32 +477,6 @@ def test_a_body_musing_speaks_to_a_silent_report():
     assert aches.statement in _texts(brief)
 
 
-def test_reflectiveness_bends_the_voice():
-    """personality.reflectiveness is the mind's dial on its own voice:
-    the same day calls the same line, louder or quieter."""
-    line = _musing('The small fire of a campfire…', tags=['type:rest'],
-                   id_='fire')
-    day = [_event('camp under the beeches', 0.6, 'night',
-                  ['type:rest'], type_='rest')]
-
-    class _Mind:
-        def __init__(self, refl):
-            self.personality = {'reflectiveness': refl}
-    quiet = build_brief(day, [], [], [], {}, episode_idx=0,
-                        musings=[_musing(line.statement, tags=line.tags,
-                                         id_='q')],
-                        mind=_Mind(0.4))
-    loud = build_brief(day, [], [], [], {}, episode_idx=0,
-                       musings=[_musing(line.statement, tags=line.tags,
-                                        id_='l')],
-                       mind=_Mind(2.0))
-    q = next(l['score'] for l in _all_lines(quiet)
-             if l['kind'] == 'musing')
-    v = next(l['score'] for l in _all_lines(loud)
-             if l['kind'] == 'musing')
-    assert v > q
-
-
 # --- part 3: retrieval context holds only the beliefs the day activated ------
 
 def test_retrieval_context_takes_only_activated_beliefs():

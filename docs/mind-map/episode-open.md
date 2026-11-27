@@ -50,12 +50,12 @@ _The lived interior of one Character: memories, beliefs, needs, mood._
   - `tests/test_affect.py::test_a_kind_night_warms` — 'lodging:charity' is felt as mercy — a charitable roof reads
   - `tests/test_affect.py::test_two_minds_feel_the_same_world_differently` — The whole point: a preset leaning 'orcs are dreaded' meets the
   - `tests/test_affect.py::test_a_bad_day_leaves_a_morning_after` — The felt day carries into the running mood: the day after the
-  - `tests/test_attention_weights.py::test_relation_bends_perceived_salience` — The loved subject stands out: a mind fond of the foxes reads
   - `tests/test_attitudes.py::test_only_the_narrowest_attitude_line_speaks` — In the Lens, the horses-of-Mordor attitude answers a Mordor-horse
   - `tests/test_belief_horizon.py::test_transient_belief_fades_with_the_days` — 'This ford is dangerous these days' — close five quiet episodes
   - `tests/test_belief_horizon.py::test_enduring_belief_ignores_the_calendar` — 'The Dunedain are thieves' is about people, not days — five quiet
   - `tests/test_belief_horizon.py::test_reflection_reads_the_horizon` — The LLM declares horizon on create; absent or bogus values fall
-  - _…167 more in graph.json_
+  - `tests/test_belief_horizon.py::test_reflection_ignores_transient_harder` — A transient belief a reflection does not touch decays at the
+  - _…172 more in graph.json_
 - **example in**:
   ```json
   [{"game_id": "middle_earth"}, {"character_id": "142"}, {"hint_slug": "aranath"}]
@@ -230,7 +230,7 @@ _Something the Mind holds true: a statement, how firmly it is held (from barely 
 - **reads**: Belief
 - **writes**: Belief
 - **rules (tests)**:
-  - `tests/test_c20_evocation.py::test_fresh_and_important_memory_without_contact_stays_unevoked` — A memory whose tags share neither a tag nor a coarse facet with
+  - `tests/test_c20_evocation.py::test_past_the_fresh_window_memory_without_contact_stays_unevoked` — A memory whose tags share neither a tag nor a coarse facet with
   - `tests/test_c20_evocation.py::test_shared_facet_evokes_as_a_weaker_contact` — ADR-0016: 'tag:form:attacks' meeting 'tag:form:confronts' is the
   - `tests/test_c20_evocation.py::test_single_segment_tags_share_no_facet` — 'entity:orcs' and 'entity:wolves' are different beings — 'some
   - `tests/test_c20_evocation.py::test_memory_sharing_a_tag_with_today_evokes` — tests/test_c20_evocation.py::test_memory_sharing_a_tag_with_today_evokes
@@ -242,6 +242,7 @@ _Something the Mind holds true: a statement, how firmly it is held (from barely 
   - `tests/test_c20_evocation.py::test_felt_proximity_never_opens_the_gate` — A memory that rhymes emotionally but shares nothing with today
   - `tests/test_c23_recall.py::test_memory_dwelt_on_yesterday_sits_quiet_today` — Contact or not — a memory evoked last episode is refractory and
   - `tests/test_c23_recall.py::test_recency_ages_from_the_event_not_the_recall` — Two same-weight memories: one old but recalled yesterday, one
+  - _…5 more in graph.json_
 - **example in**:
   ```json
   [{"character_id": "142"}]
@@ -270,14 +271,14 @@ _What the Mind tells the narrator about an Episode: what matters to it, one cent
   - `tests/test_c35_brief.py::test_an_anchored_memory_names_why_it_woke` — The via is the rhyme: the contact tag the memory shares with the
   - `tests/test_c35_brief.py::test_an_anchored_memory_speaks_even_when_the_focus_is_elsewhere` — The day itself stirred the memory — evocation already was the
   - `tests/test_c35_brief.py::test_the_people_ladder_meets_across_family_and_type` — #86: 'dunlendings' is the same folk whether the day's tag says
-  - _…316 more in graph.json_
+  - _…321 more in graph.json_
 - **example in**:
   ```json
   [{"perceived_day": [{"id": null, "type": "climate", "when": {"hour": null, "phase": "morning", "light": null}, "where": {"region": "Sandariand", "place": null}, "act": null, "intensity": null, "reading": "a cool air, sun and moving cloud and a passing shower", "tags": ["type:climate", "region:Sandariand"], "check": null, "data": {}, "perception": "noticed", "source": "ambient"}, {"id": null, "type": "climate", "when": {"hour": null, "phase": "afternoon", "light": null}, "where": {"region": "Sand…
   ```
 - **example out**:
   ```json
-  {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55"}, "carried": [], "day": [{"id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.21, "connects_to": "event:6", "why": "called up by: Owls — They are going about their own business. Their busine"}, {"id": "musing…
+  {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55"}, "carried": [], "day": [{"id": "musing:mu_3d01a3226fc4402cb0f435e745aea311", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.35, "connects_to": "event:6", "why": "called up by: Owls — They are going about their own business. Their busine"}, {"id": "musing…
   ```
 
 ### Evocation — `voice_memories()` `app/mind/retrieval.py`
@@ -310,7 +311,7 @@ _What the Mind tells the narrator about an Episode: what matters to it, one cent
   - `tests/test_c24_mood.py::test_lens_names_the_entering_mood_when_it_stands_somewhere` — The wheel word reaches the Lens even without a cause — 'the day
 - **example in**:
   ```json
-  [{"character_name": "Aranath"}, {"brief": {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55", "render": "crossed into Sandariand"}, "carried": [], "day": [{"id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.21, "connects_to": "event:6", "why": "called up by:…
+  [{"character_name": "Aranath"}, {"brief": {"focus": {"id": "event:12", "kind": "event", "part": "day", "phase": "morning", "text": "crossed into Sandariand", "score": 0.55, "why": "salience 0.55", "render": "crossed into Sandariand"}, "carried": [], "day": [{"id": "musing:mu_3d01a3226fc4402cb0f435e745aea311", "kind": "musing", "part": "day", "phase": "morning", "text": "As long as birds keep singing at dawn, not everything is lost.", "score": 0.35, "connects_to": "event:6", "why": "called up by:…
   ```
 - **example out**:
   ```json

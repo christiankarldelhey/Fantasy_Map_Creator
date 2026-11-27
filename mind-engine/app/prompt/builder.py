@@ -506,7 +506,7 @@ def build_day_prompt(
         f"{wn.get('lands') or ''}"
         f"{chr(10) * 2 if wn.get('lands') else ''}"
         f"{timeline}\n\n"
-        f"{chapter_rules_section(any(b.get('kind') == 'encounter' for b in beats), terminal_closing_instruction(char_name) if is_terminal else closing_instruction(day.get('day_number')), any('(a memory' in ev for b in beats for ev in b.get('evoked') or []))}"
+        f"{chapter_rules_section([(b.get('encounter') or {}).get('entity', {}).get('name') for b in beats if b.get('kind') == 'encounter'], terminal_closing_instruction(char_name) if is_terminal else closing_instruction(day.get('day_number')), any('(a memory' in ev for b in beats for ev in b.get('evoked') or []))}"
     )
 
     return {'system': system, 'user': user}

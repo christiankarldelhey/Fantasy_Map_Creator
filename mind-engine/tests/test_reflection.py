@@ -120,6 +120,34 @@ def test_reflection_creates_belief_with_real_evidence(client, monkeypatch):
     assert all(e.startswith('mem_') for e in b.conviction['evidence'])
 
 
+def test_created_belief_inherits_its_evidence_subjects(client, monkeypatch):
+    """A created conviction borrows the retrieval surface of what it
+    formed from — 'orcs never leave a marked road' must answer to
+    orc-days; minted bare, nothing could ever summon it."""
+    def fake_llm(prompt, day_number=None):
+        mem_ids = re.findall(r'id=(mem_\w+)', prompt['user'])
+        return {'text': json.dumps({'reflections': [
+            {'op': 'create', 'kind': 'world',
+             'statement': 'Orcs never leave a road they have marked',
+             'strength': 3, 'evidence': mem_ids[:1]},
+        ]})}
+    monkeypatch.setattr(reflection_module, 'generate_narrative', fake_llm)
+
+    char = _uid('surface')
+    slug = _reflective_mold()
+    opened = _open(client, char, 'd1', [{
+        'type': 'encounter', 'when': {},
+        'data': {'entity': 'orc_trackers', 'entity_type': 'orcs',
+                 'form': 'stalks', 'danger': 0.5},
+    }], preset=slug)
+    close = _close(client, opened['episode_id'])
+
+    assert close['reflection']['formed'] == 1
+    belief = _beliefs(char)[0]
+    assert 'tag:entity_type:orcs' in (belief.subjects or [])
+    assert 'tag:entity_type:orcs' in (belief.tags or [])
+
+
 def test_no_trigger_without_schedule(client, monkeypatch):
     called = []
     monkeypatch.setattr(
@@ -396,34 +424,30 @@ def test_mood_prose_dies_with_its_cause(client, monkeypatch):
     assert cause is None or 'prose' not in cause
 
 
-def test_reflectiveness_bends_the_cadence(client, monkeypatch):
-    """reflectiveness=1 gathers thoughts almost daily even under a slow
-    wiring cadence."""
+def test_cadence_fires_when_due(client, monkeypatch):
+    """A quiet day still reflects once the schedule arrives — the
+    cadence is the wiring's, nobody tunes it per mind."""
     monkeypatch.setattr(
         reflection_module, 'generate_narrative',
         lambda *a, **k: {'text': '{}'},
     )
-    char = _uid('pensive')
-    slug = _reflective_mold(
-        personality={'reflectiveness': 1.0}, reflection_every=5,
-    )
+    char = _uid('scheduled')
+    slug = _reflective_mold(reflection_every=1)
     opened = _open(client, char, 'd1', [_meal(1)], preset=slug)
     close = _close(client, opened['episode_id'])
     assert close['reflection'] is not None
 
 
-def test_no_reflectiveness_no_cadence(client, monkeypatch):
-    """reflectiveness=0: only the world can spike a reflection — a calm
-    day under a fast cadence still does not call."""
+def test_calm_day_before_cadence_does_not_fire(client, monkeypatch):
+    """reflection_every episodes must pass — a calm day earlier in the
+    cycle never calls the LLM; only the world can spike one."""
     called = []
     monkeypatch.setattr(
         reflection_module, 'generate_narrative',
         lambda *a, **k: called.append(1) or {'text': '{}'},
     )
-    char = _uid('unreflective')
-    slug = _reflective_mold(
-        personality={'reflectiveness': 0}, reflection_every=1,
-    )
+    char = _uid('waiting')
+    slug = _reflective_mold(reflection_every=5)
     opened = _open(client, char, 'd1', [_meal(1)], preset=slug)
     close = _close(client, opened['episode_id'])
     assert close['reflection'] is None

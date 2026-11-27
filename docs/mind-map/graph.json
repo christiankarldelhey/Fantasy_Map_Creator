@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated": "mind_map.py --update",
-  "source_hash": "477d4bb3c6157fab",
+  "source_hash": "39baa6a5a48dd1c7",
   "golden_day": {
    "trip_id": "2c3716fc-8194-436c-90e3-fb3b765690fe",
    "day_number": 1,
@@ -66,7 +66,7 @@
    "lives_in": "mind.semantics (+ DEFAULT_SEMANTICS built-in pack)"
   },
   "Recurrence": {
-   "stage": "perception",
+   "stage": "needs/mood",
    "lives_in": "perceived_day (source: mind items — repetition / break)"
   },
   "Tag": {
@@ -80,6 +80,10 @@
   "Detector": {
    "stage": "perception",
    "lives_in": "mind.detectors"
+  },
+  "Evocation": {
+   "stage": "evocation",
+   "lives_in": "derived per open: memories the day connects to"
   },
   "Need": {
    "stage": "needs/mood",
@@ -120,17 +124,13 @@
    "stage": "memory",
    "lives_in": "mind.memories + mind.forgotten_memories (the kept, the lost, the patterns)"
   },
-  "Evocation": {
-   "stage": "memory",
-   "lives_in": "derived per open: memories the day connects to"
-  },
   "Belief": {
-   "stage": "identity",
+   "stage": "memory",
    "is_a": "Conviction",
    "lives_in": "mind.memories (conviction facet)"
   },
   "Relation": {
-   "stage": "identity",
+   "stage": "memory",
    "lives_in": "mind.relations"
   },
   "Lens": {
@@ -142,11 +142,11 @@
    "lives_in": "mind.episodes.brief.focus"
   },
   "Musing": {
-   "stage": "voice",
+   "stage": "evocation",
    "lives_in": "mind.musings"
   },
   "Inner language": {
-   "stage": "voice",
+   "stage": "narration",
    "lives_in": "mind.episodes.narrative (the channel, not a row)"
   },
   "Reflection": {
@@ -1124,7 +1124,6 @@
    "`tests/test_affect.py::test_a_kind_night_warms` — 'lodging:charity' is felt as mercy — a charitable roof reads",
    "`tests/test_affect.py::test_two_minds_feel_the_same_world_differently` — The whole point: a preset leaning 'orcs are dreaded' meets the",
    "`tests/test_affect.py::test_a_bad_day_leaves_a_morning_after` — The felt day carries into the running mood: the day after the",
-   "`tests/test_attention_weights.py::test_relation_bends_perceived_salience` — The loved subject stands out: a mind fond of the foxes reads",
    "`tests/test_attitudes.py::test_only_the_narrowest_attitude_line_speaks` — In the Lens, the horses-of-Mordor attitude answers a Mordor-horse",
    "`tests/test_belief_horizon.py::test_transient_belief_fades_with_the_days` — 'This ford is dangerous these days' — close five quiet episodes",
    "`tests/test_belief_horizon.py::test_enduring_belief_ignores_the_calendar` — 'The Dunedain are thieves' is about people, not days — five quiet",
@@ -1142,7 +1141,12 @@
    "`tests/test_c16_people.py::test_night_brief_exchange_wakes_the_mind` — 20:30 'a wary exchange at the fire' used to pass ASLEEP — but the",
    "`tests/test_c16_people.py::test_identical_events_across_episodes_encode_one_memory` — A recurring meal strengthens ONE row — episode_ids accrete (the",
    "`tests/test_c16_people.py::test_identical_events_within_one_episode_encode_one_memory` — Two identical meals the same day — one row, not twins.",
-   "`tests/test_c16_people.py::test_different_readings_still_encode_separate_memories` — Dedup is exact-desc only: two DIFFERENT meals keep their rows.",
+   "`tests/test_c16_people.py::test_same_signature_different_readings_encode_one_memory` — C1 distinctive gate: two meals in one day share a signature —",
+   "`tests/test_c1_distinctive.py::test_first_thing_encodes` — tests/test_c1_distinctive.py::test_first_thing_encodes",
+   "`tests/test_c1_distinctive.py::test_routine_repeat_does_not_encode_a_second_row` — Same signature, nothing new to teach: the second fox sighting was",
+   "`tests/test_c1_distinctive.py::test_record_repeat_refreshes_the_held_row` — Same signature but weightier — the second storm WAS worse than",
+   "`tests/test_c1_distinctive.py::test_no_reading_no_memory` — 'town' as a bare name is not a memory — an item the world did",
+   "`tests/test_c1_distinctive.py::test_rupture_encodes_despite_held_signature` — 'The first dry day' is news by design: a break item encodes even",
    "`tests/test_c24_mood.py::test_episode_lens_never_carries_its_own_day_into_the_mood` — The orcs of THIS afternoon must not colour this episode's opening:",
    "`tests/test_c28_weight.py::test_given_outweighs_ambience` — A gift registers near the top of the scale — the contact and the",
    "`tests/test_c28_weight.py::test_taken_fork_marks_changed` — A fork the interaction engine resolved lands as 'changed' — the",
@@ -1256,8 +1260,8 @@
    "`tests/test_reflection.py::test_statement_rewrites_a_contradicted_belief` — A belief contradicted by the evidence can be rewritten, not just",
    "`tests/test_reflection.py::test_mood_prose_rewords_the_carried_cause` — mood_prose lands on the carried cause; the lens line speaks the",
    "`tests/test_reflection.py::test_mood_prose_dies_with_its_cause` — A new deterministic cause rebuilds the dict — the old AI wording",
-   "`tests/test_reflection.py::test_reflectiveness_bends_the_cadence` — reflectiveness=1 gathers thoughts almost daily even under a slow",
-   "`tests/test_reflection.py::test_no_reflectiveness_no_cadence` — reflectiveness=0: only the world can spike a reflection — a calm",
+   "`tests/test_reflection.py::test_cadence_fires_when_due` — A quiet day still reflects once the schedule arrives — the",
+   "`tests/test_reflection.py::test_calm_day_before_cadence_does_not_fire` — reflection_every episodes must pass — a calm day earlier in the",
    "`tests/test_relations.py::test_event_sediments_entity_and_splashes_the_kind` — Meeting THIS fox feeds her row whole; 'carnivores' accrete the",
    "`tests/test_relations.py::test_unnoticed_means_never_happened` — A contact slept through sediments nothing — no relation grows.",
    "`tests/test_relations.py::test_relations_cool_toward_indifference` — The close tick: unfed sediment shrinks — fear lets go, love stays",
@@ -1289,6 +1293,7 @@
    "`tests/test_studio_api.py::test_personality_patch_merges_clamps_removes` — tests/test_studio_api.py::test_personality_patch_merges_clamps_removes",
    "`tests/test_studio_api.py::test_presets_list_and_apply_imprints_nature_only` — tests/test_studio_api.py::test_presets_list_and_apply_imprints_nature_only",
    "`tests/test_studio_api.py::test_personality_preset_unknown_is_404` — tests/test_studio_api.py::test_personality_preset_unknown_is_404",
+   "`tests/test_watch_weights.py::test_relation_bends_perceived_salience` — The loved subject stands out: a mind fond of the foxes reads",
    "`tests/test_weather_tiers.py::test_drizzle_stays_ambient` — A wet, breezy afternoon is background: wet/windy tags, low",
    "`tests/test_weather_tiers.py::test_storm_is_an_event` — A declared storm tier rides the intensity dial: salience jumps,",
    "`tests/test_weather_tiers.py::test_severe_tiers_carry_floors` — Severe tiers share the intensity dial; the host stamps the",
@@ -1329,7 +1334,7 @@
    "`tests/test_c24_mood.py::test_lens_names_the_entering_mood_when_it_stands_somewhere` — The wheel word reaches the Lens even without a cause — 'the day"
   ],
   "active_convictions": [
-   "`tests/test_c20_evocation.py::test_fresh_and_important_memory_without_contact_stays_unevoked` — A memory whose tags share neither a tag nor a coarse facet with",
+   "`tests/test_c20_evocation.py::test_past_the_fresh_window_memory_without_contact_stays_unevoked` — A memory whose tags share neither a tag nor a coarse facet with",
    "`tests/test_c20_evocation.py::test_shared_facet_evokes_as_a_weaker_contact` — ADR-0016: 'tag:form:attacks' meeting 'tag:form:confronts' is the",
    "`tests/test_c20_evocation.py::test_single_segment_tags_share_no_facet` — 'entity:orcs' and 'entity:wolves' are different beings — 'some",
    "`tests/test_c20_evocation.py::test_memory_sharing_a_tag_with_today_evokes` — tests/test_c20_evocation.py::test_memory_sharing_a_tag_with_today_evokes",
@@ -1340,7 +1345,12 @@
    "`tests/test_c20_evocation.py::test_between_connected_memories_the_felt_rhyme_ranks_first` — Of the memories that touch today, the one that FELT like it",
    "`tests/test_c20_evocation.py::test_felt_proximity_never_opens_the_gate` — A memory that rhymes emotionally but shares nothing with today",
    "`tests/test_c23_recall.py::test_memory_dwelt_on_yesterday_sits_quiet_today` — Contact or not — a memory evoked last episode is refractory and",
-   "`tests/test_c23_recall.py::test_recency_ages_from_the_event_not_the_recall` — Two same-weight memories: one old but recalled yesterday, one"
+   "`tests/test_c23_recall.py::test_recency_ages_from_the_event_not_the_recall` — Two same-weight memories: one old but recalled yesterday, one",
+   "`tests/test_c2_depths.py::test_fresh_memory_evokes_on_recency_alone` — The storm yesterday had ambient-only tags — under the old gate it",
+   "`tests/test_c2_depths.py::test_past_the_fresh_window_needs_connection` — Three lived days out, the same all-ambient memory is back to",
+   "`tests/test_c2_depths.py::test_consolidated_evokes_on_connection_regardless_of_age` — A consolidated memory competes on connection alone — nine lived",
+   "`tests/test_c2_depths.py::test_felt_gate_opens_for_consolidated_only` — Old grief surfaces on a grey day: nothing shared — no tag, no",
+   "`tests/test_c2_depths.py::test_felt_gate_does_not_open_for_volatiles` — The felt channel belongs to what was kept: a volatile memory"
   ],
   "encode_episode": [
    "`tests/test_c20_evocation.py::test_unwordable_items_never_encode` — Items without a reading or subject resolve no impression by"
@@ -1379,6 +1389,12 @@
    "`tests/test_c35_director.py::test_unknown_ids_are_rejected_and_events_are_never_lines` — tests/test_c35_director.py::test_unknown_ids_are_rejected_and_events_are_never_lines",
    "`tests/test_c35_director.py::test_a_quiet_pick_is_allowed` — tests/test_c35_director.py::test_a_quiet_pick_is_allowed",
    "`tests/test_c35_director.py::test_any_failure_keeps_the_rules` — tests/test_c35_director.py::test_any_failure_keeps_the_rules",
+   "`tests/test_c3_contexts.py::test_safe_musing_speaks_only_on_safe_days` — tests/test_c3_contexts.py::test_safe_musing_speaks_only_on_safe_days",
+   "`tests/test_c3_contexts.py::test_danger_musing_speaks_only_when_menace_was_near` — tests/test_c3_contexts.py::test_danger_musing_speaks_only_when_menace_was_near",
+   "`tests/test_c3_contexts.py::test_company_belief_speaks_only_when_someone_was_there` — tests/test_c3_contexts.py::test_company_belief_speaks_only_when_someone_was_there",
+   "`tests/test_c3_contexts.py::test_deprivation_musing_speaks_only_while_the_body_asks` — tests/test_c3_contexts.py::test_deprivation_musing_speaks_only_while_the_body_asks",
+   "`tests/test_c3_contexts.py::test_solitude_keeps_its_exact_door` — Regression: 'context:solitude' is a registry entry now but the",
+   "`tests/test_c3_contexts.py::test_compound_contexts_all_must_hold` — 'context:solitude' + 'context:safe' is the night she is alone AND",
    "`tests/test_detectors.py::test_builtin_pack_still_frames_travel` — middle_earth keeps its frame types through the built-in pack.",
    "`tests/test_kinds.py::test_a_registry_declared_frame_never_takes_the_focus` — Focus eligibility is a declaration, not an engine branch: an",
    "`tests/test_musings.py::test_solitude_musings_speak_on_a_day_nobody_touched` — tests/test_musings.py::test_solitude_musings_speak_on_a_day_nobody_touched",
@@ -1618,7 +1634,6 @@
    "`tests/test_musings.py::test_solitude_speaks_beside_a_focus_when_nobody_was_there` — tests/test_musings.py::test_solitude_speaks_beside_a_focus_when_nobody_was_there",
    "`tests/test_musings.py::test_a_weather_musing_speaks_under_a_grey_sky` — The climate is a frame kind — never the Focus, but the inner",
    "`tests/test_musings.py::test_a_body_musing_speaks_to_a_silent_report` — Silent kinds carry no reading — their tags still call the voice:",
-   "`tests/test_musings.py::test_reflectiveness_bends_the_voice` — personality.reflectiveness is the mind's dial on its own voice:",
    "`tests/test_musings.py::test_a_quiet_day_still_hears_the_campfire` — Live run, day 5: a rest at salience 0.19 is no Focus candidate,",
    "`tests/test_musings.py::test_tagged_musings_do_not_match_by_word_luck` — Live run, day 2: 'space' met 'wide-spaced'. A tagged line now",
    "`tests/test_musings.py::test_the_more_specific_musing_wins` — Live run, day 2: orcs AND signs beats orcs alone or signs alone,",
@@ -7270,8 +7285,8 @@
         "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.",
         "Heather-paths between the pools and the tors; in August the moor goes purple and the bees cloud the walking."
        ],
-       "act": "walk",
-       "reading": "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring."
+       "reading": "Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.",
+       "act": "walk"
       }
      },
      {
@@ -7621,8 +7636,8 @@
      {
       "data": {
        "subtype": "terrain",
-       "act": "walk",
-       "reading": "open country, cross-country, Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring."
+       "reading": "open country, cross-country, Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.",
+       "act": "walk"
       }
      },
      {
@@ -8024,14 +8039,14 @@
        },
        "entity_name": "Herb-lands",
        "entity_type": "resources",
-       "act": "talk",
+       "reading": "Herb-lands — The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 3.0,
         "mods": null
        },
-       "reading": "Herb-lands — The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.",
+       "act": "talk",
        "intensity": 1.0
       }
      },
@@ -8491,14 +8506,14 @@
        },
        "entity_name": "Owls",
        "entity_type": "flying_animals",
-       "act": "watch",
+       "reading": "Owls — They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues.",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 7.0,
         "mods": null
        },
-       "reading": "Owls — They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues.",
+       "act": "watch",
        "intensity": 0.0
       }
      },
@@ -9004,14 +9019,14 @@
        },
        "entity_name": "Deer",
        "entity_type": "herbivores",
-       "act": "watch",
+       "reading": "Deer — It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm.…",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 5.0,
         "mods": null
        },
-       "reading": "Deer — It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm.…",
+       "act": "watch",
        "intensity": 1.0
       }
      },
@@ -9462,8 +9477,8 @@
       "data": {
        "food": "a_ration_of_road_bread_and_dried_fruit",
        "drink": "waterskin",
-       "act": "eat",
-       "reading": "A pause at the height of the day: a ration of road-bread and dried fruit; water from the skin."
+       "reading": "A pause at the height of the day: a ration of road-bread and dried fruit; water from the skin.",
+       "act": "eat"
       }
      },
      {
@@ -9867,8 +9882,8 @@
       "data": {
        "food": "a_ration_of_road_bread_and_dried_fruit",
        "drink": "waterskin",
-       "act": "eat",
-       "reading": "Food at camp, once the packs are down: a ration of road-bread and dried fruit; water from the skin. The fire allows what is eaten to be warmed, if it is worth w…"
+       "reading": "Food at camp, once the packs are down: a ration of road-bread and dried fruit; water from the skin. The fire allows what is eaten to be warmed, if it is worth w…",
+       "act": "eat"
       }
      },
      {
@@ -10281,8 +10296,8 @@
        "kind": "crossroads",
        "name": "The ford of the voice",
        "subtype": "place",
-       "act": "walk",
        "reading": "The ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses…",
+       "act": "walk",
        "tags": [
         "visited",
         "felt:uneasy"
@@ -10697,8 +10712,8 @@
        "kind": "city",
        "name": "Vinyathrad",
        "subtype": "place",
-       "act": "watch",
        "reading": "a city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water",
+       "act": "watch",
        "tags": [
         "settlement",
         "sighted"
@@ -11111,8 +11126,8 @@
        "name": "Sandariand",
        "subtype": "region",
        "description": "The most settled sub-region of Forlindon, mild and green thanks to the Gulf of Lhûn. Oak forests and clover meadows, the oldest and best-preserved Elvish settle…",
-       "act": "walk",
        "reading": "crossed into Sandariand",
+       "act": "walk",
        "tags": [
         "region_entered"
        ]
@@ -11475,8 +11490,8 @@
        "name": "Mänoriand",
        "subtype": "region",
        "description": "Inner Forlindon along the Linduin, a land of constant drizzle and moss-green on every surface. Damp heather hills, pool-fed waterfalls in side valleys and Elvis…",
-       "act": "walk",
        "reading": "crossed into Mänoriand",
+       "act": "walk",
        "tags": [
         "region_entered"
        ]
@@ -11830,8 +11845,8 @@
        "kind": "river",
        "name": "River",
        "subtype": "water",
-       "act": "walk",
-       "reading": "- A river is crossed by a stone bridge as the light failed."
+       "reading": "- A river is crossed by a stone bridge as the light failed.",
+       "act": "walk"
       }
      },
      {
@@ -12235,8 +12250,8 @@
        "kind": "river",
        "name": "River",
        "subtype": "water",
-       "act": "walk",
-       "reading": "- A river is crossed by a stone bridge as the light failed."
+       "reading": "- A river is crossed by a stone bridge as the light failed.",
+       "act": "walk"
       }
      },
      {
@@ -12671,8 +12686,8 @@
         "interaction_id": "cnt:id-03:sit:sole"
        },
        "entity_name": "Owls",
-       "act": "avoid",
        "reading": "Notes the sky is calm. Continues.",
+       "act": "avoid",
        "tags": [
         "felt:watchful"
        ],
@@ -13070,8 +13085,8 @@
         "interaction_id": "cnt:id-04:sit:sole"
        },
        "entity_name": "Deer",
-       "act": "avoid",
        "reading": "Notes the calm. Continues.",
+       "act": "avoid",
        "tags": [
         "felt:calm"
        ],
@@ -13463,8 +13478,8 @@
         "interaction_id": "ovn:41_night:rest"
        },
        "shadow_delta": -1,
-       "act": "rest",
        "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…",
+       "act": "rest",
        "tags": [
         "mind:fatigue"
        ],
@@ -13824,8 +13839,8 @@
      {
       "data": {
        "shadow_delta": -1,
-       "act": "rest",
        "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…",
+       "act": "rest",
        "tags": [
         "rest:open_sky"
        ]
@@ -15434,32 +15449,32 @@
      "carried": [],
      "day": [
       {
-       "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
+       "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
        "text": "As long as birds keep singing at dawn, not everything is lost.",
-       "score": 0.21,
+       "score": 0.35,
        "connects_to": "event:6",
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
+       "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
        "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.",
-       "score": 0.21,
+       "score": 0.35,
        "connects_to": "event:6",
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
+       "id": "musing:mu_e44867fb26f445139be0135b69142895",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
        "text": "Even the smallest animal fighting for its life shows me courage in its purest form.",
-       "score": 0.21,
+       "score": 0.35,
        "connects_to": "event:6",
        "why": "called up by: Owls — They are going about their own business. Their busine"
       }
@@ -15614,34 +15629,34 @@
        "carried": [],
        "day": [
         {
-         "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
+         "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
          "text": "As long as birds keep singing at dawn, not everything is lost.",
-         "score": 0.21,
+         "score": 0.35,
          "connects_to": "event:6",
          "why": "called up by: Owls — They are going about their own business. Their busine",
          "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
         },
         {
-         "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
+         "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
          "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.",
-         "score": 0.21,
+         "score": 0.35,
          "connects_to": "event:6",
          "why": "called up by: Owls — They are going about their own business. Their busine",
          "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
         },
         {
-         "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
+         "id": "musing:mu_e44867fb26f445139be0135b69142895",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
          "text": "Even the smallest animal fighting for its life shows me courage in its purest form.",
-         "score": 0.21,
+         "score": 0.35,
          "connects_to": "event:6",
          "why": "called up by: Owls — They are going about their own business. Their busine",
          "render": "(a thought of theirs) Even the smallest animal fighting for its life shows me courage in its purest form."
@@ -20737,32 +20752,32 @@
       "carried": [],
       "day": [
        {
-        "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
+        "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
         "text": "As long as birds keep singing at dawn, not everything is lost.",
-        "score": 0.21,
+        "score": 0.35,
         "connects_to": "event:6",
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
+        "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
         "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.",
-        "score": 0.21,
+        "score": 0.35,
         "connects_to": "event:6",
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
+        "id": "musing:mu_e44867fb26f445139be0135b69142895",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
         "text": "Even the smallest animal fighting for its life shows me courage in its purest form.",
-        "score": 0.21,
+        "score": 0.35,
         "connects_to": "event:6",
         "why": "called up by: Owls — They are going about their own business. Their busine"
        }
@@ -20873,34 +20888,34 @@
         "carried": [],
         "day": [
          {
-          "id": "musing:mu_8d794c2d770b4c658a7cdcf3e53324bb",
+          "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
           "text": "As long as birds keep singing at dawn, not everything is lost.",
-          "score": 0.21,
+          "score": 0.35,
           "connects_to": "event:6",
           "why": "called up by: Owls — They are going about their own business. Their busine",
           "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
          },
          {
-          "id": "musing:mu_ca346259688a4bdd92bab52ad91ff91a",
+          "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
           "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.",
-          "score": 0.21,
+          "score": 0.35,
           "connects_to": "event:6",
           "why": "called up by: Owls — They are going about their own business. Their busine",
           "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
          },
          {
-          "id": "musing:mu_4f9c580beac348149bd55c1e5c05d873",
+          "id": "musing:mu_e44867fb26f445139be0135b69142895",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
           "text": "Even the smallest animal fighting for its life shows me courage in its purest form.",
-          "score": 0.21,
+          "score": 0.35,
           "connects_to": "event:6",
           "why": "called up by: Owls — They are going about their own business. Their busine",
           "render": "(a thought of theirs) Even the smallest animal fighting for its life shows me courage in its purest form."
@@ -22001,7 +22016,7 @@
  },
  "prompt": {
   "system": "You are a storyteller in the tradition of J.R.R. Tolkien. Sober, concrete prose: you name hills, rivers and roads for what they are and let the facts suggest emotion rather than declaring it.\n\nStyle rules:\n- Narrate always in third person, referring to the protagonist by name. Never \"the character\", \"the traveller\", \"the protagonist\" or any other generic label — and never first person (\"I\", \"my\", \"we\"), in any language.\n- Flowing prose only: no titles, headers or section labels of any kind. No \"Morning\", \"Afternoon\" or \"Night\" headings, no markdown emphasis used as a heading, no separators. The day's movements blend into one continuous narrative.\n- Restraint over ornament. Tolkien rarely grows excited; when he does, it carries weight.\n- No abstract filler (\"a sense of wonder\", \"his heart pounded\", \"full of magic\"). If you name an emotion, anchor it to a gesture or a physical detail.\n- Do not repeat images or phrases within the chapter.\n- Do not repeat phrases or images that appear in the per-phase reference notes. Use them as inspiration, never as copy-paste material.\n- Weather is atmosphere, not a report: it appears only when it shifts the mood or hinders the march. Never give figures or exact hours.\n- Every encounter must MAKE something happen: a decision, an exchange, a consequence. Do not describe a threat only to dissolve it without effect.\n- Flowing prose, no bullet points. A short verse only if it truly fits.\n\nRules for using the data:\n- The data below is RAW MATERIAL, not a checklist. Use what serves the story and discard the rest. You need not mention every region, biome, road or weather reading.\n- All the reference notes (the Weather, Terrain, Locations, Water crossings, Road notes and the ABOUT line of each encounter) are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words each day. They tell you what is there, not how to say it.\n- Do not invent names of places or creatures that do not appear in the data.\n\nCities and major towns:\n- When a location is marked as \"passes through\" (distance_km: 0), the traveller's road actually goes through the settlement. This is a significant event: describe the city, its streets, its people, and how the traveller moves through it. Give it narrative weight — it is not a backdrop but a place the traveller inhabits for a time.\n- When a location is marked as \"passed close by\" or \"passed at some distance\", the traveller only sees it from afar: roofs on the horizon, smoke rising, the shape of walls. Do not invent a visit or entry.\n\n=== ARANATH ===\nAranath.\nTall and silent, one of those who count the days by the stars and not by the calendar. He has spent years walking the borders of old Arnor, and this time he walks alone. He seeks an ancient road that few still speak of.\n\n=== NARRATOR'S LENS FOR ARANATH ===\nNARRATOR'S LENS: Filter each scene through a tracker's attention — read the land by its signs: spoor, worn stone, the turn of the wind, the trace of those gone before. Old ruins and lost roads carry the weight of ages. Show what he notices, not what he feels.\n\n=== HOW TO USE THE LAND NOTES ===\nThe notes below are REFERENCE ONLY. Never copy their wording into the prose. Render them fresh in your own words. They tell you what is there, not how to say it. The === TODAY === section lays the day out in the order it happened — each line a beat of the road; narrate it in that order. When a land is marked 'entered today', the crossing is a real moment of the day's journey — name the new land as the traveller comes under it and let the threshold be felt.\n\n=== ENCOUNTER RULES ===\nRender the given form, dialogue and outcome for each encounter. Do not invent a different form. Vary the beats across the chapter. The way an encounter resolves must differ from how recent encounters resolved.\n\n",
-  "user": "=== ARANATH TODAY ===\nAranath today.\n\n=== JOURNEY CONTEXT ===\nUltimate Destination: Sarn Athrad\n\n=== SPECIAL INSTRUCTIONS ===\nThis is the first day and the introduction of the entire journey.\nIn this chapter, please describe the traveller's departure, their motivation, and their strong intention to reach Sarn Athrad. Let the prose feel like a beginning, with hope or gravity as fits their personality.\n\n=== TODAY ===\nDay 1. Narrate this single day's journey in the order it happened, dawn to night. It is autumn.\n\nA cool air, sun and moving cloud and a passing shower.\nFell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.\n(in first light) Crossed into Sandariand.\n  (the day's centre) crossed into Sandariand.\n— daylight —\nNotes the sky is calm. Continues.\nLater — an encounter:\n  - Owls — glimpsed_far.\n    Wings on the far side of the sky — a flock moving with the wind, too far for names.\n    They are going about their own business. Their business does not include the road.\n    A calm sky is information too.\n    Notes the sky is calm. Continues.\n  (a thought of theirs) As long as birds keep singing at dawn, not everything is lost.\n  (a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.\n  (a thought of theirs) Even the smallest animal fighting for its life shows me courage in its purest form.\n  Owls left them watchful.\nOpen country, cross-country, Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.\nA city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water.\n— dusk falls —\nCrossed into Mänoriand.\nThe ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses it as he crossed twenty fords before.\nAnd in the middle, standing with the water running past his legs, something happens to him. It lasts a second. It is not a thought and it does not come from anything he was thinking.\nHe comes out the other side and stands a while with wet boots.\n**This happens only once.** If he crosses again, it is a ford.\n  The ford of the voice left them uneasy.\n- A river is crossed by a stone bridge as the light failed.\nNotes the calm. Continues.\nLater — an encounter:\n  - Deer — observed_activity.\n    A stag at the water's edge, drinking. It looks up when the traveller approaches, holds for a long moment, then retreats into the trees without urgency.\n    It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far.\n    Nothing alarmed it before the traveller arrived. The forest behind it was quiet.\n    Notes the calm. Continues.\n  Deer left them watchful.\nLater — the sun quits the plain early, the dark comes with the wind, cool, grey, partly cloudy, a wind that does not rest, soft rain.\nA pause at the height of the day: a ration of road-bread and dried fruit; water from the skin.\n— after dark —\nLater — an encounter:\n  - Herb-lands — harvest_shelter.\n    A stand of medicinal herbs beside a spring — athelas among them, unmistakeable to those who know it.\n    The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.\n    Taking a modest amount costs nothing. Leaving the plants rooted means they will be here for the next traveller.\nA night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is calm and clean. A faint drizzle brushes the camp near dawn. The night air moves constantly, carrying the smell of rain or pine through the camp. The night is cold enough that the traveller curls closer to the embers.\nLater — a chill that does not lift, heavy cloud cover, a steady rain.\nFood at camp, once the packs are down: a ration of road-bread and dried fruit; water from the skin. The fire allows what is eaten to be warmed, if it is worth warming.\n\n=== THE CHAPTER'S RULES ===\nEncounters today happen where the timeline says — nowhere else.\nOnly the places named exist. The day begins where it says it begins and ends where it says it ends. Weather already told does not repeat unless it changes. The lines are the skeleton — narrate it in order, do not reorder it.\nFlowing prose, dawn to night. Each encounter must leave a mark — on the route, on the body, or on what the traveller now knows.\n\n"
+  "user": "=== ARANATH TODAY ===\nAranath today.\n\n=== JOURNEY CONTEXT ===\nUltimate Destination: Sarn Athrad\n\n=== SPECIAL INSTRUCTIONS ===\nThis is the first day and the introduction of the entire journey.\nIn this chapter, please describe the traveller's departure, their motivation, and their strong intention to reach Sarn Athrad. Let the prose feel like a beginning, with hope or gravity as fits their personality.\n\n=== TODAY ===\nDay 1. Narrate this single day's journey in the order it happened, dawn to night. It is autumn.\n\nA cool air, sun and moving cloud and a passing shower.\nFell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.\n(in first light) Crossed into Sandariand.\n  (the day's centre) crossed into Sandariand.\n— daylight —\nNotes the sky is calm. Continues.\nLater — an encounter:\n  - Owls — glimpsed_far.\n    Wings on the far side of the sky — a flock moving with the wind, too far for names.\n    They are going about their own business. Their business does not include the road.\n    A calm sky is information too.\n    Notes the sky is calm. Continues.\n  (a thought of theirs) As long as birds keep singing at dawn, not everything is lost.\n  (a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.\n  (a thought of theirs) Even the smallest animal fighting for its life shows me courage in its purest form.\n  Owls left them watchful.\nOpen country, cross-country, Fell-paths over the bare tops and down the burn-gullies; the snow marks lie on them late into spring.\nA city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water.\n— dusk falls —\nCrossed into Mänoriand.\nThe ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses it as he crossed twenty fords before.\nAnd in the middle, standing with the water running past his legs, something happens to him. It lasts a second. It is not a thought and it does not come from anything he was thinking.\nHe comes out the other side and stands a while with wet boots.\n**This happens only once.** If he crosses again, it is a ford.\n  The ford of the voice left them uneasy.\n- A river is crossed by a stone bridge as the light failed.\nNotes the calm. Continues.\nLater — an encounter:\n  - Deer — observed_activity.\n    A stag at the water's edge, drinking. It looks up when the traveller approaches, holds for a long moment, then retreats into the trees without urgency.\n    It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far.\n    Nothing alarmed it before the traveller arrived. The forest behind it was quiet.\n    Notes the calm. Continues.\n  Deer left them watchful.\nLater — the sun quits the plain early, the dark comes with the wind, cool, grey, partly cloudy, a wind that does not rest, soft rain.\nA pause at the height of the day: a ration of road-bread and dried fruit; water from the skin.\n— after dark —\nLater — an encounter:\n  - Herb-lands — harvest_shelter.\n    A stand of medicinal herbs beside a spring — athelas among them, unmistakeable to those who know it.\n    The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.\n    Taking a modest amount costs nothing. Leaving the plants rooted means they will be here for the next traveller.\nA night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is calm and clean. A faint drizzle brushes the camp near dawn. The night air moves constantly, carrying the smell of rain or pine through the camp. The night is cold enough that the traveller curls closer to the embers.\nLater — a chill that does not lift, heavy cloud cover, a steady rain.\nFood at camp, once the packs are down: a ration of road-bread and dried fruit; water from the skin. The fire allows what is eaten to be warmed, if it is worth warming.\n\n=== THE CHAPTER'S RULES ===\nEncounters today happen where the timeline says — nowhere else: Herb-lands, Owls, Deer. Every one must land — none is skipped, whatever its form.\nOnly the places named exist. The day begins where it says it begins and ends where it says it ends. Weather already told does not repeat unless it changes. The lines are the skeleton — narrate it in order, do not reorder it.\nFlowing prose, dawn to night. Each encounter must leave a mark — on the route, on the body, or on what the traveller now knows.\n\n"
  },
  "tables": {
   "Mind": {

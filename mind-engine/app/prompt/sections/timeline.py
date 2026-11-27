@@ -59,6 +59,15 @@ def _sentence(text):
     return t
 
 
+# Forms that are a fight or a threat, not a sighting: the beat names
+# the danger in its header so an attack can never read as just another
+# line of the road — a 'reacts_withdraws' may be missed, a wolf that
+# breaks cover may not.
+_THREAT_FORMS = {
+    'attacks', 'confronts', 'sudden_peril', 'stalks', 'hinders_passage',
+}
+
+
 def _encounter_beat(encounter, daylight=None, announced=False):
     """The encounter at its clock position — mechanics verbatim, time as
     a natural phrase ('Late in the afternoon —', never '16:00'). When a
@@ -68,7 +77,9 @@ def _encounter_beat(encounter, daylight=None, announced=False):
         _LIGHT_PHRASE.get(encounter.get('light'))
         or day_time_phrase(encounter.get('hour'), daylight)
         or _PHASE_FALLBACK.get(encounter.get('phase'), 'During the day'))
-    return f'{when} — an encounter:\n{_describe_encounter(encounter)}'
+    form = (encounter.get('interaction') or {}).get('form')
+    what = 'a dangerous encounter' if form in _THREAT_FORMS else 'an encounter'
+    return f'{when} — {what}:\n{_describe_encounter(encounter)}'
 
 
 # A beat whose prose is silent about light gets a cue — a meal at night,

@@ -15,15 +15,20 @@ def road_intro(day_number):
     return f"Day {day_number}. Narrate this single day's journey in the order it happened, dawn to night."
 
 
-def chapter_rules_section(has_encounters, closing, has_recollection=False):
+def chapter_rules_section(encounter_names, closing, has_recollection=False):
     """The contract the skeleton runs under — where encounters may land,
     that the named places are all that exist, and the day's closing
-    instruction. `closing` arrives already chosen (rotated per day, or
-    the terminal variant). `has_recollection` adds the memory-markers
-    rule only when the day actually carries them."""
+    instruction. The roster makes an omission checkable: a wolf attack
+    the prose never reaches is a breach, not a style choice. `closing`
+    arrives already chosen (rotated per day, or the terminal variant).
+    `has_recollection` adds the memory-markers rule only when the day
+    actually carries them."""
+    names = [n for n in dict.fromkeys(encounter_names or []) if n]
     encounter_line = (
-        'Encounters today happen where the timeline says — nowhere else.'
-        if has_encounters else
+        'Encounters today happen where the timeline says — nowhere '
+        f'else: {", ".join(names)}. Every one must land — none is '
+        'skipped, whatever its form.'
+        if names else
         'Encounters today: none — no one is met on the road.'
     )
     memory_line = (

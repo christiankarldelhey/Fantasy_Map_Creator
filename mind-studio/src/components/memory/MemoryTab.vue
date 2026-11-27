@@ -3,12 +3,11 @@ import { computed, shallowRef } from 'vue'
 import { t } from '../../lib/i18n'
 import type { MemoryNode, MindDetail } from '../../types'
 import TabNav from '../TabNav.vue'
-import BeliefList from './BeliefList.vue'
 import MemoryList from './MemoryList.vue'
 import MusingList from './MusingList.vue'
 import RelationList from './RelationList.vue'
 
-type View = 'alive' | 'forgotten' | 'beliefs' | 'musings' | 'relations'
+type View = 'alive' | 'musings' | 'relations'
 
 const props = defineProps<{ mind: MindDetail }>()
 
@@ -21,18 +20,7 @@ const anchors = (m: MemoryNode) =>
   [...(m.subjects ?? []), m.entity_id ?? '', m.region ?? '']
 const alive = computed(() =>
   props.mind.memories
-    .filter((m) => m.state === 'alive' && (matches(m.desc) || anchors(m).some(matches)))
-    .sort((a, b) => b.strength - a.strength),
-)
-const forgotten = computed(() =>
-  props.mind.memories
-    .filter((m) => m.state !== 'alive' && (matches(m.desc) || anchors(m).some(matches)))
-    .sort((a, b) => (b.forgotten_episode ?? 0) - (a.forgotten_episode ?? 0)),
-)
-const beliefs = computed(() =>
-  props.mind.beliefs
-    .filter((b) => matches(b.statement) || (b.subjects ?? []).some(matches))
-    .sort((a, b) => b.strength - a.strength),
+    .filter((m) => m.state === 'alive' && (matches(m.desc) || anchors(m).some(matches))),
 )
 const musings = computed(() => props.mind.musings.filter((m) => matches(m.statement)))
 const relations = computed(() =>
@@ -46,9 +34,7 @@ const relations = computed(() =>
 const views = computed(() => [
   { id: 'alive' as const, label: t('mem.alive'), count: alive.value.length },
   { id: 'relations' as const, label: t('mem.relations'), count: relations.value.length },
-  { id: 'beliefs' as const, label: t('mem.beliefs'), count: beliefs.value.length },
   { id: 'musings' as const, label: t('mem.musings'), count: musings.value.length },
-  { id: 'forgotten' as const, label: t('mem.forgotten'), count: forgotten.value.length, dim: true },
 ])
 </script>
 
@@ -61,8 +47,6 @@ const views = computed(() => [
     <p class="help muted">{{ t(`mem.${view}.help`) }}</p>
 
     <MemoryList v-if="view === 'alive'" :memories="alive" />
-    <MemoryList v-else-if="view === 'forgotten'" :memories="forgotten" forgotten />
-    <BeliefList v-else-if="view === 'beliefs'" :beliefs="beliefs" />
     <RelationList v-else-if="view === 'relations'" :relations="relations" />
     <MusingList v-else :musings="musings" />
   </div>

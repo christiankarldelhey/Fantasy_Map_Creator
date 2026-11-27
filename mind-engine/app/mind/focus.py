@@ -250,7 +250,7 @@ def _evocation_via(memory_tags, item_tags):
 @step('Lens')
 def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
                 wiring=None, anchors=None, need_origins=None,
-                session=None, game_id=None, mind=None, episode_idx=None,
+                session=None, game_id=None, episode_idx=None,
                 musings=None):
     """Narrow the Mind to this Episode. Returns
     {focus, carried, day, silenced} — each line a dict with id, kind,
@@ -433,11 +433,8 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
     # stays quiet for 'musing_refractory_episodes' — the thought needs
     # time to gather before it can be the mind's reply again (#86).
     # The voice hears every perceived item — the weather, the road's
-    # mileage, the body's own reports (#158) — and the Personality's
-    # `reflectiveness` bends how loudly it answers.
+    # mileage, the body's own reports (#158).
     refractory = int(w.get('musing_refractory_episodes') or 0)
-    refl = (mind.personality or {}).get('reflectiveness') if mind else None
-    voice_gain = 1.0 if refl is None else float(refl)
     musing_by_id = {m.id: m for m in musings or []}
     musing_lines = []
     for m in musings or []:
@@ -488,7 +485,7 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             musing_lines.append({
                 'id': f'musing:{m.id}', 'kind': 'musing', 'part': 'carried',
                 'phase': None, 'text': m.statement,
-                'score': SOLITUDE_SCORE * voice_gain,
+                'score': SOLITUDE_SCORE,
                 'solitude': True, 'tagged': True,
                 'context': sorted(declared),
                 'why': 'the mind alone with itself'
@@ -502,7 +499,6 @@ def build_brief(perceived_day, evoked, beliefs, needs, entering_mood,
             'score': (
                 max(hit['score'], salient_min)
                 * (1 + bonus * (overlap - 1))
-                * voice_gain
             ),
             'connects_to': hit['id'], 'tagged': bool(mtags),
             'why': f'called up by: {(hit["text"] or hit["type"] or "")[:60]}',

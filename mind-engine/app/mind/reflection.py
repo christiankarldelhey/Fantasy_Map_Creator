@@ -1,9 +1,8 @@
 # ============================================================================
 # Reflection (B4) — the mind's only LLM call
 # ----------------------------------------------------------------------------
-# Triggered at close-episode: every `reflection_every` episodes (bent by
-# `personality.reflectiveness`), or any perceived event whose salience
-# clears `reflection_importance_min`.
+# Triggered at close-episode: every `reflection_every` episodes, or any
+# perceived event whose salience clears `reflection_importance_min`.
 #
 # The LLM sees the character's strongest memories and active beliefs and
 # returns OPERATIONS, not prose: create / reinforce / contradict / invert
@@ -30,6 +29,7 @@ from app.mind.memory import episode_index
 from app.mind.provisioning import DEFAULT_WIRING
 from app.mind.steps import step
 from app.mind.tables import Episode, Memory
+from app.mind.tags import contact_tags
 
 log = logging.getLogger(__name__)
 
@@ -88,7 +88,35 @@ def _parse_payload(text):
     return payload if isinstance(payload, dict) else {}
 
 
-def _build_prompt(character_name, memories, beliefs, cause=None):
+_COUPLING_GLOSS = {
+    'moodiness': 'how fast its weather moves and settles',
+    'resistance': 'how stubbornly its judgments hold',
+    'choice_variability': 'how much its picks wander',
+}
+
+
+def _nature_block(mind):
+    """Word the mind's authored shape — the Temperament its Mood rests
+    at and the Personality couplings that tune it — so the reflections
+    come back in THIS mind's voice, not a neutral diarist's."""
+    temp = getattr(mind, 'temperament', None) or {}
+    pers = getattr(mind, 'personality', None) or {}
+    lines = ['How this mind is tuned — let its voice show:']
+    if temp:
+        dims = ', '.join(
+            f'{k} {_f(v, 0.0):+.2f}' for k, v in sorted(temp.items())
+            if isinstance(v, (int, float))
+        )
+        lines.append(f'- temperament (its resting weather): {dims}')
+    for key, gloss in _COUPLING_GLOSS.items():
+        if isinstance(pers.get(key), (int, float)):
+            lines.append(f'- {key} {pers[key]:.2f} — {gloss}')
+    if len(lines) == 1:
+        return ''
+    return '\n'.join(lines) + '\n\n'
+
+
+def _build_prompt(character_name, memories, beliefs, cause=None, mind=None):
     mem_lines = '\n'.join(
         f'- id={m.id} valence={m.valence:+.2f} importance={m.importance:.2f}'
         f' — {m.desc}'
@@ -109,6 +137,7 @@ def _build_prompt(character_name, memories, beliefs, cause=None):
         'system': _SYSTEM,
         'user': (
             f'The mind of {character_name}.\n\n'
+            f'{_nature_block(mind)}'
             f'What they lived (memories):\n{mem_lines}\n\n'
             f'What they believe (beliefs):\n{belief_lines}\n\n'
             f'{mood_lines}'
@@ -163,6 +192,33 @@ def _strength(op):
     if conf is None:
         return 2.0
     return min(5.0, max(0.0, conf * 5 if conf <= 1.0 else conf))
+
+
+def _evidence_surface(op, memories_by_id):
+    """A created conviction inherits the surface its evidence touches —
+    a belief is ABOUT what its memories were about: subjects for the
+    Relation echo, contact tags for evocation (ambient families left
+    out — 'the same wet sky' must not summon a worldview). Without a
+    surface the belief could only ever surface through the semantic
+    door: no shared tag would summon 'the fords are watched' on a ford
+    day. Ordered by first citation, deduped, capped."""
+    subjects: list = []
+    tags: list = []
+    seen_s: set = set()
+    seen_t: set = set()
+    for mem_id in op.get('evidence') or []:
+        mem = memories_by_id.get(mem_id)
+        if mem is None:
+            continue
+        for s in (mem.subjects or []):
+            if s not in seen_s:
+                seen_s.add(s)
+                subjects.append(s)
+        for tg in contact_tags(mem.tags):
+            if tg not in seen_t:
+                seen_t.add(tg)
+                tags.append(tg)
+    return {'subjects': subjects[:8], 'tags': tags[:12]}
 
 
 def _conviction(session, op_data, mind, idx, inherited=None):
@@ -231,7 +287,9 @@ def _apply_ops(session, mind, ops, beliefs_by_id, memories_by_id, idx, w):
             # mint a worldview (the LLM orders its ops by weight).
             if counts['formed'] >= new_cap:
                 continue
-            session.add(_conviction(session, op, mind, idx))
+            session.add(_conviction(
+                session, op, mind, idx,
+                inherited=_evidence_surface(op, memories_by_id)))
             counts['formed'] += 1
             continue
 
@@ -438,12 +496,10 @@ def maybe_reflect(session, mind, episode, character_name=None):
         and not is_mind_item(i)
         for i in (episode.perceived_day or [])
     )
-    every = int(w.get('reflection_every', 5))
-    # reflectiveness bends the cadence: 0 — only the world can spike a
-    # reflection; 1 — the mind gathers its thoughts almost daily.
-    refl = _f((mind.personality or {}).get('reflectiveness'), 0.5)
-    cadence = max(1, int(every * (1 - refl) + 0.5)) if refl > 0 else None
-    due = idx is not None and cadence is not None and idx - last >= cadence
+    # The cadence is the wiring's — a schedule, not a temperament: every
+    # mind gathers its thoughts on the same rhythm the game sets.
+    every = int(w.get('reflection_every', 3))
+    due = idx is not None and idx - last >= every
     if idx is None or not (due or high_salience):
         return None
 
@@ -489,7 +545,7 @@ def maybe_reflect(session, mind, episode, character_name=None):
         cause = None
     prompt = _build_prompt(
         character_name or mind.character_id, memories, beliefs,
-        cause=cause,
+        cause=cause, mind=mind,
     )
     try:
         result = generate_narrative(prompt, day_number=idx)

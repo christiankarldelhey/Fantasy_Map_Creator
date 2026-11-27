@@ -28,13 +28,18 @@ from app.mind.steps import step
 from app.mind.tables import Need, Relation
 
 # Acts that reach *toward* the source — a warm Relation invites them, a cold
-# one warns them off. Acts that withdraw lean on fear instead.
+# one warns them off. `avoid` withdraws and leans on fear; `defy` stands
+# against the source and leans on hatred, fear holding it back (ADR-0022:
+# the terrified flee, the hating fight — one bias for both scored them alike).
 TOWARD_ACTS = {'approach', 'talk', 'trade', 'accept', 'help'}
-AWAY_ACTS = {'avoid', 'defy'}
+AWAY_ACTS = {'avoid'}
+DEFY_ACTS = {'defy'}
 
 TOWARD_WEIGHT = 1.0     # per point of (affection + trust)
 AWAY_FEAR_WEIGHT = 1.5  # per point of fear
 AWAY_COLD_WEIGHT = 0.5  # per point of distaste (negative affection/trust)
+DEFY_HATE_WEIGHT = 1.5  # per point of negative affection
+DEFY_FEAR_DAMP = 0.5    # per point of fear
 
 # choice_variability 0 → nearly argmax; 1 → near-uniform draw.
 MIN_TEMPERATURE = 0.15
@@ -53,6 +58,9 @@ def _act_relation_bias(act, relation):
         return warmth * TOWARD_WEIGHT - fear * 0.5
     if act in AWAY_ACTS:
         return fear * AWAY_FEAR_WEIGHT + max(0.0, -warmth) * AWAY_COLD_WEIGHT
+    if act in DEFY_ACTS:
+        hatred = max(0.0, -float(relation.affection or 0))
+        return hatred * DEFY_HATE_WEIGHT - fear * DEFY_FEAR_DAMP
     return 0.0
 
 

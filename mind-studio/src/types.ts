@@ -173,6 +173,17 @@ export interface MemoryNode {
   evocations: number
   voiced: number
   consolidated: boolean
+  // The memory-continuum tier — fresh | consolidated | conviction.
+  // Conviction rows also carry the belief facet (kind, horizon, status).
+  depth?: string | null
+  conviction?: {
+    kind?: string
+    horizon?: string
+    status?: string
+    strength?: number
+    evidence?: string[]
+    source?: string
+  } | null
   born_episode: number | null
   last_evoked_episode: number | null
   forgotten_episode: number | null

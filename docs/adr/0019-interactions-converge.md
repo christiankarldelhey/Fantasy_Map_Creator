@@ -50,3 +50,10 @@ was the one-time migration, kept for provenance), and `places.json`,
 `narration.json`, `entities_narration.json` carry only descriptors under
 the `situations` key. The loader inserts each seed verbatim —
 `interactions` is no longer a runtime derivation.
+
+## Amendment — threats fork on the road (ADR-0022)
+
+Options Situations no longer contest only at the shelter window: threat
+forms fork at their own hour on the road. A `wound` effect feeds the
+wound Condition, and `defy` leans on hatred while `avoid` keeps the fear.
+See ADR-0022.

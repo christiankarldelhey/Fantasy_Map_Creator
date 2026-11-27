@@ -146,7 +146,7 @@ DEFAULT_WIRING = {
     # Reflection (B4) — the mind's only LLM call, at close: every N
     # episodes or on a salience spike. Reconciliation deltas, active cap
     # and the decay of unreinforced beliefs.
-    'reflection_every': 5,
+    'reflection_every': 3,
     'reflection_importance_min': 0.85,
     'reflection_memory_top': 20,
     # Words-only ops per sitting: retold memory descs. A reflection

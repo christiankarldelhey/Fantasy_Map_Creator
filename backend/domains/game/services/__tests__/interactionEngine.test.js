@@ -7,7 +7,44 @@ import {
   effectsToCommands,
   applyOvernightOutcome,
   outcomeEvent,
+  applyWound,
+  forksNow,
 } from '../world/interactionEngine.js';
+
+// ---------------------------------------------------------------------------
+// ADR-0022 — threats fork on the road; a wound is a typed effect
+// ---------------------------------------------------------------------------
+
+const pool = (form, offerWindow = false) => ({
+  offerWindow,
+  encounter: { interaction: { form } },
+});
+
+test('forksNow: a threat contests where it struck, on the road', () => {
+  assert.equal(forksNow(pool('attacks')), true);
+  assert.equal(forksNow(pool('sudden_peril')), true);
+});
+
+test('forksNow: any other fork still waits for the shelter window', () => {
+  assert.equal(forksNow(pool('confronts')), false);
+  assert.equal(forksNow(pool('brief_exchange')), false);
+  assert.equal(forksNow(pool('brief_exchange', true)), true);
+});
+
+test('applyWound: the wound lands on the encounter outcome, worst wins', () => {
+  const enc = { interaction: { form: 'attacks' } };
+  applyWound(enc, [{ type: 'wound', level: 'wounded' }]);
+  assert.equal(enc.interaction.outcome, 'wounded');
+  applyWound(enc, [{ type: 'wound', level: 'badly wounded' }]);
+  applyWound(enc, [{ type: 'wound', level: 'wounded' }]);
+  assert.equal(enc.interaction.outcome, 'badly wounded');
+});
+
+test('applyWound: an attack never kills — slain is not a wound', () => {
+  const enc = { interaction: { form: 'attacks' } };
+  applyWound(enc, [{ type: 'wound', level: 'slain' }, { type: 'meal' }]);
+  assert.equal(enc.interaction.outcome, undefined);
+});
 
 // ---------------------------------------------------------------------------
 // Feasibility — the host's gate (ADR-0019): skill floors and what can be paid

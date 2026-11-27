@@ -38066,5 +38066,49 @@
     "payload": {
       "source": "authored:numeriador"
     }
+  },
+  {
+    "id": "cnt:fb19da18-c124-4dba-9763-c885ac9e7749",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "ffe19566-6953-4771-a0eb-90c896b20e51",
+      "ea4a6259-4ccb-4a6f-b229-727f767fedda",
+      "db69cd68-1ad6-4f80-8814-61035bd24e8c",
+      "91dc6bfb-1c36-4e84-b238-17ae408a8758",
+      "5c4c3611-6c66-48b2-bfe5-2df5a9e98042",
+      "6fdb39f3-bc3c-5bf6-9afe-b9482dca22c9"
+    ],
+    "entity_type": "carnivores",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "The first one is already in the open before the grass stops moving — low, silent, no warning bark. Two more come wide on either side."
+    },
+    "presence": {
+      "en": "Wolves hunting, not wandering — lean from a hard season, working as a pack, closing the angles before closing the distance."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:fb19da18-c124-4dba-9763-c885ac9e7749:sit",
+        "tags": [],
+        "situation": {
+          "en": "They mean to cut the traveller off and take the quarry from the side. The ground is open every way that matters."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "pilot": "wolves"
+    }
   }
 ]

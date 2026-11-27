@@ -113,6 +113,34 @@ export function effectsToCommands(effects, { inShelter = false } = {}) {
   return commands;
 }
 
+// ADR-0022: a wound is a typed effect. It lands on the encounter's own
+// outcome — the channel tallyWoundCosts, the wound Condition and the
+// narrator's OUTCOME line already read. Only the two survivable tiers
+// exist here: an attack never kills (death is the host's Fate). The
+// worse of several wounds wins.
+const WOUND_LEVELS = ['wounded', 'badly wounded'];
+
+export function applyWound(encounter, effects) {
+  const interaction = encounter?.interaction;
+  if (!interaction) return;
+  for (const e of effects || []) {
+    if (e.type !== 'wound' || !WOUND_LEVELS.includes(e.level)) continue;
+    if (WOUND_LEVELS.indexOf(e.level) > WOUND_LEVELS.indexOf(interaction.outcome)) {
+      interaction.outcome = e.level;
+    }
+  }
+}
+
+// ADR-0022: threat forms fork at their own hour on the road; every other
+// authored fork is an evening offer and contests only at the shelter
+// window. `confronts` stays out until its forks get their own review.
+const ROAD_FORK_FORMS = new Set(['attacks', 'sudden_peril']);
+
+export function forksNow(pool_) {
+  return pool_.offerWindow
+    || ROAD_FORK_FORMS.has(pool_.encounter?.interaction?.form);
+}
+
 // The night's own Situation (a place's overnight record): the choice rewrites
 // the night's fields directly — there is no second party granting a roof.
 export function applyOvernightOutcome(day, outcome) {
@@ -193,6 +221,7 @@ function contactPools(day) {
       phase: e.phase ?? 'afternoon',
       placeSlug: slugify(e.location?.name ?? e.location ?? day.overnight_location?.name),
       apply: (day_, outcome) => {
+        applyWound(e, outcome?.effects);
         const shelter = effectsToShelter(outcome?.effects ?? []);
         if (Object.keys(shelter).length) {
           applyShelterChoice(day_, shelter);
@@ -455,9 +484,9 @@ export async function resolveDayChoices(day, { characterId, startState = {}, rng
         pool_.encounter.interaction.given = true;
       }
 
-      // The options themselves only contest at the shelter window —
-      // every authored contact fork is an evening offer.
-      if (!pool_.offerWindow || optionRows.length <= 1) continue;
+      // The options contest at the shelter window — or, for a threat,
+      // right where it struck (ADR-0022).
+      if (!forksNow(pool_) || optionRows.length <= 1) continue;
       rows = optionRows;
       // Fall through to feasibility + choose below.
     }
