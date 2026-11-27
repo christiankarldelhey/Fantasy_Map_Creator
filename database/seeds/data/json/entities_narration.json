@@ -23331,7 +23331,7 @@
         "id": "cnt:0c963fb6-d8c1-40ae-a2db-42e2e214c95f:sit",
         "tags": [],
         "situation": {
-          "en": "Fifteen seconds to impact at this closing speed. The road has no cover on either side."
+          "en": "Fifteen seconds to impact at this closing speed. Whatever happens next, it happens now."
         }
       }
     ],
@@ -23541,7 +23541,7 @@
         "id": "cnt:4ab1cf38-e3fe-4b4e-b98b-11b72cafdeb5:sit",
         "tags": [],
         "situation": {
-          "en": "The way back requires cutting through. The way forward may be equally closed by now."
+          "en": "The way back may already be web. The way forward may be equally closed by now — or may not."
         }
       }
     ],
@@ -38284,6 +38284,85 @@
       "source": "hand_authored",
       "adr": "0022",
       "batch": "orcs"
+    }
+  },
+  {
+    "id": "cnt:7e3d53c4-2edb-4500-8cc7-98bc003aae91",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "bdb8190e-09bf-451c-836b-72ee6fcb1710",
+      "c89ff2d0-b1cb-4ea0-bab6-9306ac788564"
+    ],
+    "entity_type": "orcs",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "No whistle, no jeering. A horn-note, once, and then the sound of ironshod boots in step — actual step — coming up the slope in a line that does not waver."
+    },
+    "presence": {
+      "en": "Uruk-hai. Bred for this, whoever bred them: taller than common orcs, broader, unbothered by the sun. They do not look hungry. They look employed."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:7e3d53c4-2edb-4500-8cc7-98bc003aae91:sit",
+        "tags": [],
+        "situation": {
+          "en": "They have already measured the ground and the traveller both. There will be no confusion and no mercy in what happens next."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "uruk_hai"
+    }
+  },
+  {
+    "id": "cnt:2f3960fe-8f02-44c6-afe1-45eb795d8ad6",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": [
+      "180e506d-071e-46a2-8a3f-7b655d80c966"
+    ],
+    "entity_type": "orcs",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "Dust first, then the sound — not hooves but claws, a loping wrongness of gait — and then the shapes themselves: wolves the size of ponies, and on their backs, bows already strung."
+    },
+    "presence": {
+      "en": "Warg-riders, a scouting pack of them. The mounts are worse than the riders; the riders know it and use it."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:2f3960fe-8f02-44c6-afe1-45eb795d8ad6:sit",
+        "tags": [],
+        "situation": {
+          "en": "They spread into a loose crescent without a word spoken. On open ground they are faster than anything on two legs, and they know it."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "warg_riders"
     }
   }
 ]
