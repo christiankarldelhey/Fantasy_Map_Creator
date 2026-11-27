@@ -247,7 +247,7 @@ _An impression a Mind kept from something it lived._
 - **columns**: `id`, `game_id`, `character_id`, `episode_ids`, `kind`, `tags`, `entity_id`, `region`, `desc`, `valence`, `importance`, `strength`, `evocations`, `last_evoked_episode`, `voiced`, `last_voiced_episode`, `consolidated`, `embedding`, `origin`, `created_episode`, `created_date`, `last_evoked_date`, `imprint`, `subjects`, `felt`, `feeling`, `depth`, `mutable`, `conviction`
 - **example (golden day)**:
   ```json
-  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:land", "tag:subtype:region", "tag:act:walk", "… 2 more"], "entity_id": null, "region": "Mänoriand", "desc": "crossed into Mänoriand", "valence": 0.0, "importance": 0.55, "strength": 0.55}
+  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:climate", "region:Sandariand"], "entity_id": null, "region": "Sandariand", "desc": "a cool air, sun and moving cloud and a passing shower", "valence": 0.0, "importance": 0.25, "strength": 0.25}
   ```
 
 ## Conviction
@@ -259,7 +259,7 @@ _A Memory at the deepest tier — where a Belief lives: one row, one truth._
 - **columns**: `id`, `game_id`, `character_id`, `episode_ids`, `kind`, `tags`, `entity_id`, `region`, `desc`, `valence`, `importance`, `strength`, `evocations`, `last_evoked_episode`, `voiced`, `last_voiced_episode`, `consolidated`, `embedding`, `origin`, `created_episode`, `created_date`, `last_evoked_date`, `imprint`, `subjects`, `felt`, `feeling`, `depth`, `mutable`, `conviction`
 - **example (golden day)**:
   ```json
-  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:land", "tag:subtype:region", "tag:act:walk", "… 2 more"], "entity_id": null, "region": "Mänoriand", "desc": "crossed into Mänoriand", "valence": 0.0, "importance": 0.55, "strength": 0.55}
+  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:climate", "region:Sandariand"], "entity_id": null, "region": "Sandariand", "desc": "a cool air, sun and moving cloud and a passing shower", "valence": 0.0, "importance": 0.25, "strength": 0.25}
   ```
 
 ## Forgotten
@@ -281,7 +281,7 @@ _What the Mind lived and kept: its Memories, the Forgotten and the patterns repe
 - **columns**: `id`, `game_id`, `character_id`, `episode_ids`, `kind`, `tags`, `entity_id`, `region`, `desc`, `valence`, `importance`, `strength`, `evocations`, `last_evoked_episode`, `voiced`, `last_voiced_episode`, `consolidated`, `embedding`, `origin`, `created_episode`, `created_date`, `last_evoked_date`, `imprint`, `subjects`, `felt`, `feeling`, `depth`, `mutable`, `conviction`
 - **example (golden day)**:
   ```json
-  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:land", "tag:subtype:region", "tag:act:walk", "… 2 more"], "entity_id": null, "region": "Mänoriand", "desc": "crossed into Mänoriand", "valence": 0.0, "importance": 0.55, "strength": 0.55}
+  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:climate", "region:Sandariand"], "entity_id": null, "region": "Sandariand", "desc": "a cool air, sun and moving cloud and a passing shower", "valence": 0.0, "importance": 0.25, "strength": 0.25}
   ```
 
 ## Belief
@@ -294,7 +294,7 @@ _Something the Mind holds true: a statement, how firmly it is held (from barely 
 - **columns**: `id`, `game_id`, `character_id`, `episode_ids`, `kind`, `tags`, `entity_id`, `region`, `desc`, `valence`, `importance`, `strength`, `evocations`, `last_evoked_episode`, `voiced`, `last_voiced_episode`, `consolidated`, `embedding`, `origin`, `created_episode`, `created_date`, `last_evoked_date`, `imprint`, `subjects`, `felt`, `feeling`, `depth`, `mutable`, `conviction`
 - **example (golden day)**:
   ```json
-  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:land", "tag:subtype:region", "tag:act:walk", "… 2 more"], "entity_id": null, "region": "Mänoriand", "desc": "crossed into Mänoriand", "valence": 0.0, "importance": 0.55, "strength": 0.55}
+  {"id": "mem-16", "game_id": "middle_earth", "character_id": "142", "episode_ids": ["ep-01"], "kind": "episodic", "tags": ["type:climate", "region:Sandariand"], "entity_id": null, "region": "Sandariand", "desc": "a cool air, sun and moving cloud and a passing shower", "valence": 0.0, "importance": 0.25, "strength": 0.25}
   ```
 
 ## Relation
@@ -306,7 +306,7 @@ _The emotional sediment a Subject leaves in the Mind: not an entity in the world
 - **columns**: `id`, `game_id`, `character_id`, `subject`, `display_name`, `affection`, `trust`, `fear`, `familiarity`, `feeling`, `origin`, `last_fed_episode`, `last_surfaced_episode`
 - **example (golden day)**:
   ```json
-  {"id": "rel-17", "game_id": "middle_earth", "character_id": "142", "subject": "tag:entity_type:undead", "display_name": null, "affection": -0.6859999999999999, "trust": 0.0, "fear": 0.0, "familiarity": 0.0, "feeling": "hatred", "origin": "seed", "last_fed_episode": null}
+  {"id": "rel-17", "game_id": "middle_earth", "character_id": "142", "subject": "tag:entity_type:dwarves", "display_name": null, "affection": -0.294, "trust": 0.0, "fear": 0.0, "familiarity": 0.294, "feeling": null, "origin": "seed", "last_fed_episode": null}
   ```
 
 ## Lens
@@ -318,7 +318,7 @@ _What the Mind tells the narrator about an Episode: what matters to it, one cent
 - **columns**: `id`, `game_id`, `character_id`, `episode_ref`, `status`, `episode_idx`, `episode_date`, `events`, `narrator_payload`, `config_snapshot`, `perceived_day`, `lens_block`, `brief`, `mood`, `needs_active`, `decisions`, `outcome`, `lens_eval`, `narrative`, `narrative_language`, `narrative_translation`, `created_at`, `narrated_at`, `closed_at`
 - **example (golden day)**:
   ```json
-  {"day": [{"id": "musing:mu_3d01a3226fc4402cb0f435e745aea311", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "As long as birds keep singing at dawn, not everything is lost.", "phase": "morning", "score": 0.35, "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost.", "connects_to": "event:6"}, {"id": "musing:mu_7dcad64a65824b3595958245d21666ca", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.", "phase": "morn…
+  {"day": [{"id": "musing:mu_50ce6a2c186d46e384fbc67aaf2824b9", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "As long as birds keep singing at dawn, not everything is lost.", "phase": "morning", "score": 0.35, "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost.", "connects_to": "event:6"}, {"id": "musing:mu_74d655e0f3a74c59b94f35cd1edae9da", "why": "called up by: Owls — They are going about their own business. Their busine", "kind": "musing", "part": "day", "text": "A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith.", "phase": "morn…
   ```
 
 ## Focus
@@ -342,7 +342,7 @@ _An authored line of the Character's inner voice — how this person sounds insi
 - **columns**: `id`, `game_id`, `character_id`, `statement`, `tags`, `origin`, `formed_episode`, `last_spoke_episode`
 - **example (golden day)**:
   ```json
-  {"id": "mu_98b1256246e0493a9ebdd4acafa04a52", "game_id": "middle_earth", "character_id": "142", "statement": "I have spent years walking the borders of fallen Arnor; this time I walk alone.", "tags": ["context:solitude"], "origin": "seed", "formed_episode": null, "last_spoke_episode": null}
+  {"id": "mu_17f2978ea96549e4b44e5ef1a6c280ae", "game_id": "middle_earth", "character_id": "142", "statement": "I have spent years walking the borders of fallen Arnor; this time I walk alone.", "tags": ["context:solitude"], "origin": "seed", "formed_episode": null, "last_spoke_episode": null}
   ```
 
 ## Inner language

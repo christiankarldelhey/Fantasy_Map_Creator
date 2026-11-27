@@ -125,8 +125,9 @@ router = APIRouter(tags=['mind'])
 def _encounter_prompt_shape(event):
     """A narrator-payload encounter rebuilt from its event (ADR-0016):
     the section needs the legacy entity/interaction shape; the event
-    carries the same facts flat in data."""
-    data = event.get('data') or {}
+    carries the same facts flat in data — the envelope's universal keys
+    (intensity among them) folded in, as everywhere else they are read."""
+    data = flat_data(event)
     substance = data.get('substance') or {}
     dialogue = {
         k: v for k, v in {
@@ -157,6 +158,7 @@ def _encounter_prompt_shape(event):
             'form': data.get('form'),
             'prose_hint': data.get('prose_hint'),
             'outcome': data.get('outcome'),
+            'intensity': data.get('intensity'),
             'dialogue_content': dialogue or None,
         },
     }

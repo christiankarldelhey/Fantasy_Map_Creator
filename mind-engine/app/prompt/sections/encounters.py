@@ -30,6 +30,12 @@ _WOUND_PHRASE = {
     'badly wounded': 'comes away badly wounded',
 }
 
+# The wake (#aftermath): a meeting that hits hard enough does not close
+# when its scene ends. intensity 3+ is the authored mark of 'this
+# weighs' — a fight, a hard flight, the rare conversation that turns a
+# day. The mark rides the beat; the chapter's rules say what it asks.
+STAYS_MIN_INTENSITY = 3
+
 
 def _seed_lines(dialogue_content, skip=()):
     """The optional dialogue seeds of an interaction, verbatim — the
@@ -98,6 +104,8 @@ def _describe_encounter(encounter):
         lines.append(
             f"    OUTCOME (narrate this, do not change it): {outcome}."
         )
+    if (interaction.get('intensity') or 0) >= STAYS_MIN_INTENSITY:
+        lines.append('    (stays with them)')
     return '\n'.join(lines)
 
 

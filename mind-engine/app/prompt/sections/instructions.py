@@ -15,14 +15,16 @@ def road_intro(day_number):
     return f"Day {day_number}. Narrate this single day's journey in the order it happened, dawn to night."
 
 
-def chapter_rules_section(encounter_names, closing, has_recollection=False):
+def chapter_rules_section(encounter_names, closing, has_recollection=False,
+                          has_stays=False):
     """The contract the skeleton runs under — where encounters may land,
     that the named places are all that exist, and the day's closing
     instruction. The roster makes an omission checkable: a wolf attack
     the prose never reaches is a breach, not a style choice. `closing`
     arrives already chosen (rotated per day, or the terminal variant).
     `has_recollection` adds the memory-markers rule only when the day
-    actually carries them."""
+    actually carries them; `has_stays` adds the wake rule when a beat
+    hits hard enough to outlive its scene."""
     names = [n for n in dict.fromkeys(encounter_names or []) if n]
     encounter_line = (
         'Encounters today happen where the timeline says — nowhere '
@@ -37,6 +39,14 @@ def chapter_rules_section(encounter_names, closing, has_recollection=False):
         'never as events happening now.\n'
         if has_recollection else ''
     )
+    stays_line = (
+        'A line marked "(stays with them)" does not close when its scene '
+        'ends. The body keeps its account — the wound felt again on the '
+        'climb, the hands turned over at a rest — and the mind returns to '
+        'it in the quiet stretches of the road and once more before '
+        'lying down. What comes after is lived in its light.\n'
+        if has_stays else ''
+    )
     return (
         "=== THE CHAPTER'S RULES ===\n"
         f"{encounter_line}\n"
@@ -45,5 +55,6 @@ def chapter_rules_section(encounter_names, closing, has_recollection=False):
         "not repeat unless it changes. The lines are the skeleton — "
         "narrate it in order, do not reorder it.\n"
         f"{memory_line}"
+        f"{stays_line}"
         f"{closing}\n\n"
     )

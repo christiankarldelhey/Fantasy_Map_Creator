@@ -98,5 +98,11 @@ if (process.argv.includes('--narrate')) {
   console.log('response keys:', Object.keys(narration ?? {}));
   const gen = narration?.generation ?? narration?.narrative ?? narration;
   console.log(typeof gen === 'string' ? gen : JSON.stringify(gen, null, 1).slice(0, 6000));
+  if (narration?.prompt) {
+    const fs = await import('fs');
+    fs.writeFileSync('/tmp/wake_prompt.txt',
+      (narration.prompt.system || '') + '\n\n=====USER=====\n\n' + (narration.prompt.user || ''));
+    console.log('prompt written to /tmp/wake_prompt.txt');
+  }
 }
 await pool.end();

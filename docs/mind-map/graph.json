@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated": "mind_map.py --update",
-  "source_hash": "39baa6a5a48dd1c7",
+  "source_hash": "7e0a9ec39dfc3065",
   "golden_day": {
    "trip_id": "2c3716fc-8194-436c-90e3-fb3b765690fe",
    "day_number": 1,
@@ -8040,14 +8040,14 @@
        "entity_name": "Herb-lands",
        "entity_type": "resources",
        "reading": "Herb-lands — The spring is clean and the herbs are well-established, which means this ground has not been poisoned or disturbed recently. A gift from the road.",
+       "intensity": 1.0,
+       "act": "talk",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 3.0,
         "mods": null
-       },
-       "act": "talk",
-       "intensity": 1.0
+       }
       }
      },
      {
@@ -8507,14 +8507,14 @@
        "entity_name": "Owls",
        "entity_type": "flying_animals",
        "reading": "Owls — They are going about their own business. Their business does not include the road. Notes the sky is calm. Continues.",
+       "intensity": 0.0,
+       "act": "watch",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 7.0,
         "mods": null
-       },
-       "act": "watch",
-       "intensity": 0.0
+       }
       }
      },
      {
@@ -9020,14 +9020,14 @@
        "entity_name": "Deer",
        "entity_type": "herbivores",
        "reading": "Deer — It held long enough to assess. The assessment came back: not a threat. That assessment has been running correctly for this animal so far. Notes the calm.…",
+       "intensity": 1.0,
+       "act": "watch",
        "check": {
         "skill": "tracking",
         "gate": null,
         "difficulty": 5.0,
         "mods": null
-       },
-       "act": "watch",
-       "intensity": 1.0
+       }
       }
      },
      {
@@ -10297,12 +10297,12 @@
        "name": "The ford of the voice",
        "subtype": "place",
        "reading": "The ford of the voice (crossroads): passes through, as the light failed — Calf-deep water over cobbles, rushes on both sides and a fern slope behind.\nHe crosses…",
+       "intensity": 1.0,
        "act": "walk",
        "tags": [
         "visited",
         "felt:uneasy"
-       ],
-       "intensity": 1.0
+       ]
       }
      },
      {
@@ -10713,12 +10713,12 @@
        "name": "Vinyathrad",
        "subtype": "place",
        "reading": "a city: sighted far off to the southwest, in the early afternoon — passed at some distance — a way over the water",
+       "intensity": 0.0,
        "act": "watch",
        "tags": [
         "settlement",
         "sighted"
-       ],
-       "intensity": 0.0
+       ]
       }
      },
      {
@@ -12687,11 +12687,11 @@
        },
        "entity_name": "Owls",
        "reading": "Notes the sky is calm. Continues.",
+       "intensity": 1.0,
        "act": "avoid",
        "tags": [
         "felt:watchful"
-       ],
-       "intensity": 1.0
+       ]
       }
      },
      {
@@ -13086,11 +13086,11 @@
        },
        "entity_name": "Deer",
        "reading": "Notes the calm. Continues.",
+       "intensity": 1.0,
        "act": "avoid",
        "tags": [
         "felt:calm"
-       ],
-       "intensity": 1.0
+       ]
       }
      },
      {
@@ -13479,11 +13479,11 @@
        },
        "shadow_delta": -1,
        "reading": "A night in the quiet Elf-haunted country of Lindon: a sheltered dell, the hush of an old and peaceful land, and perhaps far-off Elvish song on the wind. Rest is…",
+       "intensity": 0.0,
        "act": "rest",
        "tags": [
         "mind:fatigue"
-       ],
-       "intensity": 0.0
+       ]
       }
      },
      {
@@ -15449,7 +15449,7 @@
      "carried": [],
      "day": [
       {
-       "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
+       "id": "musing:mu_50ce6a2c186d46e384fbc67aaf2824b9",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15459,7 +15459,7 @@
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
+       "id": "musing:mu_74d655e0f3a74c59b94f35cd1edae9da",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15469,7 +15469,7 @@
        "why": "called up by: Owls — They are going about their own business. Their busine"
       },
       {
-       "id": "musing:mu_e44867fb26f445139be0135b69142895",
+       "id": "musing:mu_1b2b1b7b1db340aab8431faba0196bd8",
        "kind": "musing",
        "part": "day",
        "phase": "morning",
@@ -15629,7 +15629,7 @@
        "carried": [],
        "day": [
         {
-         "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
+         "id": "musing:mu_50ce6a2c186d46e384fbc67aaf2824b9",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -15640,7 +15640,7 @@
          "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
         },
         {
-         "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
+         "id": "musing:mu_74d655e0f3a74c59b94f35cd1edae9da",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -15651,7 +15651,7 @@
          "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
         },
         {
-         "id": "musing:mu_e44867fb26f445139be0135b69142895",
+         "id": "musing:mu_1b2b1b7b1db340aab8431faba0196bd8",
          "kind": "musing",
          "part": "day",
          "phase": "morning",
@@ -20752,7 +20752,7 @@
       "carried": [],
       "day": [
        {
-        "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
+        "id": "musing:mu_50ce6a2c186d46e384fbc67aaf2824b9",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -20762,7 +20762,7 @@
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
+        "id": "musing:mu_74d655e0f3a74c59b94f35cd1edae9da",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -20772,7 +20772,7 @@
         "why": "called up by: Owls — They are going about their own business. Their busine"
        },
        {
-        "id": "musing:mu_e44867fb26f445139be0135b69142895",
+        "id": "musing:mu_1b2b1b7b1db340aab8431faba0196bd8",
         "kind": "musing",
         "part": "day",
         "phase": "morning",
@@ -20888,7 +20888,7 @@
         "carried": [],
         "day": [
          {
-          "id": "musing:mu_3d01a3226fc4402cb0f435e745aea311",
+          "id": "musing:mu_50ce6a2c186d46e384fbc67aaf2824b9",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
@@ -20899,7 +20899,7 @@
           "render": "(a thought of theirs) As long as birds keep singing at dawn, not everything is lost."
          },
          {
-          "id": "musing:mu_7dcad64a65824b3595958245d21666ca",
+          "id": "musing:mu_74d655e0f3a74c59b94f35cd1edae9da",
           "kind": "musing",
           "part": "day",
           "phase": "morning",
@@ -20910,7 +20910,7 @@
           "render": "(a thought of theirs) A bird landing on my hand trusts without knowing my name; that is a sacred kind of faith."
          },
          {
-          "id": "musing:mu_e44867fb26f445139be0135b69142895",
+          "id": "musing:mu_1b2b1b7b1db340aab8431faba0196bd8",
           "kind": "musing",
           "part": "day",
           "phase": "morning",

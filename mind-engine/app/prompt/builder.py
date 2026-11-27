@@ -21,6 +21,7 @@ from app.prompt.sections.character import (
     character_header_section, character_name, mind_today_section,
     narrator_lens_section)
 from app.prompt.sections.climate import climate_state_section
+from app.prompt.sections.encounters import STAYS_MIN_INTENSITY
 from app.prompt.sections.instructions import (
     ENCOUNTER_RULES,
     LAND_NOTES_RULES,
@@ -203,6 +204,7 @@ def _encounter_from_event(event):
             'form': data.get('form'),
             'prose_hint': data.get('prose_hint'),
             'outcome': data.get('outcome'),
+            'intensity': data.get('intensity'),
             'dialogue_content': dialogue or None,
         },
     }
@@ -463,6 +465,14 @@ def build_day_prompt(
             wake_beat=wake_beat)
     )
 
+    # The wake: a meeting that hits hard enough (the authored intensity
+    # mark) outlives its scene — the chapter's rules and closing answer it.
+    has_stays = any(
+        (((b.get('encounter') or {}).get('interaction') or {})
+         .get('intensity') or 0) >= STAYS_MIN_INTENSITY
+        for b in beats if b.get('kind') == 'encounter'
+    )
+
     intro = (
         terminal_road_intro(day.get('day_number'), char_name)
         if is_terminal else
@@ -506,7 +516,7 @@ def build_day_prompt(
         f"{wn.get('lands') or ''}"
         f"{chr(10) * 2 if wn.get('lands') else ''}"
         f"{timeline}\n\n"
-        f"{chapter_rules_section([(b.get('encounter') or {}).get('entity', {}).get('name') for b in beats if b.get('kind') == 'encounter'], terminal_closing_instruction(char_name) if is_terminal else closing_instruction(day.get('day_number')), any('(a memory' in ev for b in beats for ev in b.get('evoked') or []))}"
+        f"{chapter_rules_section([(b.get('encounter') or {}).get('entity', {}).get('name') for b in beats if b.get('kind') == 'encounter'], terminal_closing_instruction(char_name) if is_terminal else closing_instruction(day.get('day_number'), has_stays=has_stays), any('(a memory' in ev for b in beats for ev in b.get('evoked') or []), has_stays=has_stays)}"
     )
 
     return {'system': system, 'user': user}
