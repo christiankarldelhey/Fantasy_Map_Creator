@@ -172,6 +172,23 @@ def test_act_relation_bias():
     assert _act_relation_bias('talk', None) == 0
 
 
+def test_defy_leans_on_hatred_avoid_on_fear():
+    """ADR-0022: the terrified flee, the hating stand — fear and hatred
+    no longer push 'fight' and 'flee' alike."""
+    class Feared:
+        affection = trust = 0.0
+        fear = 1.0
+
+    class Hated:
+        affection = -1.0
+        trust = 0.0
+        fear = 0.0
+
+    assert _act_relation_bias('avoid', Feared()) > _act_relation_bias('defy', Feared())
+    assert _act_relation_bias('defy', Hated()) > _act_relation_bias('avoid', Hated())
+    assert _act_relation_bias('defy', Feared()) <= 0
+
+
 # ---------------------------------------------------------------------------
 # POST /mind/minds/{character_id}/choose — the wire
 # ---------------------------------------------------------------------------

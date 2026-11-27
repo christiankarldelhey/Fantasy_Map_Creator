@@ -37,8 +37,8 @@ flowchart TD
     end
     subgraph derived["Derived"]
         Novelty["Novelty<br/><i>derived per event: unseen tags ÷ tags (last 20 episodes)</i>"]
-        Feeling["Feeling<br/><i>derived: live vector × pack mind.feeling_lexicon</i>"]
         Evocation["Evocation<br/><i>derived per open: memories the day connects to</i>"]
+        Feeling["Feeling<br/><i>derived: live vector × pack mind.feeling_lexicon</i>"]
         Reflection["Reflection<br/><i>derived per close (LLM pass, trigger-gated)</i>"]
     end
     Thread -.->|is a| Need

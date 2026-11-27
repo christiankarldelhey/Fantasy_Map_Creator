@@ -66,7 +66,7 @@ concepts:
     stage: perception
     lives_in: 'mind.semantics (+ DEFAULT_SEMANTICS built-in pack)'
   Recurrence:
-    stage: perception
+    stage: needs/mood
     lives_in: 'perceived_day (source: mind items — repetition / break)'
   Tag:
     stage: perception
@@ -77,6 +77,9 @@ concepts:
   Detector:
     stage: perception
     lives_in: mind.detectors
+  Evocation:
+    stage: evocation
+    lives_in: 'derived per open: memories the day connects to'
   Need:
     stage: needs/mood
     lives_in: mind.needs
@@ -107,15 +110,12 @@ concepts:
   Past:
     stage: memory
     lives_in: 'mind.memories + mind.forgotten_memories (the kept, the lost, the patterns)'
-  Evocation:
-    stage: memory
-    lives_in: 'derived per open: memories the day connects to'
   Belief:
-    stage: identity
+    stage: memory
     is_a: Conviction
     lives_in: mind.memories (conviction facet)
   Relation:
-    stage: identity
+    stage: memory
     lives_in: mind.relations
   Lens:
     stage: lens
@@ -124,10 +124,10 @@ concepts:
     stage: lens
     lives_in: mind.episodes.brief.focus
   Musing:
-    stage: voice
+    stage: evocation
     lives_in: mind.musings
   Inner language:
-    stage: voice
+    stage: narration
     lives_in: 'mind.episodes.narrative (the channel, not a row)'
   Reflection:
     stage: close

@@ -21,7 +21,17 @@ SPOKEN_FORMS = {
 }
 
 
-def _seed_lines(dialogue_content):
+# ADR-0022: threat forms fork on the road — the option the traveller
+# took and what it cost the body are facts, bound by the OUTCOME line.
+THREAT_FORMS = {'attacks', 'sudden_peril'}
+
+_WOUND_PHRASE = {
+    'wounded': 'comes away wounded',
+    'badly wounded': 'comes away badly wounded',
+}
+
+
+def _seed_lines(dialogue_content, skip=()):
     """The optional dialogue seeds of an interaction, verbatim — the
     values are already world prose; field labels were machine noise."""
     if not dialogue_content:
@@ -32,9 +42,24 @@ def _seed_lines(dialogue_content):
         lines.append(f'    {hint}')
     lines.extend(
         f'    {dialogue_content[k]}'
-        for k in _SEED_KEYS if dialogue_content.get(k)
+        for k in _SEED_KEYS if dialogue_content.get(k) and k not in skip
     )
     return lines
+
+
+def _outcome_line(form, interaction):
+    """The binding line. A resolved threat states what was done and what
+    it cost ('Stands and takes the first one on the blade — and comes
+    away wounded'); any other encounter keeps the bare mechanical
+    outcome, when one was rolled."""
+    outcome = interaction.get('outcome')
+    stance = (interaction.get('dialogue_content') or {}).get(
+        'traveller_stance')
+    if form in THREAT_FORMS and stance:
+        cost = _WOUND_PHRASE.get(outcome)
+        text = stance.rstrip(' .')
+        return f'{text} — and {cost}' if cost else text
+    return outcome
 
 
 def _describe_encounter(encounter):
@@ -54,7 +79,10 @@ def _describe_encounter(encounter):
     about = entity.get('description_summary') or entity.get('description')
     if about:
         lines.append(f'    {about}')
-    lines.extend(_seed_lines(interaction.get('dialogue_content')))
+    bound = form in THREAT_FORMS
+    lines.extend(_seed_lines(
+        interaction.get('dialogue_content'),
+        skip=('traveller_stance',) if bound else ()))
     # C21/C23: a memory this encounter called back lands INSIDE the beat
     # — in a spoken exchange it may inform the reply; otherwise it is a
     # beat of recollection. Either way it may stay silent.
@@ -65,10 +93,10 @@ def _describe_encounter(encounter):
             else 'May call to mind'
         )
         lines.append(f'    {lead} (or stay silent): {encounter["echo"]}')
-    if interaction.get('outcome'):
+    outcome = _outcome_line(form, interaction)
+    if outcome:
         lines.append(
-            f"    OUTCOME (narrate this, do not change it): "
-            f"{interaction['outcome']}."
+            f"    OUTCOME (narrate this, do not change it): {outcome}."
         )
     return '\n'.join(lines)
 
