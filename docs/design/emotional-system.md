@@ -236,7 +236,9 @@ un seed relation hace lo mismo y además siente.
   excluyendo frames; la voz es un canal aparte del Focus.
 - ~~**No hay dial de reflexividad**~~: `personality.reflectiveness`
   (default 1.0) multiplica el score de las musings — inclusive las de
-  soledad.
+  soledad. **Retirado**: la spec murió — la cadencia de reflexión es
+  agenda del wiring (`reflection_every`), no carácter, y los musings
+  hablan sin ganancia de personalidad.
 - ~~**Colisión de nombre**~~: `type:moment` se renombró `type:ambience`
   (kind `ambience`, role `moment`); el nombre viejo queda como alias
   legacy en el Kind Registry.

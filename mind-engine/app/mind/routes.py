@@ -445,7 +445,7 @@ def open_episode(payload: OpenEpisodeRequest, db: Session = Depends(get_session)
                     db, payload.game_id, episode.needs_active,
                     entering_mood, mind=mind,
                 ),
-                session=db, game_id=payload.game_id, mind=mind,
+                session=db, game_id=payload.game_id,
                 episode_idx=episode_index(episode), musings=musings,
             )
             candidates = brief.pop('candidates', [])

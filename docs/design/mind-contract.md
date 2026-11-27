@@ -520,6 +520,11 @@ its existing `voice_gain` role on musings. `rumination` is shelved — the
 past does not return unbidden for now. `resistance`, `moodiness`,
 `choice_variability`, `temperament` stay as-is.
 
+**Superseded:** `reflectiveness` was retired — how often the mind
+reflects is a schedule, not a character trait: `reflection_every` (3)
+applies flat, and the musing `voice_gain` went with the spec. The
+couplings that remain all bend *experience*, not engine plumbing.
+
 **Decided:** the reflection's job expands — besides moving beliefs, the
 LLM may reword the `desc` of any memory row it reflects on (retelling
 reconsolidates) — episodic memories mature into richer descs, reinforced
