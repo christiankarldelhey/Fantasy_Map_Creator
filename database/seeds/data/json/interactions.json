@@ -85423,5 +85423,161 @@
       "felt": "afraid",
       "adr": "0022"
     }
+  },
+  {
+    "id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit:run_for_it",
+    "intensity": 3,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577",
+    "act": "avoid",
+    "label": {
+      "en": "Run for it",
+      "es": "Salir corriendo"
+    },
+    "need_tags": [
+      "risk:cautious"
+    ],
+    "skill": {
+      "name": "endurance",
+      "difficulty": 8
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Runs — and that alone is enough. A thing that size does not want a chase; it wants a meal that does not fight back. It gives up within fifty yards.",
+          "es": "Corre — y eso solo alcanza. Una cosa de ese tamaño no quiere una persecución; quiere una presa que no se defienda. Desiste dentro de las cincuenta yardas."
+        },
+        "effects": [
+          {
+            "type": "energy",
+            "amount": -5
+          }
+        ]
+      },
+      "failure": {
+        "text": {
+          "en": "It is faster than it looks, and it goes for the ankle the way small things do — one quick snap and gone, leaving the bite to swell and burn.",
+          "es": "Es más rápida de lo que parece, y va por el tobillo como hacen las cosas chicas — un mordisco rápido y se va, dejando la mordida hincharse y arder."
+        },
+        "effects": [
+          {
+            "type": "wound",
+            "level": "wounded"
+          },
+          {
+            "type": "energy",
+            "amount": -5
+          }
+        ]
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit",
+      "mapped_from_form": "attacks",
+      "felt": "afraid",
+      "adr": "0022"
+    }
+  },
+  {
+    "id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit:scare_it_off",
+    "intensity": 3,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577",
+    "act": "defy",
+    "label": {
+      "en": "Scare it off",
+      "es": "Ahuyentarla"
+    },
+    "need_tags": [
+      "risk:bold"
+    ],
+    "skill": {
+      "name": "intimidation",
+      "difficulty": 7
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Shouts, stamps, hurls the first stone that comes to hand — and it breaks, suddenly remembering everything it is afraid of, gone into the scrub like smoke.",
+          "es": "Grita, patalea, arroja la primera piedra que encuentra — y la bestia se quiebra, recordando de golpe todo lo que le da miedo, desaparecida en el matorral como humo."
+        },
+        "effects": []
+      },
+      "failure": {
+        "text": {
+          "en": "It does not break. Whatever is wrong with it is bigger than its fear, and it comes in anyway, low and snapping.",
+          "es": "No se quiebra. Lo que sea que le pasa es más grande que su miedo, y entra igual, baja y mordiendo."
+        },
+        "effects": [
+          {
+            "type": "wound",
+            "level": "wounded"
+          }
+        ]
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit",
+      "mapped_from_form": "attacks",
+      "felt": "afraid",
+      "adr": "0022"
+    }
+  },
+  {
+    "id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit:fight_it_off",
+    "intensity": 3,
+    "places_narration_id": null,
+    "entities_narration_id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577",
+    "act": "defy",
+    "label": {
+      "en": "Fight it off",
+      "es": "Rechazarla a golpes"
+    },
+    "need_tags": [
+      "risk:bold"
+    ],
+    "skill": {
+      "name": "melee",
+      "difficulty": 8
+    },
+    "outcomes": {
+      "success": {
+        "text": {
+          "en": "Meets it in mid-leap with the blade flat and then the point. It is quick, savage work, over in seconds — the thing limps away or does not, and the scrub is quiet again.",
+          "es": "La recibe en medio del salto con el plano de la hoja y luego la punta. Es trabajo rápido y salvaje, terminado en segundos — la cosa se aleja cojeando o no, y el matorral queda quieto otra vez."
+        },
+        "effects": [
+          {
+            "type": "energy",
+            "amount": -5
+          }
+        ]
+      },
+      "failure": {
+        "text": {
+          "en": "It is everywhere at once — too low to strike clean, too fast to pin. By the time it finally tears free and runs, it has left its teeth in something.",
+          "es": "Está en todas partes a la vez — demasiado baja para golpear limpio, demasiado rápida para inmovilizar. Para cuando por fin se arranca y corre, ya dejó los dientes en algo."
+        },
+        "effects": [
+          {
+            "type": "wound",
+            "level": "wounded"
+          },
+          {
+            "type": "energy",
+            "amount": -5
+          }
+        ]
+      }
+    },
+    "payload": {
+      "origin": "seed:interactions",
+      "situation": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit",
+      "mapped_from_form": "attacks",
+      "felt": "afraid",
+      "adr": "0022"
+    }
   }
 ]

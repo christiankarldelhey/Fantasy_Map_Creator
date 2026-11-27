@@ -38364,5 +38364,42 @@
       "adr": "0022",
       "batch": "warg_riders"
     }
+  },
+  {
+    "id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577",
+    "kind": "contact",
+    "entity_id": null,
+    "entity_ids": null,
+    "entity_type": "carnivores",
+    "region_id": null,
+    "cultural_family": null,
+    "form": "attacks",
+    "tags": [
+      "felt:afraid"
+    ],
+    "disposition": {
+      "en": "It comes out of the scrub low and fast — not a wolf, not anything with a name worth fearing, just a lean wild thing with its teeth bared. Something is wrong with it: hunger, or madness, or a den too close."
+    },
+    "presence": {
+      "en": "A cornered or desperate animal — small enough to kill with one good blow, fast enough that the blow may never land."
+    },
+    "channel": null,
+    "facts": {
+      "topic": "threat_and_jeer"
+    },
+    "situations": [
+      {
+        "id": "cnt:dfbc8d7d-610c-411b-a91a-d78f0954b577:sit",
+        "tags": [],
+        "situation": {
+          "en": "It is small and it is fast and it does not seem to know it should be afraid. That makes it more dangerous, not less."
+        }
+      }
+    ],
+    "payload": {
+      "source": "hand_authored",
+      "adr": "0022",
+      "batch": "carnivores_fallback"
+    }
   }
 ]
