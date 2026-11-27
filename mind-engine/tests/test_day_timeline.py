@@ -291,6 +291,58 @@ def test_the_first_weather_opens_the_skeleton():
     assert user.index('A raw cold') < user.index('Wandering Company')
 
 
+def test_a_threat_is_named_in_its_header_and_the_rules():
+    """A wolf that breaks cover cannot read as just another line: the
+    beat announces 'a dangerous encounter' and the chapter's rules
+    roster every name, so a dropped attack is a checkable breach."""
+    user = _prompt(
+        day={
+            'day_number': 4, 'date': '1950-10-08',
+            'encounters': [{
+                'phase': 'afternoon', 'hour': 16.0,
+                'entity': {'name': 'Hares', 'type': 'animal'},
+                'interaction': {'form': 'reacts_withdraws'},
+            }, {
+                'phase': 'afternoon', 'hour': 17.0,
+                'entity': {'name': 'Wolves', 'type': 'animal'},
+                'interaction': {'form': 'attacks'},
+            }],
+        },
+        events=[],
+    )
+    assert 'a dangerous encounter' in user
+    rules = user[user.index("=== THE CHAPTER'S RULES ==="):]
+    assert 'Hares, Wolves' in rules
+
+
+def test_a_resolved_threat_binds_its_result_and_its_cost():
+    """ADR-0022: what the traveller chose against the wolves, and what
+    it cost the body, is a fact to narrate — never a soft seed line the
+    narrator may dissolve."""
+    user = _prompt(
+        day={
+            'day_number': 4, 'date': '1950-10-08',
+            'encounters': [{
+                'phase': 'afternoon', 'hour': 17.0,
+                'entity': {'name': 'Wolves', 'type': 'carnivores'},
+                'interaction': {
+                    'form': 'attacks', 'outcome': 'wounded',
+                    'dialogue_content': {
+                        'traveller_stance': 'Stands with her back to the '
+                                            'alder and takes the first one '
+                                            'on the blade.',
+                    },
+                },
+            }],
+        },
+        events=[],
+    )
+    line = next(ln for ln in user.splitlines() if 'OUTCOME' in ln)
+    assert 'takes the first one on the blade' in line
+    assert 'comes away wounded' in line
+    assert user.count('takes the first one on the blade') == 1
+
+
 def test_no_encounters_is_stated_not_implied():
     user = _prompt(events=[
         {'type': 'meal', 'when': {'phase': 'morning', 'hour': 9.0},
